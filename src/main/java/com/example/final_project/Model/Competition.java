@@ -27,6 +27,8 @@ public class Competition {
     @Column(columnDefinition = "varchar(30) not null")
     private String name;
 
+    private int participant = 0;
+
     @NotNull(message = "Start date is required")
     @FutureOrPresent(message = "Start date must be today or in the future")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -41,11 +43,6 @@ public class Competition {
 
 
 //====================== Relations ======================
-    @ManyToOne
-    @JoinColumn(name = "admin_id")
-    @JsonIgnore
-    private Admin admin;
-
     @ManyToMany
     private Set<Child> children;
 }

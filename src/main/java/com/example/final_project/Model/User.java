@@ -51,7 +51,7 @@ public class User implements UserDetails {
     private String name;
 
     @NotEmpty(message = "Role should be not empty")
-    @Column(columnDefinition = "enum('Parent', 'Center') not null")
+    @Column(columnDefinition = "enum('PARENT', 'CENTER') not null")
     private String role;
 
 
@@ -71,10 +71,6 @@ public class User implements UserDetails {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Center center;
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private Admin admin;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Notification> notifications;

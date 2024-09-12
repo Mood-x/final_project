@@ -37,7 +37,7 @@ public class CenterDTO {
     private String name;
 
     @NotEmpty(message = "Role should be not empty")
-    private String role;
+    private String role = "CENTER";
 
     @NotEmpty(message = "Phone number should not be empty!")
     @Size(min = 10,max = 10,message = "teacher phone number should be '10' digits")

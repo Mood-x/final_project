@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -21,14 +22,6 @@ public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_id", nullable = false)
-    private Parent parent; // Reference to Parent
-
-//    @ManyToMany
-//    @JoinTable(name = "child_program_subscription", joinColumns = @JoinColumn(name = "child_id"), inverseJoinColumns = @JoinColumn(name = "program_id"))
-//    private Set<Program> programs; // Many-to-many relation with Program
 
     @NotBlank(message = "Name cannot be blank")
     @Column(nullable = false)
@@ -49,6 +42,16 @@ public class Child {
     @Pattern(regexp = "^(male|female)$", message = "Gender must be either 'male' or 'female'")
     @Column(nullable = false)
     private String gender; // Gender validation
+
+    //RELATION
+    @ManyToOne
+    @JoinColumn(name = "parent_id", nullable = false)
+    private Parent parent; // Reference to Parent
+
+    @ManyToMany
+    @JoinTable(name = "child_program_subscription", joinColumns = @JoinColumn(name = "child_id"), inverseJoinColumns = @JoinColumn(name = "program_id"))
+    private Set<Program> programs; // Many-to-many relation with Program
+
 
 //    @OneToOne(mappedBy = "child", cascade = CascadeType.ALL)
 //    private ChildProgress childProgress;

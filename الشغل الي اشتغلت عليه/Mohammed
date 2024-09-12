@@ -1,0 +1,49 @@
+User Entity
+- UserDetails
+- AuthService
+- AuthRepository
+- AuthController
+- SecurityConfig
+
+Notification
+- NotificationRepository
+- NotificationServer
+- NotificationController
+
+
+
+
+EndPoints i will create
+- Read all notifications
+-
+
+
+EndPoints are created
+- readAllNotifications
+- deleteAllNotifications
+- readNotification
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+PARENT
+""
+
+CENTER
+""
+
+
+ADMIN
+"/api/v1/user/register"
+"/api/v1/user/get-all-users"

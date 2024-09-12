@@ -36,12 +36,12 @@ public class CommentController {
         return ResponseEntity.ok(comment);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Comment> updateComment(@PathVariable Integer id, @Valid @RequestBody Comment updatedComment, @AuthenticationPrincipal User user) {
-        updatedComment.setParent(user.getParent()); // Set the parent if necessary
-        Comment comment = commentService.updateComment(id, updatedComment);
-        return ResponseEntity.ok(comment);
-    }
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<Comment> updateComment(@PathVariable Integer id, @Valid @RequestBody Comment updatedComment, @AuthenticationPrincipal User user) {
+//        updatedComment.setParent(user.getParent()); // Set the parent if necessary
+//        Comment comment = commentService.updateComment(id, updatedComment);
+//        return ResponseEntity.ok(comment);
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteComment(@PathVariable Integer id) {

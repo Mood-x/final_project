@@ -36,7 +36,8 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/api/v1/user/register",
                         "/api/v1/center/center-register",
-                        "/api/v1/parent/register").permitAll()
+                        "/api/v1/parent/register"
+                        ).permitAll()
                 .requestMatchers(
                         "/api/v1/parent/update",
                         "/api/v1/comments/add",
@@ -47,16 +48,24 @@ public class SecurityConfig {
                         "/api/v1/comments/delete/{id}").hasAuthority("PARENT") // PARENT
                 .requestMatchers(
                         "/api/v1/center/update-center/**",
-                        "api/v1/center/add-program" ,
-                        "api/v1/center/get-my-programs",
+                        "/api/v1/center/add-program" ,
+                        "/api/v1/center/get-my-programs",
                         "/api/v1/comments/get-all",
-                        "/api/v1/complaint/get-all").hasAuthority("CENTER") // CENTER
+                        "/api/v1/complaint/get-all",
+                        "/api/v1/center/Center-Account").hasAuthority("CENTER") // CENTER
+                
                 .requestMatchers(
                         "/api/v1/user/get-all-users",
                         "/api/v1/parent/get-all",
                         "/api/v1/parent/delete/{id}",
                         "/api/v1/center/delete-center/{centerid}",
-                        "/api/v1/center/get-all-centers").hasAuthority("ADMIN") // ADMIN
+                        "/api/v1/center/get-all-centers",
+                        "/api/v1/competition/get-all-competitions",
+                        "/api/v1/competition/get-competition-by-id**" +
+                        "/api/v1/competition/get-competition-by-name**",
+                        "/api/v1/competition/add-competition",
+                        "/api/v1/competition/update-competition**",
+                        "/api/v1/competition/delete-competition**").hasAuthority("ADMIN") // ADMIN
 
                 .anyRequest().authenticated()
                 .and()

@@ -43,6 +43,8 @@ public class Center {
     @Column(columnDefinition = "varchar(15) not null")
     private String activityType;
 
+    @Column(columnDefinition = "boolean")
+    private String accountStatus = "^(PENDING|Var|Cultural|Draw)$";
 
     //====================== Relations ======================
 

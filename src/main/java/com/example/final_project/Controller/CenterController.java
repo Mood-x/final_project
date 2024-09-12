@@ -51,4 +51,9 @@ public class CenterController {
     public ResponseEntity getMyPrograms(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(programService.getAllPrograms(user.getCenter()));
     }
+
+    @GetMapping("Center-Account")
+    public ResponseEntity showMyCenterAccount(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(centerService.showMyCenterAccount(user.getId()));
+    }
 }

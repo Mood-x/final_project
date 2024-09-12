@@ -29,7 +29,7 @@ public class CenterService {
         user.setPassword(centerDTO.getPassword());
         user.setEmail(centerDTO.getEmail());
         user.setName(centerDTO.getName());
-        user.setRole("CENTER");
+        user.setRole(centerDTO.getRole());
 
         String hash=new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(hash);
@@ -80,6 +80,15 @@ public class CenterService {
                 throw new ApiException("Sorry you don't have permission to update this center.");
             }
             authRepository.deleteById(authId);
+    }
+
+    public String showMyCenterAccount(Integer userCenterId){
+        Center center = centerRepository.findCenterById(userCenterId);
+        return " UserName:" + center.getUser().getUsername()+
+                "\n Name:" + center.getUser().getName()+
+                "\n Email: " + center.getUser().getEmail()+
+                "\n Address: " + center.getAddress() +
+                "\n PhoneNumber: " + center.getPhoneNumber();
     }
 
 }

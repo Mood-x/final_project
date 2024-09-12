@@ -1,0 +1,106 @@
+======= Parent ========
++ Parent Register [yara-Done]
++ Get my account [yara]
++ Change Parent Password [yara]
++ Get all my children [yara]
+- Update Parent [yara]
++ dislike center [yara]
++ like center [yara]
++ add complaint [yara]
+
+======= Admin =======
++ Approved center [mood]
++ Delete Account Request [mood - parent - center]
++ Reject center [mood]
++ create certifications [mood]
+- Get center by id [mood]
+- Get all center [mood]
+- Delete Parent [mood]
+- Delete Center [mood]
+
+
+======== Center =========
++ Register center [azoz-Done]
++ show my center account [azoz-Done]
++ Change center Password [azoz]
+
+
+======== Program =========
++ Add program [azoz-Done]
++ Get all center programs [azoz]
++ Remove all closing programs [azoz]
++ Get total price of all programs [azoz]
++ Get total price of one program [azoz]
++ Get total members of programs [azoz]
++ Get total number of programs [azoz]
++ Get all my programs [azoz]
++ search active program [azoz]
++ search program by type [yara]
++ search program by title [yara]
++ search program by range age [azoz]
++ search program by date [azoz]
++ expand program [azoz]
+- update program[azoz]
+- delete program[azoz]
+
+======== Child =========
++ Add Child [yara-done]
++ add child to program [yara]
++ Get all my programs [yara]
++ cancel program [yara]
+- Update Child [yara-Done]
+- Delete Child [yara-Done]
+
+======== child progress =========
++ Add child progress
++ Get my child progress []
++ add/edit progress to child []
+- Get all programs []
+
+
+======== Notification =========
++ Add notification [mood-Done]
++ Mark all notifications isRead [mood-Done]
++ Read notification [mood-Done]
++ Get All my notifications [mood-Done]
++ Delete all my notifications [mood-Done]
++ Delete my notification [mood-Done]
+
+======== Comment =========
++ Add comment [yara]
++ Get all comments [yara]
++ delete my comment [yara]
+
+======== Complaint =========
+
++ Add complaint [yara-Done]
++ replay complaint [azoz]
++ Get received Complaint [azoz]
+
+======== Competition =========
++ search competition by range age [mood]
++ search competition by name [mood]
++ search competition by date [mood]
++ Add competition [mood]
++ Get my competitions [mood]
++ cancel competition from child [mood]
++ Add competition to child [mood]
+- Get all competition [mood]
+
+======== Rating =========
++ add rating [azoz]
+
+======== Advertisement =========
++ add advertisement [azoz]
++ Get my advertisement [azoz]
++ Reject advertisement [azoz]
++ Delete all rejected advertisement [azoz]
++ Approved advertisement [azoz]
+
+
++ ======== New Letter =======
++ subscription to email newsletter [yara]
++ cancel subscription email newsletter [yara]
+
++ ======= Subscription =======
++ ======= Certifications ======
