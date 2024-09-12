@@ -23,14 +23,14 @@ public class Parent {
     @OneToMany(mappedBy = "parent")
     private Set<Child> children;
 
-    @OneToMany(mappedBy = "parent")
-    private Set<Like> likes;
+//    @OneToMany(mappedBy = "parent")
+//    private Set<Like> likes;
 
     @OneToMany(mappedBy = "parent")
     private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "parent")
-    private Set<Rating> ratings;
+//    @OneToMany(mappedBy = "parent")
+//    private Set<Rating> ratings;
 
     @OneToMany(mappedBy = "parent")
     private Set<Complaint> complaints;

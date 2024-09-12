@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Setter
 @Getter
@@ -25,9 +27,13 @@ public class Admin {
     private Double amount = 0.0;
 
 
+
+//====================== Relations ======================
     @OneToOne
     @MapsId
     @JsonIgnore
     private User user;
 
+    @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+    private Set<Competition> competitions;
 }

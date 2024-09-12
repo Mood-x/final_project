@@ -1,12 +1,16 @@
 package com.example.final_project.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -23,6 +27,27 @@ public class Competition {
     @Column(columnDefinition = "varchar(30) not null")
     private String name;
 
-    @Pres
+    @NotNull(message = "Start date is required")
+    @FutureOrPresent(message = "Start date must be today or in the future")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(columnDefinition = "date not null")
+    private LocalDate startDate;
 
+    @NotNull(message = "End date is required")
+    @Future(message = "End date must be in the future")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(columnDefinition = "date not null")
+    private LocalDate endDate;
+
+
+//====================== Relations ======================
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    @JsonIgnore
+    private Admin admin;
+
+    @ManyToMany
+    private Set<Child> children;
 }
+
+

@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -21,8 +22,8 @@ import lombok.Setter;
 public class Center {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
+
 
     @NotEmpty(message = "Phone number should not be empty!")
     @Size(min = 10,max = 10,message = "teacher phone number should be '10' digits")
@@ -50,4 +51,10 @@ public class Center {
     @JsonIgnore
     private User user;
 
+    @OneToMany(mappedBy = "center")
+    private Set<Comment> comments; // One center can have many comments
+    @OneToMany(mappedBy = "center")
+    private Set<Complaint> complaints; // One center can have many complaints
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "center")
+    private Set<Program> program;
 }

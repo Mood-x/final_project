@@ -16,6 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 
 public class CenterDTO {
+
     private Integer id;
 
     @NotEmpty(message = "Username should be not empty")

@@ -1,5 +1,6 @@
 package com.example.final_project.Controller;
 
+import com.example.final_project.API.ApiResponse;
 import com.example.final_project.DTO.ParentDTO;
 import com.example.final_project.Model.Parent;
 import com.example.final_project.Model.User;
@@ -35,9 +36,9 @@ public class ParentController {
 
     // Add a new parent
     @PostMapping("/register")
-    public ResponseEntity<Parent> addParent(@Valid @RequestBody ParentDTO parentDTO) {
-        Parent createdParent = parentService.addParent(parentDTO);
-        return ResponseEntity.status(201).body(createdParent);
+    public ResponseEntity addParent(@Valid @RequestBody ParentDTO parentDTO) {
+       parentService.addParent(parentDTO);
+        return ResponseEntity.status(201).body("parent added"); // return ResponseEntity.ok(new ApiResponse("Parent added successfully"));
     }
 
     // Update an existing parent
@@ -49,9 +50,8 @@ public class ParentController {
 
     // Delete a parent by ID
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteParent(@AuthenticationPrincipal User user,
-                                       @PathVariable Integer id) {
-        parentService.deleteParent(user.getId(), id);
+    public ResponseEntity deleteParent(@PathVariable Integer id) {
+        parentService.delete(id);
         return ResponseEntity.status(200).body("user deleted successfully");
     }
 }

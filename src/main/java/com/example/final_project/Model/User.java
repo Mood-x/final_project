@@ -82,7 +82,7 @@ public class User implements UserDetails {
 //====================== User Details ====================== 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("this.role"));
+        return Collections.singleton(new SimpleGrantedAuthority(this.role));
     }
 
     @Override
@@ -105,6 +105,13 @@ public class User implements UserDetails {
         return true;
     }
 }
+
+
+
+
+
+
+
 //
 //@Override
 //public boolean isAccountNonExpired() {

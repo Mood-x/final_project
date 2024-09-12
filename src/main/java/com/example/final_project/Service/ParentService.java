@@ -1,5 +1,6 @@
 package com.example.final_project.Service;
 
+import com.example.final_project.API.ApiException;
 import com.example.final_project.DTO.ParentDTO;
 import com.example.final_project.Model.Parent;
 import com.example.final_project.Model.User;
@@ -10,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,17 +18,17 @@ public class ParentService {
     private final ParentReposotiry parentRepository;
     private final AuthRepository authRepository;
 
-    // Get all parents
+    // Get all parents AdminParent
     public List<Parent> getAllParents() {
         return parentRepository.findAll();
     }
 
     // Get parent by ID
-    public Optional<Parent> getParentById(Integer id) {
-        return parentRepository.findById(id);
+    public Parent getParentById(Integer id) {
+        return parentRepository.findParentById(id).orElseThrow(() -> new ApiException("Parent Not Found"));
     }
 
-    public Parent addParent(ParentDTO parentDTO) {
+    public void addParent(ParentDTO parentDTO) {
         // Create and populate User entity
         User user = new User();
         user.setUsername(parentDTO.getUsername());
@@ -43,13 +43,13 @@ public class ParentService {
         Parent parent = new Parent();
         parent.setUser(user);
 
-        return parentRepository.save(parent); // Return the saved Parent
+         parentRepository.save(parent); // Return the saved Parent
     }
 
     // Update an existing parent
     public void updateParent(Integer id, ParentDTO parentDTO) {
-        Parent existingParent = parentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Parent not found with ID: " + id));
+        Parent existingParent = parentRepository.findParentById(id)
+                .orElseThrow(() -> new ApiException("Parent not found with ID: " + id));
 
         User user = existingParent.getUser();
         user.setUsername(parentDTO.getUsername());
@@ -64,18 +64,11 @@ public class ParentService {
         authRepository.save(user);
     }
 
-    public void deleteParent(Integer userId, Integer id) {
 
 
-        // Check if the user exists
-        User user = authRepository.findUserById(userId).orElseThrow(() -> new RuntimeException("User not found with ID: " + userId));
-
-        // Check if the parent exists
-        if (!parentRepository.existsById(id)) {
-            throw new RuntimeException("Parent not found with ID: " + id);
-        }
-
-        // Delete the Parent entity
-        parentRepository.deleteById(id);
+    public void delete(Integer authId){
+        User user  = authRepository.findUserById(authId)
+                .orElseThrow(() -> new ApiException("User not found"));
+        authRepository.delete(user);
     }
 }

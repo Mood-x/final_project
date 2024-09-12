@@ -17,26 +17,14 @@ import java.util.List;
 public class CenterService {
     private final CenterRepository centerRepository;
     private final AuthRepository authRepository;
-    public List<Center> getAllCenters(){
-        return centerRepository.findAll();
+
+    public List<User> getAllCenters(){
+        return authRepository.findUserByRole("CENTER");
     }
 
     public void centerRegister(CenterDTO centerDTO){
-//        User user = new User(
-//                null,
-//                centerDTO.getUsername(),
-//                centerDTO.getEmail(),
-//                centerDTO.getPassword(),
-//                centerDTO.getName(),"Center",
-//                null,
-//                null,
-//                null,
-//                null,
-//                null,
-//        );
 
         User user = new User();
-        user.setId(null);
         user.setUsername(centerDTO.getUsername());
         user.setPassword(centerDTO.getPassword());
         user.setEmail(centerDTO.getEmail());
@@ -45,19 +33,23 @@ public class CenterService {
 
         String hash=new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(hash);
-        authRepository.save(user);
 
-
-
-        Center center = new Center(user.getId(),centerDTO.getPhoneNumber(),centerDTO.getAddress(),centerDTO.getDocuments(),
-                centerDTO.getActivityType(),user);
+        Center center = new Center();
+        center.setId(null);
+        center.setPhoneNumber(centerDTO.getPhoneNumber());
+        center.setAddress( centerDTO.getAddress());
+        center.setActivityType(centerDTO.getActivityType());
+        center.setDocuments(centerDTO.getDocuments());
 
         user.setCenter(center);
-        centerRepository.save(center);
+        center.setUser(user);
+
         authRepository.save(user);
+        centerRepository.save(center);
     }
 
     public void updateCenter(Integer authId, CenterDTO centerDTO){
+
         User user = authRepository.findUserById(authId)
                 .orElseThrow(()-> new ApiException("User Not Found"));
 
@@ -65,27 +57,29 @@ public class CenterService {
         user.setEmail(centerDTO.getEmail());
         user.setPassword(centerDTO.getPassword());
         user.setName(centerDTO.getName());
-        user.getCenter().setAddress( centerDTO.getAddress());
-        user.getCenter().setDocuments( centerDTO.getDocuments());
-        user.getCenter().setActivityType(centerDTO.getActivityType());
         user.getCenter().setPhoneNumber(centerDTO.getPhoneNumber());
+        user.getCenter().setAddress(centerDTO.getAddress());
+        user.getCenter().setActivityType(centerDTO.getActivityType());
+        user.getCenter().setDocuments(centerDTO.getDocuments());
 
         String hash=new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(hash);
 
-
         authRepository.save(user);
+
     }
+
+
 
     public void deleteCenter(Integer centerID,Integer authId){
-        User user = authRepository.findUserById(centerID)
-                .orElseThrow(()-> new ApiException("User Not Found"));
 
-        if(!user.getId().equals(authId)){
-            throw new ApiException("Sorry you don't have permission to update this center.");
-        }
+            User user = authRepository.findUserById(centerID)
+                    .orElseThrow(()-> new ApiException("User Not Found"));
+
+            if(!user.getRole().equals("ADMIN")){
+                throw new ApiException("Sorry you don't have permission to update this center.");
+            }
+            authRepository.deleteById(authId);
     }
-
-
 
 }

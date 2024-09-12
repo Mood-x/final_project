@@ -33,16 +33,30 @@ public class SecurityConfig {
                 .and()
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests()
-                .requestMatchers("/api/v1/user/register","/api/v1/center/center-register","/api/v1/parent/register").permitAll()
-
-                .requestMatchers("/api/v1/parent/update").hasAuthority("PARENT") // PARENT
-//
-                .requestMatchers("/api/v1/center/update-center/**").hasAuthority("CENTER") // CENTER
-
-
                 .requestMatchers(
-                        "/api/v1/user/get-all-users","/api/v1/parent/get-all", "/api/v1/parent/delete/{id}"
-                ).hasAuthority("ADMIN") // ADMIN
+                        "/api/v1/user/register",
+                        "/api/v1/center/center-register",
+                        "/api/v1/parent/register").permitAll()
+                .requestMatchers(
+                        "/api/v1/parent/update",
+                        "/api/v1/comments/add",
+                        "/api/v1/complaint/add",
+                        "/api/v1/child/register",
+                        "/api/v1/child/update/{id}",
+                        "/api/v1/child/update/{id}",
+                        "/api/v1/comments/delete/{id}").hasAuthority("PARENT") // PARENT
+                .requestMatchers(
+                        "/api/v1/center/update-center/**",
+                        "api/v1/center/add-program" ,
+                        "api/v1/center/get-my-programs",
+                        "/api/v1/comments/get-all",
+                        "/api/v1/complaint/get-all").hasAuthority("CENTER") // CENTER
+                .requestMatchers(
+                        "/api/v1/user/get-all-users",
+                        "/api/v1/parent/get-all",
+                        "/api/v1/parent/delete/{id}",
+                        "/api/v1/center/delete-center/{centerid}",
+                        "/api/v1/center/get-all-centers").hasAuthority("ADMIN") // ADMIN
 
                 .anyRequest().authenticated()
                 .and()

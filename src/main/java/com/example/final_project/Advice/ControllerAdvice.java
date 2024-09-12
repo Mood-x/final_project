@@ -115,3 +115,5 @@ public class ControllerAdvice {
 // InvalidDataAccessApiUsageException
 // ClassCastException
 // IncorrectResultSizeDataAccessException
+
+//org.springframework.orm.jpa.JpaSystemException
