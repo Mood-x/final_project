@@ -59,29 +59,4 @@ public class NotificationController {
         notificationService.deleteNotification(user.getId(), id);
         return ResponseEntity.ok(new ApiResponse("Notification deleted successfully"));
     }
-
-    @PostMapping("/participation-request/{notificationId}")
-    public ResponseEntity<ApiResponse> participationRequest(@PathVariable Integer notificationId, @RequestParam boolean isApproved) {
-        notificationService.participationRequest(notificationId, isApproved);
-        return ResponseEntity.ok(new ApiResponse("Notification participation successfully"));
-    }
-
-    @PostMapping("/request-participation-in-competition/{parentId}/{childId}/{competitionId}")
-    public ResponseEntity<ApiResponse> requestParticipationInCompetition(@PathVariable Integer parentId, @PathVariable Integer childId, @PathVariable Integer competitionId) {
-        notificationService.requestParticipationInCompetition(parentId, childId, competitionId);
-        return ResponseEntity.ok(new ApiResponse("Notification request participation successfully"));
-    }
-
-
-    @PutMapping("/approve-center-registration/{centerId}")
-    public ResponseEntity<ApiResponse> approveCenterRegistration(@PathVariable Integer centerId) {
-        notificationService.approveCenterRegistration(centerId);
-        return ResponseEntity.ok(new ApiResponse("Notification approved successfully"));
-    }
-
-    @PutMapping("/reject-center-registration/{centerId}/{rejectionReason}")
-    public ResponseEntity<ApiResponse> rejectCenterRegistration(@PathVariable Integer centerId, @PathVariable String rejectionReason) {
-        notificationService.rejectCenterRegistration(centerId, rejectionReason);
-        return ResponseEntity.ok(new ApiResponse("Notification rejected successfully"));
-    }
 }

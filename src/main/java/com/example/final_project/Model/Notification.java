@@ -24,10 +24,12 @@ public class Notification {
 
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "sender_id")
     private User sender;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "receiver_id")
     private User receiver;
 
@@ -56,6 +58,7 @@ public class Notification {
         CENTER_TO_ADMIN,
         PARENT_TO_ADMIN,
         PARENT_TO_CENTER,
-        REQUEST_PARTICIPATION
+        REQUEST_PARTICIPATION,
+        CENTER_REQUEST_REGISTRATION
     }
 }

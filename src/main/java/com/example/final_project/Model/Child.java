@@ -53,7 +53,7 @@ public class Child {
     @JoinTable(name = "child_program_subscription", joinColumns = @JoinColumn(name = "child_id"), inverseJoinColumns = @JoinColumn(name = "program_id"))
     private Set<Program> programs; // Many-to-many relation with Program
 
-    @ManyToMany(mappedBy = "child", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL)
     private Set<Competition> competitions;
 
 //    @OneToOne(mappedBy = "child", cascade = CascadeType.ALL)

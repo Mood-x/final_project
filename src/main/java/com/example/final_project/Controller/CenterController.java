@@ -1,9 +1,11 @@
 package com.example.final_project.Controller;
 
+import com.example.final_project.API.ApiResponse;
 import com.example.final_project.DTO.CenterDTO;
 import com.example.final_project.Model.Program;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.CenterService;
+import com.example.final_project.Service.NotificationService;
 import com.example.final_project.Service.ProgramService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -70,5 +72,17 @@ public class CenterController {
     public ResponseEntity<List<Program>> searchProgramsByTitle(@RequestParam String title) {
         List<Program> programs = programService.searchProgramsByTitle(title);
         return ResponseEntity.ok(programs);
+    }
+
+    @PutMapping("/approve-center-registration/{centerId}")
+    public ResponseEntity<ApiResponse> approveCenterRegistration(@PathVariable Integer centerId) {
+        centerService.approveCenterRegistration(centerId);
+        return ResponseEntity.ok(new ApiResponse("Notification approved successfully"));
+    }
+
+    @PutMapping("/reject-center-registration/{centerId}/{rejectionReason}")
+    public ResponseEntity<ApiResponse> rejectCenterRegistration(@PathVariable Integer centerId, @PathVariable String rejectionReason) {
+        centerService.rejectCenterRegistration(centerId, rejectionReason);
+        return ResponseEntity.ok(new ApiResponse("Notification rejected successfully"));
     }
 }

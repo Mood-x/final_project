@@ -1,6 +1,7 @@
 package com.example.final_project.Advice;
 
 import com.example.final_project.API.ApiException;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.UnexpectedTypeException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -98,6 +99,15 @@ public class ControllerAdvice {
         return ResponseEntity.status(400).body(e.getMessage());
     }
 
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResponseEntity ConstraintViolationException(ConstraintViolationException e){
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
+
+    @ExceptionHandler(value = java.lang.RuntimeException.class)
+    public ResponseEntity RuntimeException(java.lang.RuntimeException e){
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
 }
 
 // ApiException
@@ -115,5 +125,5 @@ public class ControllerAdvice {
 // InvalidDataAccessApiUsageException
 // ClassCastException
 // IncorrectResultSizeDataAccessException
-
+// ConstraintViolationException
 //org.springframework.orm.jpa.JpaSystemException

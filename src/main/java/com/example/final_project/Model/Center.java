@@ -39,7 +39,7 @@ public class Center {
     private String documents = "Licences";
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('APPROVED', 'IN_PROGRESS', 'REJECTED' not null default 'IN_PROGRESS'")
+    @Column(columnDefinition = "enum('APPROVED', 'IN_PROGRESS', 'REJECTED') not null default 'IN_PROGRESS'")
     private Status status = Status.IN_PROGRESS;   // +
 
     @NotEmpty(message = "Activity Type cannot be Empty!")

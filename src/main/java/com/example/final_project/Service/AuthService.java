@@ -28,28 +28,28 @@ public class AuthService {
         authRepository.save(user);
     }
 
-    @Scheduled
-    public void deleteExpiredAccount() {
-        List<User> usersToDelete = authRepository.findAllByPendingDeletionTrue()
-                .orElse(null);
-        LocalDateTime now = LocalDateTime.now();
+//    @Scheduled
+//    public void deleteExpiredAccount() {
+//        List<User> usersToDelete = authRepository.findAllByPendingDeletionTrue()
+//                .orElse(null);
+//        LocalDateTime now = LocalDateTime.now();
+//
+//        usersToDelete.forEach(user -> {
+//            if(user.getDeletionRequestDate().plusDays(10).isBefore(now)){
+//                authRepository.delete(user);
+//            }
+//        });
+//    }
 
-        usersToDelete.forEach(user -> {
-            if(user.getDeletionRequestDate().plusDays(10).isBefore(now)){
-                authRepository.delete(user);
-            }
-        });
-    }
-
-    public void cancleDeletionRequest(Integer userId){
-        User user = authRepository.findUserById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        if(!user.isPendingDeletion()){
-            throw new RuntimeException("No deletion request found");
-        }
-
-        user.setPendingDeletion(false);
-        user.setDeletionRequestDate(null);
-        authRepository.save(user);
-    }
+//    public void cancleDeletionRequest(Integer userId){
+//        User user = authRepository.findUserById(userId)
+//                .orElseThrow(() -> new RuntimeException("User not found"));
+//        if(!user.isPendingDeletion()){
+//            throw new RuntimeException("No deletion request found");
+//        }
+//
+//        user.setPendingDeletion(false);
+//        user.setDeletionRequestDate(null);
+//        authRepository.save(user);
+//    }
 }

@@ -55,12 +55,20 @@ public class CenterService {
 
 
         User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
-        Notification notification = new Notification();
-        notification.setSender(center.getUser());
-        notification.setReceiver(admin);
-        notification.setMessage("A new center registration request has been submitted. please review the details");
-        notification.setUser(admin);
-        notificationRepository.save(notification);
+
+        notificationService.createNotification(
+                center.getUser(),
+                admin,
+                "A new center registration request has been submitted. please review the details",
+                Notification.NotificationType.CENTER_REQUEST_REGISTRATION
+        );
+
+//        Notification notification = new Notification();
+//        notification.setSender(center.getUser());
+//        notification.setReceiver(admin);
+//        notification.setMessage("A new center registration request has been submitted. please review the details");
+//        notification.setUser(admin);
+//        notificationRepository.save(notification);
     }
 
     public void updateCenter(Integer authId, CenterDTO centerDTO){
@@ -121,19 +129,55 @@ public class CenterService {
         authRepository.save(center.getUser());
     }
 
-
-    //mood
-    public void requestToDeleteAccount(Integer centerId){
-        User center = authRepository.findUserById(centerId)
-                .orElseThrow(()-> new ApiException("User Not Found"));
-        if(center.isPendingDeletion()){
-            throw new ApiException("Sorry this account has been pending deletion.");
+    public void approveCenterRegistration(Integer centerId){
+        Center center = centerRepository.findCenterById(centerId);
+        if(center == null){
+            throw new ApiException("Center not found");
         }
 
-        center.setPendingDeletion(true);
-        center.setDeletionRequestDate(LocalDateTime.now());
-        authRepository.save(center);
+        center.setStatus(Center.Status.APPROVED);
+        centerRepository.save(center);
 
-
+        User admin = authRepository.findUserById(1)
+                .orElseThrow(() -> new ApiException("Admin not found"));
+        notificationService.createNotification(
+                admin,
+                center.getUser(),
+                "Your center registration has been approved. You can now access your features",
+                Notification.NotificationType.ADMIN_TO_CENTER
+        );
     }
+
+    public void rejectCenterRegistration(Integer centerId, String rejectionReason){
+        Center center = centerRepository.findCenterById(centerId);
+
+        if(center == null){
+            throw new ApiException("Center not found");
+        }
+
+        User admin = authRepository.findUserById(1)
+                .orElseThrow(() -> new ApiException("Admin not found"));
+
+        center.setStatus(Center.Status.REJECTED);
+        centerRepository.save(center);
+        notificationService.createNotification(
+                admin,
+                center.getUser(),
+                "Your center registration has been rejected. Reason: " + rejectionReason,
+                Notification.NotificationType.ADMIN_TO_CENTER
+        );
+    }
+
+    //mood
+//    public void requestToDeleteAccount(Integer centerId){
+//        User center = authRepository.findUserById(centerId)
+//                .orElseThrow(()-> new ApiException("User Not Found"));
+//        if(center.isPendingDeletion()){
+//            throw new ApiException("Sorry this account has been pending deletion.");
+//        }
+//
+//        center.setPendingDeletion(true);
+//        center.setDeletionRequestDate(LocalDateTime.now());
+//        authRepository.save(center);
+//    }
 }

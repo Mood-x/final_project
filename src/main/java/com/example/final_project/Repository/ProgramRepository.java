@@ -7,11 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProgramRepository extends JpaRepository<Program, Integer> {
 
-    Program findProgramById(Integer id);
+    Optional<Program> findProgramById(Integer id);
 
     List<Program> findProgramByCenter(Center center);
     List<Program> findByTitleContainingIgnoreCase(String title);

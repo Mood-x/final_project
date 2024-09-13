@@ -118,7 +118,7 @@ public class ChildService {
         }
 
         // Find the program by ID
-        Program program = programRepository.findById(programId)
+        Program program = programRepository.findProgramById(programId)
                 .orElseThrow(() -> new RuntimeException("Program not found with ID: " + programId));
 
         // Check if the child is already subscribed to this program

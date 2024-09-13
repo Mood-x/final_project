@@ -105,3 +105,33 @@
 
 + ======= Subscription =======
 + ======= Certifications ======
+
+// Path
+=======================================================================
+========== Admin =========
+"/api/v1/competition/get-competition-by-id**"
+"/api/v1/competition/add-competition"
+"/api/v1/competition/update-competition**"
+"/api/v1/competition/delete-competition**"
+
+
+// ======= Parent =======
+
+
+// ======= Center =======
+
+
+
+// ======= All =======
+"/api/v1/competition/search-by-date**" // all
+"/api/v1/competition/search-competition-by-name**"
+"/api/v1/competition/search-competitions-by-type**"
+"/api/v1/competition/search-competitions-by-age-range**"
+"/api/v1/competition/get-all-competitions"
+
+
+
+"/api/v1/competition/add-child-to-competition/{competitionId}/{childId}" // parent
+
+"/api/v1/competition/get-all-competitions-for-child/{childId}"
+=======================================================================

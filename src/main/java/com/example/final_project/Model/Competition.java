@@ -24,12 +24,27 @@ public class Competition {
 
     @NotEmpty(message = "Name should be not empty")
     @Size(min = 6, max = 30, message = "Name must be between 6 and 30 characters")
-    @Column(columnDefinition = "varchar(30) not null")
+    @Column(columnDefinition = "varchar(30) not null unique")
     private String name;
 
+    @NotNull
+    @PositiveOrZero(message = "Participant must be positive or zero")
+    @Column(columnDefinition = "int not null")
     private int participant = 0;
+
+    @NotNull(message = "Please enter minimum age")
+    @Positive
+    @Column(columnDefinition = "int not null")
     private int minAge;
+
+    @NotNull(message = "Please enter maximum age")
+    @Positive
+    @Column(columnDefinition = "int not null")
     private int maxAge;
+
+    @NotEmpty(message = "Type of competition should be not null")
+    @Size(min = 4, max = 20, message = "Type length must be between 4 to 20 characters")
+    @Column(columnDefinition = "varchar(20) not null")
     private String type;
 
     @NotNull(message = "Start date is required")

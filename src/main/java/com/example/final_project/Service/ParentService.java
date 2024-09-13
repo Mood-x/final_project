@@ -48,6 +48,7 @@ public class ParentService {
         user.setPassword(hash);
         authRepository.save(user);
         Parent parent = new Parent();
+        parent.setId(user.getId());
         parent.setUser(user);
 
          parentRepository.save(parent); // Return the saved Parent

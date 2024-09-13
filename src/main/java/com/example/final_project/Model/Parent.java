@@ -17,7 +17,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class Parent {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @OneToMany(mappedBy = "parent")

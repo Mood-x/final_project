@@ -1,5 +1,6 @@
 package com.example.final_project.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -23,11 +24,13 @@ public class Comment {
 
     @NotNull(message = "Parent ID cannot be null")
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "parent_id", nullable = false)
     private Parent parent; // Reference to Parent
 
     @NotNull(message = "Center ID cannot be null")
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "center_id", nullable = false)
     private Center center; // Reference to Center
 
