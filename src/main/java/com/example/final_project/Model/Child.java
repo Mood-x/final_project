@@ -1,5 +1,5 @@
 package com.example.final_project.Model;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -45,6 +45,7 @@ public class Child {
 
     //RELATION
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "parent_id", nullable = false)
     private Parent parent; // Reference to Parent
 
@@ -52,6 +53,8 @@ public class Child {
     @JoinTable(name = "child_program_subscription", joinColumns = @JoinColumn(name = "child_id"), inverseJoinColumns = @JoinColumn(name = "program_id"))
     private Set<Program> programs; // Many-to-many relation with Program
 
+    @ManyToMany(mappedBy = "child", cascade = CascadeType.ALL)
+    private Set<Competition> competitions;
 
 //    @OneToOne(mappedBy = "child", cascade = CascadeType.ALL)
 //    private ChildProgress childProgress;

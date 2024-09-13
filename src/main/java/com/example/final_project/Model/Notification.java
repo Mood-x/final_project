@@ -21,6 +21,20 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
+
+    @ManyToOne
+    @JoinColumn(name = "sender_id")
+    private User sender;
+
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    private User receiver;
+
+    @Enumerated(EnumType.STRING)
+    private NotificationType notificationType;
+
+
     @NotEmpty(message = "Message should be not empty")
     @Column(columnDefinition = "text not null")
     private String message;
@@ -34,4 +48,14 @@ public class Notification {
     @ManyToOne
     @JsonIgnore
     private User user;
+
+    public enum NotificationType{
+        ADMIN_TO_PARENT,
+        ADMIN_TO_CENTER,
+        CENTER_TO_PARENT,
+        CENTER_TO_ADMIN,
+        PARENT_TO_ADMIN,
+        PARENT_TO_CENTER,
+        REQUEST_PARTICIPATION
+    }
 }

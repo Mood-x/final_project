@@ -31,20 +31,26 @@ public class ChildService {
 
     // Add a new child
     public void addChild(Integer userId, Child child) {
-        User user = authRepository.findUserById(userId).orElseThrow(() -> new ApiException("User not found"));
+        User user = authRepository.findUserById(userId)
+                .orElseThrow(() -> new ApiException("User not found"));
 
+        Parent parent = parentReposotiry.findParentById(user.getId())
+                .orElseThrow(() -> new ApiException("Parent not found"));
 
+        parent.getChildren().add(child);
+        child.setParent(parent);
+        childRepository.save(child);
         // Get the parent associated with the user
-        Parent parent = user.getParent(); // Assuming User has a getParent() method
-        if (parent == null) {
-            throw new RuntimeException("Parent not found for the user");
-        }
+        //Parent parent = user.getParent(); // Assuming User has a getParent() method
+        //if (parent == null) {
+           // throw new RuntimeException("Parent not found for the user");
+        //}
 
         // Set the parent for the child
-        child.setParent(parent); // Associate the child with the parent
+        //child.setParent(parent); // Associate the child with the parent
 
         // Save the child
-        childRepository.save(child);
+        //childRepository.save(child);
     }
     // Update an existing child
     public void updateChild(Integer userId, Integer childId, Child updatedChild) {

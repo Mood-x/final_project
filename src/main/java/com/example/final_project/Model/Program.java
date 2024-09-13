@@ -60,6 +60,9 @@ public class Program {
     @Column(columnDefinition = "varchar(15)")
     private String status = "open";
 
+    @Column(columnDefinition = "double")
+    private double programFinancialReturn=0;
+
     @NotNull(message = "StartDate should be not empty!")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(columnDefinition = "date not null")

@@ -2,11 +2,14 @@ package com.example.final_project.Controller;
 
 import com.example.final_project.API.ApiResponse;
 import com.example.final_project.Model.Competition;
+import com.example.final_project.Model.User;
 import com.example.final_project.Service.CompetitionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,14 +23,9 @@ public class CompetitionController {
         return ResponseEntity.ok(competitionService.getAllCompetitions());
     }
 
-    @GetMapping("/get-competition-by-id")
-    public ResponseEntity<Competition> getCompetitionsById(@RequestParam Integer id) {
-        return ResponseEntity.ok(competitionService.getCompetitionById(id));
-    }
-
-    @GetMapping("/get-competition-by-name")
-    public ResponseEntity<Competition> getCompetitionByName(@RequestParam String name) {
-        return ResponseEntity.ok(competitionService.getCompetitionByName(name));
+    @GetMapping("/get-competition-by-id/{competitionId}")
+    public ResponseEntity<Competition> getCompetitionsById(@PathVariable Integer competitionId) {
+        return ResponseEntity.ok(competitionService.getCompetitionById(competitionId));
     }
 
     @PostMapping("/add-competition")
@@ -36,15 +34,36 @@ public class CompetitionController {
         return ResponseEntity.ok(new ApiResponse("Competition added successfully"));
     }
 
-    @PutMapping("/update-competition")
-    public ResponseEntity<ApiResponse> updateCompetition(@RequestParam Integer id, @RequestBody Competition competition) {
-        competitionService.updateCompetition(id, competition);
+    @PutMapping("/update-competition/{competitionId}")
+    public ResponseEntity<ApiResponse> updateCompetition(@PathVariable Integer competitionId, @RequestBody Competition competition) {
+        competitionService.updateCompetition(competitionId, competition);
         return ResponseEntity.ok(new ApiResponse("Competition updated successfully"));
     }
 
-    @DeleteMapping("/delete-competition")
-    public ResponseEntity<ApiResponse> deleteCompetition(@RequestParam Integer id) {
-        competitionService.deleteCompetition(id);
+    @DeleteMapping("/delete-competition/{competitionId}")
+    public ResponseEntity<ApiResponse> deleteCompetition(@PathVariable Integer competitionId) {
+        competitionService.deleteCompetition(competitionId);
         return ResponseEntity.ok(new ApiResponse("Competition deleted successfully"));
+    }
+
+    @PostMapping("/add-child-to-competition/{competitionId}/{childId}")
+    public ResponseEntity<ApiResponse> addChildToCompetition(@AuthenticationPrincipal User user, @PathVariable Integer competitionId, @PathVariable Integer childId) {
+        competitionService.addChildToCompetition(user.getId(), competitionId, childId);
+        return ResponseEntity.ok(new ApiResponse("Child added successfully"));
+    }
+
+    @GetMapping("/search-by-date/{startDate}/{endDate}")
+    public ResponseEntity<List<Competition>> searchCompetitionByDate(@PathVariable LocalDate startDate, @PathVariable LocalDate endDate) {
+        return ResponseEntity.ok(competitionService.searchCompetitionsByDateRange(startDate, endDate));
+    }
+
+    @GetMapping("/search-competition-by-name/{name}")
+    public ResponseEntity<Competition> searchCompetitionByName(@PathVariable String name) {
+        return ResponseEntity.ok(competitionService.searchCompetitionByName(name));
+    }
+
+    @GetMapping("/search-competitions-by-type/{type}")
+    public ResponseEntity<List<Competition>> searchCompetitionsByType(@PathVariable String type) {
+        return ResponseEntity.ok(competitionService.searchCompetitionsByType(type));
     }
 }

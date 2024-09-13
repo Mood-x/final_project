@@ -60,5 +60,18 @@ public class NotificationController {
         return ResponseEntity.ok(new ApiResponse("Notification deleted successfully"));
     }
 
+    @PostMapping("/participation-request/{notificationId}")
+    public ResponseEntity<ApiResponse> participationRequest(@PathVariable Integer notificationId, @RequestParam boolean isApproved) {
+        notificationService.participationRequest(notificationId, isApproved);
+        return ResponseEntity.ok(new ApiResponse("Notification participation successfully"));
+    }
+
+    @PostMapping("/request-participation-in-competition/{parentId}/{childId}/{competitionId}")
+    public ResponseEntity<ApiResponse> requestParticipationInCompetition(@PathVariable Integer parentId, @PathVariable Integer childId, @PathVariable Integer competitionId) {
+        notificationService.requestParticipationInCompetition(parentId, childId, competitionId);
+        return ResponseEntity.ok(new ApiResponse("Notification request participation successfully"));
+    }
+
+
 
 }

@@ -1,12 +1,11 @@
 ======= Parent ========
 + Parent Register [yara-Done]
-+ Get my account [yara]
-+ Change Parent Password [yara]
-+ Get all my children [yara]
-- Update Parent [yara]
-+ dislike center [yara]
-+ like center [yara]
-+ add complaint [yara]
++ Get my account [yara-Done]
++ Change Parent Password [yara-Done]
++ Get all my children [yara-Done]
+- Update Parent [yara-Done]
++ dislike center [yara-Done]
++ like center [yara-Done]
 
 ======= Admin =======
 + Approved center [mood]
@@ -22,13 +21,14 @@
 ======== Center =========
 + Register center [azoz-Done]
 + show my center account [azoz-Done]
-+ Change center Password [azoz]
++ Change center Password [azoz-Done]
 
 
 ======== Program =========
 + Add program [azoz-Done]
-+ Get all center programs [azoz]
-+ Remove all closing programs [azoz]
++ Get all center programs [azoz-Done]
++ change program status [azoz-Done]
++ Remove all closed programs [azoz]
 + Get total price of all programs [azoz]
 + Get total price of one program [azoz]
 + Get total members of programs [azoz]
@@ -41,7 +41,7 @@
 + search program by date [azoz]
 + expand program [azoz]
 - update program[azoz]
-- delete program[azoz]
+- delete program[azoz-Done]
 
 ======== Child =========
 + Add Child [yara-done]
@@ -73,15 +73,16 @@
 
 ======== Complaint =========
 
-+ Add complaint [yara-Done]
++ Add complaint [yara]
 + replay complaint [azoz]
 + Get received Complaint [azoz]
 
 ======== Competition =========
 + search competition by range age [mood]
-+ search competition by name [mood]
-+ search competition by date [mood]
-+ Add competition [mood]
++ search competition by name [mood-Done]
++ search competition by date [mood-Done]
++ search competition by type [mood-Done]
++ Add competition [mood-Done]
 + Get my competitions [mood]
 + cancel competition from child [mood]
 + Add competition to child [mood]

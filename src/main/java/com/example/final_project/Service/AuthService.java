@@ -17,9 +17,11 @@ public class AuthService {
     public List<User> getAllUsers() {
         return authRepository.findAll();
     }
-
+// حذف
     public void register(User user){
+        user.setRole("ADMIN");
         String hash = new BCryptPasswordEncoder().encode(user.getPassword());
+        user.setPassword(hash);
         authRepository.save(user);
     }
 }

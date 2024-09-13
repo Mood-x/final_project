@@ -1,10 +1,8 @@
 package com.example.final_project.Service;
 
 import com.example.final_project.API.ApiException;
-import com.example.final_project.Model.Notification;
-import com.example.final_project.Model.User;
-import com.example.final_project.Repository.AuthRepository;
-import com.example.final_project.Repository.NotificationRepository;
+import com.example.final_project.Model.*;
+import com.example.final_project.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +13,8 @@ import java.util.List;
 public class NotificationService {
     private final AuthRepository authRepository;
     private final NotificationRepository notificationRepository;
+    private final ChildRepository childRepository;
+    private final CompetitionRepository competitionRepository;
 
     // + Mood-EP
     public List<Notification> getAllNotifications(Integer authId) {
@@ -112,5 +112,63 @@ public class NotificationService {
                 .forEach(notification -> notification.setRead(true));
 
         notificationRepository.saveAll(notifications);
+    }
+
+    public void createNotification(User sender, User receiver, String message, Notification.NotificationType type){
+        Notification notification = new Notification();
+        notification.setSender(sender);
+        notification.setReceiver(receiver);
+        notification.setMessage(message);
+        notification.setNotificationType(type);
+
+        notificationRepository.save(notification);
+    }
+
+
+    public void participationRequest(Integer notificationId, boolean isApproved){
+        Notification notification = notificationRepository.findNotificationById(notificationId)
+                .orElseThrow(() -> new ApiException("Notification not found"));
+
+        if(notification.getNotificationType() != Notification.NotificationType.REQUEST_PARTICIPATION){
+            throw new ApiException("Invalid notification type");
+        }
+
+        User parent = notification.getSender();
+        User admin = notification.getReceiver();
+
+        if(isApproved){
+            createNotification(admin, parent, "Your request for child participation has been approved", Notification.NotificationType.REQUEST_PARTICIPATION);
+            notification.setMessage("Request approved");
+
+        }else {
+            createNotification(admin, parent, "Your request for child participation has been rejected", Notification.NotificationType.REQUEST_PARTICIPATION);
+            notification.setMessage("Request rejected");
+        }
+        notificationRepository.save(notification);
+    }
+
+
+    public void requestParticipationInCompetition(Integer parentId, Integer childId, Integer competitionId){
+        User parent = authRepository.findUserById(parentId)
+                .orElseThrow(() -> new ApiException("Parent not found"));
+        Child child = childRepository.findChildById(childId)
+                .orElseThrow(() -> new ApiException("Child not found"));
+        Competition competition  = competitionRepository.findCompetitionById(competitionId)
+                .orElseThrow(() -> new ApiException("Competition not found"));
+
+        if(!child.getParent().getId().equals(parentId)){
+            throw new ApiException("You are not authorized to make this request for this child");
+        }
+
+        User admin = authRepository.findUserById(1)
+                .orElseThrow(() -> new ApiException("User Not Found"));
+
+        Notification notification = new Notification();
+        notification.setSender(parent);
+        notification.setReceiver(admin);
+        notification.setMessage("Parent " + parent.getName() + " requested participation for child " + child.getName() + " in competition " + competition.getName());
+        notification.setNotificationType(Notification.NotificationType.REQUEST_PARTICIPATION);
+        notification.setUser(admin);
+        notificationRepository.save(notification);
     }
 }

@@ -51,7 +51,7 @@ public class User implements UserDetails {
     private String name;
 
     @NotEmpty(message = "Role should be not empty")
-    @Column(columnDefinition = "enum('PARENT', 'CENTER') not null")
+    @Column(columnDefinition = "enum('ADMIN', 'PARENT', 'CENTER') not null")
     private String role;
 
 

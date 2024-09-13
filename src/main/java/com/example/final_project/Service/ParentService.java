@@ -2,21 +2,28 @@ package com.example.final_project.Service;
 
 import com.example.final_project.API.ApiException;
 import com.example.final_project.DTO.ParentDTO;
+import com.example.final_project.Model.Center;
+import com.example.final_project.Model.Child;
 import com.example.final_project.Model.Parent;
 import com.example.final_project.Model.User;
 import com.example.final_project.Repository.AuthRepository;
+import com.example.final_project.Repository.CenterRepository;
 import com.example.final_project.Repository.ParentReposotiry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ParentService {
     private final ParentReposotiry parentRepository;
     private final AuthRepository authRepository;
+    private final CenterService centerService;
+    private final CenterRepository centerRepository;
+
 
     // Get all parents AdminParent
     public List<Parent> getAllParents() {
@@ -70,5 +77,39 @@ public class ParentService {
         User user  = authRepository.findUserById(authId)
                 .orElseThrow(() -> new ApiException("User not found"));
         authRepository.delete(user);
+    }
+    public Parent getParentByUserId(Integer userId) {
+        return parentRepository.findParentByUser_Id(userId)
+                .orElseThrow(() -> new ApiException("Parent details not found for the user"));
+    }
+    public Set<Child> getChildrenByParentId(Integer parentId) {
+        Parent parent = parentRepository.findParentById(parentId)
+                .orElseThrow(() -> new ApiException("Parent not found"));
+        return parent.getChildren();
+    }
+    // Like or dislike a center
+    public void likeCenter(Integer parentId, Integer centerId, Integer likeStatus) {
+        Parent parent = parentRepository.findParentById(parentId)
+                .orElseThrow(() -> new ApiException("Parent not found"));
+        Center center = centerRepository.findById(centerId)
+                .orElseThrow(() -> new ApiException("Center not found"));
+
+        Set<Center> likedCenters = parent.getLikedCenters();
+
+        if (likeStatus == 1) {  // Like the center
+            likedCenters.add(center);
+        } else if (likeStatus == 0) {  // Dislike the center (remove from liked list)
+            likedCenters.remove(center);
+        }
+
+        parent.setLikedCenters(likedCenters);
+        parentRepository.save(parent);
+    }
+
+    // Get all centers the parent likes
+    public Set<Center> getLikedCenters(Integer parentId) {
+        Parent parent = parentRepository.findParentById(parentId)
+                .orElseThrow(() -> new ApiException("Parent not found"));
+        return parent.getLikedCenters();
     }
 }

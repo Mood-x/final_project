@@ -2,6 +2,8 @@ package com.example.final_project.Controller;
 
 import com.example.final_project.API.ApiResponse;
 import com.example.final_project.DTO.ParentDTO;
+import com.example.final_project.Model.Center;
+import com.example.final_project.Model.Child;
 import com.example.final_project.Model.Parent;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.ParentService;
@@ -12,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1/parent")
@@ -53,5 +56,32 @@ public class ParentController {
     public ResponseEntity deleteParent(@PathVariable Integer id) {
         parentService.delete(id);
         return ResponseEntity.status(200).body("user deleted successfully");
+    }
+    @GetMapping("/my-account")
+    public ResponseEntity getMyAccount(@AuthenticationPrincipal User user) {
+        Parent parent = parentService.getParentByUserId(user.getId());
+        return ResponseEntity.ok(parent);
+    }
+    @GetMapping("/my-children")
+    public ResponseEntity getMyChildren(@AuthenticationPrincipal User user) {
+        Parent parent = parentService.getParentByUserId(user.getId());
+        Set<Child> children = parentService.getChildrenByParentId(parent.getId());
+        return ResponseEntity.ok(children);
+    }
+    // Endpoint to like or dislike a center
+    @PostMapping("/like-center/{centerId}")
+    public ResponseEntity<String> likeCenter(@AuthenticationPrincipal User user,
+                                             @PathVariable Integer centerId,
+                                             @RequestParam Integer likeStatus) {
+        parentService.likeCenter(user.getId(), centerId, likeStatus);
+        String response = likeStatus == 1 ? "Center liked" : "Center disliked";
+        return ResponseEntity.ok(response);
+    }
+
+    // Endpoint to get all centers liked by the parent
+    @GetMapping("/liked-centers")
+    public ResponseEntity<Set<Center>> getLikedCenters(@AuthenticationPrincipal User user) {
+        Set<Center> likedCenters = parentService.getLikedCenters(user.getId());
+        return ResponseEntity.ok(likedCenters);
     }
 }

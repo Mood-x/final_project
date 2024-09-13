@@ -18,6 +18,7 @@ public class CenterController {
 
     private final CenterService centerService;
     private final ProgramService programService;
+
     @GetMapping("/get-all-centers")
     public ResponseEntity getAllCenters(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.getAllCenters());
@@ -55,5 +56,12 @@ public class CenterController {
     @GetMapping("Center-Account")
     public ResponseEntity showMyCenterAccount(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.showMyCenterAccount(user.getId()));
+    }
+
+
+    @PutMapping("change-password/{oldpassword}/{newpassword}")
+    public ResponseEntity changePassword( @AuthenticationPrincipal User user,@PathVariable String oldpassword, @PathVariable String newpassword){
+        centerService.changePassword(user.getId(),oldpassword,newpassword);
+        return ResponseEntity.status(200).body("Password changed successfully");
     }
 }

@@ -28,6 +28,9 @@ public class Competition {
     private String name;
 
     private int participant = 0;
+    private int minAge;
+    private int maxAge;
+    private String type;
 
     @NotNull(message = "Start date is required")
     @FutureOrPresent(message = "Start date must be today or in the future")
@@ -44,6 +47,7 @@ public class Competition {
 
 //====================== Relations ======================
     @ManyToMany
+    @JsonIgnore
     private Set<Child> children;
 }
 

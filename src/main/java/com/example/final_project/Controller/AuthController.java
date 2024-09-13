@@ -21,9 +21,9 @@ public class AuthController {
         return ResponseEntity.ok(authService.getAllUsers());
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<ApiResponse> register(@Valid @RequestBody User user){
-        authService.register(user);
-        return ResponseEntity.ok(new ApiResponse("User added successfully"));
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<ApiResponse> register(@Valid @RequestBody User user){
+//        authService.register(user);
+//        return ResponseEntity.ok(new ApiResponse("User added successfully"));
+//    }
 }

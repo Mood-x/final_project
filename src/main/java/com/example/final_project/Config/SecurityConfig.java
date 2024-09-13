@@ -36,7 +36,9 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/api/v1/user/register",
                         "/api/v1/center/center-register",
-                        "/api/v1/parent/register"
+                        "/api/v1/parent/register", // حذف
+                        "/api/v1/competition/get-competition-by-name**",
+                        "/api/v1/competition/get-all-competitions"
                         ).permitAll()
                 .requestMatchers(
                         "/api/v1/parent/update",
@@ -45,28 +47,32 @@ public class SecurityConfig {
                         "/api/v1/child/register",
                         "/api/v1/child/update/{id}",
                         "/api/v1/child/update/{id}",
-                        "/api/v1/comments/delete/{id}").hasAuthority("PARENT") // PARENT
+                        "/api/v1/comments/delete/{id}",
+                        "/api/v1/parent/my-account",
+                        "/api/v1/parent/my-children",
+                        "/api/v1/parent/like-center/**",
+                        "/api/v1/parent/liked-centers"
+                        ,"api/v1/notification/request-participation-in-competition/**").hasAuthority("PARENT") // PARENT
                 .requestMatchers(
                         "/api/v1/center/update-center/**",
                         "/api/v1/center/add-program" ,
                         "/api/v1/center/get-my-programs",
                         "/api/v1/comments/get-all",
                         "/api/v1/complaint/get-all",
-                        "/api/v1/center/Center-Account").hasAuthority("CENTER") // CENTER
-                
+                        "/api/v1/center/Center-Account",
+                        "/api/v1/center/change-password/**").hasAuthority("CENTER") // CENTER
+
                 .requestMatchers(
                         "/api/v1/user/get-all-users",
                         "/api/v1/parent/get-all",
                         "/api/v1/parent/delete/{id}",
                         "/api/v1/center/delete-center/{centerid}",
                         "/api/v1/center/get-all-centers",
-                        "/api/v1/competition/get-all-competitions",
-                        "/api/v1/competition/get-competition-by-id**" +
-                        "/api/v1/competition/get-competition-by-name**",
+                        "/api/v1/competition/get-competition-by-id**",
                         "/api/v1/competition/add-competition",
                         "/api/v1/competition/update-competition**",
-                        "/api/v1/competition/delete-competition**").hasAuthority("ADMIN") // ADMIN
-
+                        "/api/v1/competition/delete-competition**",
+                            "api/v1/notification/participation-request/**").hasAuthority("ADMIN") // ADMIN
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutUrl("/api/v1/auth/logout")

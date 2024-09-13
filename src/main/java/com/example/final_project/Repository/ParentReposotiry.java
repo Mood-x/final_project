@@ -10,4 +10,6 @@ import java.util.Optional;
 //YARA
 public interface ParentReposotiry  extends JpaRepository<Parent, Integer> {
     Optional<Parent> findParentById(Integer id);
+    Optional<Parent> findParentByUser_Id(Integer userId);
+
 }

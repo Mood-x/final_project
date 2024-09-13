@@ -91,4 +91,19 @@ public class CenterService {
                 "\n PhoneNumber: " + center.getPhoneNumber();
     }
 
+    public void changePassword(Integer userCenterId, String oldPassword, String newPassword){
+        Center center = centerRepository.findCenterById(userCenterId);
+
+        //check old password with entered old password
+        boolean isMatched = new BCryptPasswordEncoder().matches(oldPassword,center.getUser().getPassword());
+        if(!isMatched){
+            throw new ApiException("Sorry password doesn't match.");
+        }
+
+
+        String hashNew=new BCryptPasswordEncoder().encode(newPassword);
+        center.getUser().setPassword(hashNew);
+        authRepository.save(center.getUser());
+
+    }
 }

@@ -35,6 +35,14 @@ public class Parent {
     @OneToMany(mappedBy = "parent")
     private Set<Complaint> complaints;
 
+    @ManyToMany
+    @JoinTable(
+            name = "parent_liked_centers",
+            joinColumns = @JoinColumn(name = "parent_id"),
+            inverseJoinColumns = @JoinColumn(name = "center_id")
+    )
+    private Set<Center> likedCenters;  // List of liked centers
+
     @OneToOne
     @JsonIgnore
     @JoinColumn(name = "user_id")
