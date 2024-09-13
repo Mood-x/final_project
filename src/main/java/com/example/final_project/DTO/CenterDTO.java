@@ -1,5 +1,6 @@
 package com.example.final_project.DTO;
 
+import com.example.final_project.Model.Center;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -50,6 +51,7 @@ public class CenterDTO {
     private String address;
 
     private String documents = "Licences";
+    private Center.Status status = Center.Status.IN_PROGRESS;
 
     @NotEmpty(message = "Activity Type cannot be Empty!")
     @Pattern(regexp = "^(Sport|Academic|Cultural|Draw)$")

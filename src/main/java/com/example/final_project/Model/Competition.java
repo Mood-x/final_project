@@ -48,7 +48,7 @@ public class Competition {
 //====================== Relations ======================
     @ManyToMany
     @JsonIgnore
-    private Set<Child> children;
+    private Set<Child> participants;
 }
 
 

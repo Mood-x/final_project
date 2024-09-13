@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface AuthRepository extends JpaRepository<User, Integer> {
     Optional<User> findUserById(Integer id);
     Optional<User> findByUsername(String username);
-
+    Optional<List<User>> findAllByPendingDeletionTrue();
     List<User> findUserByRole(String role);
 }

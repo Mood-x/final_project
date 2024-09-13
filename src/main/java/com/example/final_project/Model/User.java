@@ -54,6 +54,8 @@ public class User implements UserDetails {
     @Column(columnDefinition = "enum('ADMIN', 'PARENT', 'CENTER') not null")
     private String role;
 
+    private boolean isPendingDeletion = false;
+    private LocalDateTime deletionRequestDate;
 
     @CreationTimestamp
     @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")

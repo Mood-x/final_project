@@ -14,7 +14,8 @@ public class NotificationService {
     private final AuthRepository authRepository;
     private final NotificationRepository notificationRepository;
     private final ChildRepository childRepository;
-    private final CompetitionRepository competitionRepository;
+//    private final CompetitionRepository competitionRepository;
+    private final CenterRepository centerRepository;
 
     // + Mood-EP
     public List<Notification> getAllNotifications(Integer authId) {
@@ -120,7 +121,6 @@ public class NotificationService {
         notification.setReceiver(receiver);
         notification.setMessage(message);
         notification.setNotificationType(type);
-
         notificationRepository.save(notification);
     }
 
@@ -148,27 +148,67 @@ public class NotificationService {
     }
 
 
-    public void requestParticipationInCompetition(Integer parentId, Integer childId, Integer competitionId){
-        User parent = authRepository.findUserById(parentId)
-                .orElseThrow(() -> new ApiException("Parent not found"));
-        Child child = childRepository.findChildById(childId)
-                .orElseThrow(() -> new ApiException("Child not found"));
-        Competition competition  = competitionRepository.findCompetitionById(competitionId)
-                .orElseThrow(() -> new ApiException("Competition not found"));
+//    public void requestParticipationInCompetition(Integer parentId, Integer childId, Integer competitionId){
+//        User parent = authRepository.findUserById(parentId)
+//                .orElseThrow(() -> new ApiException("Parent not found"));
+//        Child child = childRepository.findChildById(childId)
+//                .orElseThrow(() -> new ApiException("Child not found"));
+//        Competition competition  = competitionRepository.findCompetitionById(competitionId)
+//                .orElseThrow(() -> new ApiException("Competition not found"));
+//
+//        if(!child.getParent().getId().equals(parentId)){
+//            throw new ApiException("You are not authorized to make this request for this child");
+//        }
+//
+//        User admin = authRepository.findUserById(1)
+//                .orElseThrow(() -> new ApiException("User Not Found"));
+//
+//        Notification notification = new Notification();
+//        notification.setSender(parent);
+//        notification.setReceiver(admin);
+//        notification.setMessage("Parent " + parent.getName() + " requested participation for child " + child.getName() + " in competition " + competition.getName());
+//        notification.setNotificationType(Notification.NotificationType.REQUEST_PARTICIPATION);
+//        notification.setUser(admin);
+//        notificationRepository.save(notification);
+//    }
 
-        if(!child.getParent().getId().equals(parentId)){
-            throw new ApiException("You are not authorized to make this request for this child");
+    public void approveCenterRegistration(Integer centerId){
+        Center center = centerRepository.findCenterById(centerId);
+        if(center == null){
+            throw new ApiException("Center not found");
+        }
+
+        center.setStatus(Center.Status.APPROVED);
+        centerRepository.save(center);
+
+        User admin = authRepository.findUserById(8)
+                        .orElseThrow(() -> new ApiException("Admin not found"));
+        createNotification(
+                admin, // admin
+                center.getUser(),
+                "Your center registration has been approved. You can now access your features",
+                Notification.NotificationType.ADMIN_TO_CENTER
+        );
+    }
+
+    public void rejectCenterRegistration(Integer centerId, String rejectionReason){
+        Center center = centerRepository.findCenterById(centerId);
+
+        if(center == null){
+            throw new ApiException("Center not found");
         }
 
         User admin = authRepository.findUserById(1)
-                .orElseThrow(() -> new ApiException("User Not Found"));
+                        .orElseThrow(() -> new ApiException("Admin not found"));
 
-        Notification notification = new Notification();
-        notification.setSender(parent);
-        notification.setReceiver(admin);
-        notification.setMessage("Parent " + parent.getName() + " requested participation for child " + child.getName() + " in competition " + competition.getName());
-        notification.setNotificationType(Notification.NotificationType.REQUEST_PARTICIPATION);
-        notification.setUser(admin);
-        notificationRepository.save(notification);
+
+        center.setStatus(Center.Status.REJECTED);
+        centerRepository.save(center);
+        createNotification(
+                admin,
+                center.getUser(),
+                "Your center registration has been rejected. Reason: " + rejectionReason,
+                Notification.NotificationType.ADMIN_TO_CENTER
+        );
     }
 }

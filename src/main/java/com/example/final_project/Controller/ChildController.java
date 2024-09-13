@@ -1,6 +1,7 @@
 package com.example.final_project.Controller;
 
 import com.example.final_project.Model.Child;
+import com.example.final_project.Model.Program;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.ChildService;
 import jakarta.validation.Valid;
@@ -45,5 +46,22 @@ public class ChildController {
         // Call the service to delete the child
         childService.deleteParent(user.getId(), id);
         return ResponseEntity.ok("Child deleted successfully.");
+    }
+    @PostMapping("/{childId}/program/{programId}/apply")
+    public ResponseEntity<String> applyChildToProgram(@AuthenticationPrincipal User user, @PathVariable Integer childId, @PathVariable Integer programId) {
+        childService.addChildToProgram(user.getId(), childId, programId);
+        return ResponseEntity.status(200).body("Child successfully applied to the program.");
+    }
+    // Endpoint to get all programs associated with a parent's children
+    @GetMapping("/my-programs")
+    public ResponseEntity<List<Program>> getAllProgramsForParent(@AuthenticationPrincipal User user) {
+        List<Program> programs = childService.getAllProgramsForParent(user.getId());
+        return ResponseEntity.ok(programs);
+    }
+    // Endpoint to cancel a program for a child
+    @DeleteMapping("/{childId}/cancel-program/{programId}")
+    public ResponseEntity<String> cancelProgram(@AuthenticationPrincipal Integer userId, @PathVariable Integer childId, @PathVariable Integer programId) {
+        String result = childService.cancelProgram(childId, programId);
+        return ResponseEntity.ok(result);
     }
 }

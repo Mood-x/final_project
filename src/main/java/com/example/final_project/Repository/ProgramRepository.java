@@ -14,4 +14,6 @@ public interface ProgramRepository extends JpaRepository<Program, Integer> {
     Program findProgramById(Integer id);
 
     List<Program> findProgramByCenter(Center center);
+    List<Program> findByTitleContainingIgnoreCase(String title);
+
 }

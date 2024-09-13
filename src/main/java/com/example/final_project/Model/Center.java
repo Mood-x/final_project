@@ -38,14 +38,14 @@ public class Center {
 
     private String documents = "Licences";
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('APPROVED', 'IN_PROGRESS', 'REJECTED' not null default 'IN_PROGRESS'")
+    private Status status = Status.IN_PROGRESS;   // +
+
     @NotEmpty(message = "Activity Type cannot be Empty!")
     @Pattern(regexp = "^(Sport|Academic|Cultural|Draw)$")
     @Column(columnDefinition = "varchar(15) not null")
     private String activityType;
-
-    @Pattern(regexp = "^(PENDING|Valid|inValid)$")
-    @Column(columnDefinition = "varchar(20)")
-    private String accountStatus ="Pending";
 
 
     //====================== Relations ======================
@@ -61,4 +61,10 @@ public class Center {
     private Set<Complaint> complaints; // One center can have many complaints
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "center")
     private Set<Program> program;
+
+    public enum Status{
+        APPROVED,
+        IN_PROGRESS,
+        REJECTED
+    }
 }

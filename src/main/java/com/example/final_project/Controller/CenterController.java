@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,5 +64,11 @@ public class CenterController {
     public ResponseEntity changePassword( @AuthenticationPrincipal User user,@PathVariable String oldpassword, @PathVariable String newpassword){
         centerService.changePassword(user.getId(),oldpassword,newpassword);
         return ResponseEntity.status(200).body("Password changed successfully");
+    }
+    // Endpoint to search programs by title
+    @GetMapping("/search")
+    public ResponseEntity<List<Program>> searchProgramsByTitle(@RequestParam String title) {
+        List<Program> programs = programService.searchProgramsByTitle(title);
+        return ResponseEntity.ok(programs);
     }
 }

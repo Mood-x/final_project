@@ -38,8 +38,9 @@ public class SecurityConfig {
                         "/api/v1/center/center-register",
                         "/api/v1/parent/register", // حذف
                         "/api/v1/competition/get-competition-by-name**",
-                        "/api/v1/competition/get-all-competitions"
-                        ).permitAll()
+                        "/api/v1/competition/get-all-competitions",
+                        "/api/v1/center/search").permitAll()
+
                 .requestMatchers(
                         "/api/v1/parent/update",
                         "/api/v1/comments/add",
@@ -52,7 +53,10 @@ public class SecurityConfig {
                         "/api/v1/parent/my-children",
                         "/api/v1/parent/like-center/**",
                         "/api/v1/parent/liked-centers"
-                        ,"api/v1/notification/request-participation-in-competition/**").hasAuthority("PARENT") // PARENT
+                        ,"api/v1/notification/request-participation-in-competition/**",
+                        "/api/v1/child/{childId}/program/{programId}/apply",
+                        "/api/v1/child/my-programs",
+                        "/api/v1/child/{childId}/cancel-program/{programId}").hasAuthority("PARENT") // PARENT
                 .requestMatchers(
                         "/api/v1/center/update-center/**",
                         "/api/v1/center/add-program" ,

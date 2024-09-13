@@ -3,13 +3,16 @@ package com.example.final_project.Service;
 import com.example.final_project.API.ApiException;
 import com.example.final_project.DTO.CenterDTO;
 import com.example.final_project.Model.Center;
+import com.example.final_project.Model.Notification;
 import com.example.final_project.Model.User;
 import com.example.final_project.Repository.AuthRepository;
 import com.example.final_project.Repository.CenterRepository;
+import com.example.final_project.Repository.NotificationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -17,6 +20,8 @@ import java.util.List;
 public class CenterService {
     private final CenterRepository centerRepository;
     private final AuthRepository authRepository;
+    private final NotificationService notificationService;
+    private final NotificationRepository notificationRepository;
 
     public List<User> getAllCenters(){
         return authRepository.findUserByRole("CENTER");
@@ -40,12 +45,22 @@ public class CenterService {
         center.setAddress( centerDTO.getAddress());
         center.setActivityType(centerDTO.getActivityType());
         center.setDocuments(centerDTO.getDocuments());
+        center.setStatus(Center.Status.IN_PROGRESS); // +
 
         user.setCenter(center);
         center.setUser(user);
 
         authRepository.save(user);
         centerRepository.save(center);
+
+
+        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+        Notification notification = new Notification();
+        notification.setSender(center.getUser());
+        notification.setReceiver(admin);
+        notification.setMessage("A new center registration request has been submitted. please review the details");
+        notification.setUser(admin);
+        notificationRepository.save(notification);
     }
 
     public void updateCenter(Integer authId, CenterDTO centerDTO){
@@ -72,7 +87,6 @@ public class CenterService {
 
 
     public void deleteCenter(Integer centerID,Integer authId){
-
             User user = authRepository.findUserById(centerID)
                     .orElseThrow(()-> new ApiException("User Not Found"));
 
@@ -81,6 +95,7 @@ public class CenterService {
             }
             authRepository.deleteById(authId);
     }
+
 
     public String showMyCenterAccount(Integer userCenterId){
         Center center = centerRepository.findCenterById(userCenterId);
@@ -104,6 +119,21 @@ public class CenterService {
         String hashNew=new BCryptPasswordEncoder().encode(newPassword);
         center.getUser().setPassword(hashNew);
         authRepository.save(center.getUser());
+    }
+
+
+    //mood
+    public void requestToDeleteAccount(Integer centerId){
+        User center = authRepository.findUserById(centerId)
+                .orElseThrow(()-> new ApiException("User Not Found"));
+        if(center.isPendingDeletion()){
+            throw new ApiException("Sorry this account has been pending deletion.");
+        }
+
+        center.setPendingDeletion(true);
+        center.setDeletionRequestDate(LocalDateTime.now());
+        authRepository.save(center);
+
 
     }
 }

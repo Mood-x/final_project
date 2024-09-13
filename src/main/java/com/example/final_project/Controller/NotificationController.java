@@ -73,5 +73,15 @@ public class NotificationController {
     }
 
 
+    @PutMapping("/approve-center-registration/{centerId}")
+    public ResponseEntity<ApiResponse> approveCenterRegistration(@PathVariable Integer centerId) {
+        notificationService.approveCenterRegistration(centerId);
+        return ResponseEntity.ok(new ApiResponse("Notification approved successfully"));
+    }
 
+    @PutMapping("/reject-center-registration/{centerId}/{rejectionReason}")
+    public ResponseEntity<ApiResponse> rejectCenterRegistration(@PathVariable Integer centerId, @PathVariable String rejectionReason) {
+        notificationService.rejectCenterRegistration(centerId, rejectionReason);
+        return ResponseEntity.ok(new ApiResponse("Notification rejected successfully"));
+    }
 }

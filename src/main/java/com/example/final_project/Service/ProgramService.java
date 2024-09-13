@@ -27,4 +27,8 @@ public class ProgramService {
     public List<Program> displayAllPrograms() {
         return programRepository.findAll(); //called by parent
     }
+    // Search for programs by title
+    public List<Program> searchProgramsByTitle(String title) {
+        return programRepository.findByTitleContainingIgnoreCase(title);
+    }
 }

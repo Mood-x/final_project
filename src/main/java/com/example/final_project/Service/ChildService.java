@@ -3,15 +3,17 @@ package com.example.final_project.Service;
 import com.example.final_project.API.ApiException;
 import com.example.final_project.Model.Child;
 import com.example.final_project.Model.Parent;
+import com.example.final_project.Model.Program;
 import com.example.final_project.Model.User;
 import com.example.final_project.Repository.AuthRepository;
 import com.example.final_project.Repository.ChildRepository;
 import com.example.final_project.Repository.ParentReposotiry;
+import com.example.final_project.Repository.ProgramRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class ChildService {
     private final ChildRepository childRepository;
     private final AuthRepository authRepository;
     private final ParentReposotiry parentReposotiry;
+    private final ProgramRepository programRepository;
 
     public List<Child> getAllChildren() {
         return childRepository.findAll();
@@ -92,5 +95,101 @@ public class ChildService {
                 .orElseThrow(() -> new RuntimeException("Parent not found with ID: " + id));
 
         parentReposotiry.delete(parent);
+    }
+    // Method to add a child to a program
+    public void addChildToProgram(Integer userId, Integer childId, Integer programId) {
+        // Check if user exists
+        User user = authRepository.findUserById(userId)
+                .orElseThrow(() -> new ApiException("User not found"));
+
+        // Get the parent associated with the user
+        Parent parent = user.getParent();
+        if (parent == null) {
+            throw new RuntimeException("Parent not found for the user");
+        }
+
+        // Find the child by ID
+        Child child = childRepository.findById(childId)
+                .orElseThrow(() -> new RuntimeException("Child not found with ID: " + childId));
+
+        // Check if the child is already registered under this parent
+        if (!child.getParent().equals(parent)) {
+            throw new ApiException("You cannot add this child to the program, they belong to a different parent.");
+        }
+
+        // Find the program by ID
+        Program program = programRepository.findById(programId)
+                .orElseThrow(() -> new RuntimeException("Program not found with ID: " + programId));
+
+        // Check if the child is already subscribed to this program
+        if (child.getPrograms().contains(program)) {
+            throw new ApiException("Child has already applied to this program.");
+        }
+
+        // Add the program to the child's set of programs
+        child.getPrograms().add(program);
+
+        // Save the child with the updated programs
+        childRepository.save(child);
+    }
+    // Method to get all programs for a parent's children
+    public List<Program> getAllProgramsForParent(Integer userId) {
+        // Check if user exists
+        User user = authRepository.findUserById(userId)
+                .orElseThrow(() -> new ApiException("User not found"));
+
+        // Get the parent associated with the user
+        Parent parent = user.getParent();
+        if (parent == null) {
+            throw new ApiException("Parent not found for the user");
+        }
+
+        // Get all children of the parent
+        List<Child> children = childRepository.findAllByParent(parent);
+
+        // Collect all programs the children are subscribed to
+        Set<Program> programs = new HashSet<>();
+        for (Child child : children) {
+            programs.addAll(child.getPrograms());
+        }
+
+        return new ArrayList<>(programs);
+    }
+    public String cancelProgram(Integer childId, Integer programId) {
+        // Find the child
+        Child child = childRepository.findById(childId)
+                .orElseThrow(() -> new ApiException("Child not found"));
+
+        // Find the program
+        Program program = programRepository.findById(programId)
+                .orElseThrow(() -> new ApiException("Program not found"));
+
+        // Check if the child is enrolled in the program
+        if (!child.getPrograms().contains(program)) {
+            throw new ApiException("Child is not enrolled in this program");
+        }
+
+        // Get current date and program's start date
+        Date currentDate = new Date();
+        Date programStartDate = program.getStartDate();
+
+        double refundAmount = 0.0;
+        double programPrice = program.getPrice();
+
+        // Check if the program has started or not
+        if (currentDate.before(programStartDate)) {
+            // Before start date: 100% refund
+            refundAmount = programPrice;
+        } else {
+            // After start date: 30% refund
+            refundAmount = programPrice * 0.30;
+        }
+
+        // Remove the program from the child's enrolled programs
+        child.getPrograms().remove(program);
+        childRepository.save(child);
+
+        // Return a message including refund amount
+        return "Program cancelled. Refund: SR" + refundAmount;
     }
 }

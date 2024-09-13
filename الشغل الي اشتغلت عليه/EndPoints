@@ -8,14 +8,14 @@
 + like center [yara-Done]
 
 ======= Admin =======
-+ Approved center [mood]
-+ Delete Account Request [mood - parent - center]
-+ Reject center [mood]
++ Approved center [mood-Done]
++ Delete Account Request [mood - parent - center] -----> request to delete my account
++ Reject center [mood-Done]
 + create certifications [mood]
-- Get center by id [mood]
-- Get all center [mood]
-- Delete Parent [mood]
-- Delete Center [mood]
+- Get center by id [mood-Done]
+- Get all center [azoz-Done]
+- Delete Parent [yara-Done]
+- Delete Center [azoz-Done]
 
 
 ======== Center =========
@@ -36,7 +36,7 @@
 + Get all my programs [azoz]
 + search active program [azoz]
 + search program by type [yara]
-+ search program by title [yara]
++ search program by title [yara- Done]
 + search program by range age [azoz]
 + search program by date [azoz]
 + expand program [azoz]
@@ -45,9 +45,9 @@
 
 ======== Child =========
 + Add Child [yara-done]
-+ add child to program [yara]
-+ Get all my programs [yara]
-+ cancel program [yara]
++ add child to program [yara - Done]
++ Get all my programs [yara-Done]
++ cancel program [yara - Done]
 - Update Child [yara-Done]
 - Delete Child [yara-Done]
 
@@ -78,15 +78,15 @@
 + Get received Complaint [azoz]
 
 ======== Competition =========
-+ search competition by range age [mood]
++ search competition by range age [mood-Done]
 + search competition by name [mood-Done]
 + search competition by date [mood-Done]
 + search competition by type [mood-Done]
 + Add competition [mood-Done]
-+ Get my competitions [mood]
++ Get child competitions [mood-Done]
 + cancel competition from child [mood]
-+ Add competition to child [mood]
-- Get all competition [mood]
++ Add competition to child [mood-Done]
+- Get all competition [mood-Done]
 
 ======== Rating =========
 + add rating [azoz]
