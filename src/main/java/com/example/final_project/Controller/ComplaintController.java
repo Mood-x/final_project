@@ -4,6 +4,7 @@ import com.example.final_project.Model.Complaint;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.ComplaintService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +14,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/complaint")
 public class ComplaintController {
-
+@Autowired
     private ComplaintService complaintService;
 
-    @PostMapping("/add")
-    public ResponseEntity addComplaint(@Valid @RequestBody Complaint complaint, @AuthenticationPrincipal User user) {
-        complaint.setParent(user.getParent());
-        complaintService.addComplaint(complaint);
-        return ResponseEntity.status(201).body("complaint added");
+    @PostMapping("/add/{centerId}")
+    public ResponseEntity<String> addComplaint(@AuthenticationPrincipal User user, @PathVariable Integer centerId, @Valid @RequestBody Complaint complaint) {
+        // Pass the userId and centerId to the service along with the complaint
+        complaintService.addComplaint(user.getId(), centerId, complaint);
+        return ResponseEntity.status(201).body("Complaint added successfully");
     }
 
     @GetMapping("/get-all")
@@ -46,5 +47,20 @@ public class ComplaintController {
     public ResponseEntity deleteComplaint(@PathVariable Integer id) {
         complaintService.deleteComplaint(id);
         return ResponseEntity.status(200).body("complaint deleted successfully");
+    }
+    @GetMapping("/center")
+    public ResponseEntity<List<Complaint>> getComplaintsByCenterId(@AuthenticationPrincipal User user) {
+        List<Complaint> complaints = complaintService.getComplaintsByCenterId(user.getId());
+        return ResponseEntity.ok(complaints);
+    }
+    @GetMapping("/my-complaint")
+    public ResponseEntity<List<Complaint>> getComplaintsByUserId(@AuthenticationPrincipal User parentId) {
+        List<Complaint> complaints = complaintService.getComplaintsByUserId(parentId.getId());
+        return ResponseEntity.ok(complaints);
+    }
+    @PutMapping("/{complaintId}/reply")
+    public ResponseEntity<String> replyToComplaint(@PathVariable Integer complaintId, @RequestBody String reply, @AuthenticationPrincipal User user) {
+        complaintService.replyToComplaint(complaintId, reply, user.getId());
+        return ResponseEntity.ok("Reply added successfully");
     }
 }

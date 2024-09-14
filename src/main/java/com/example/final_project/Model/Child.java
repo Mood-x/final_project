@@ -45,15 +45,15 @@ public class Child {
 
     //RELATION
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "parent_id", nullable = false)
+    @JsonIgnore
     private Parent parent; // Reference to Parent
 
     @ManyToMany
     @JoinTable(name = "child_program_subscription", joinColumns = @JoinColumn(name = "child_id"), inverseJoinColumns = @JoinColumn(name = "program_id"))
     private Set<Program> programs; // Many-to-many relation with Program
 
-    @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "participants")
     private Set<Competition> competitions;
 
 //    @OneToOne(mappedBy = "child", cascade = CascadeType.ALL)

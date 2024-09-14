@@ -1,9 +1,13 @@
 package com.example.final_project.Controller;
 
+import com.example.final_project.API.ApiResponse;
 import com.example.final_project.Model.Comment;
+import com.example.final_project.Model.Complaint;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.CommentService;
+import com.example.final_project.Service.ComplaintService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,15 +17,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/comments")
+@RequiredArgsConstructor
 public class CommentController {
 
-    private CommentService commentService;
+    private final CommentService commentService;
+    private final ComplaintService complaintService;
 
-    @PostMapping("/add")
-    public ResponseEntity addComment(@Valid @RequestBody Comment comment, @AuthenticationPrincipal User user) {
-        comment.setParent(user.getParent());
-        Comment createdComment = commentService.addComment(comment);
-        return ResponseEntity.status(201).body(createdComment);
+    @PostMapping("/add/{centerId}")
+    public ResponseEntity<ApiResponse> addComment(@AuthenticationPrincipal User user, @PathVariable Integer centerId, @Valid @RequestBody Comment comment) {
+        commentService.addComment(user.getId(), centerId, comment);
+        return ResponseEntity.ok(new ApiResponse("Added comment successfully"));
     }
 
     @GetMapping("/get-all")
@@ -48,4 +53,5 @@ public class CommentController {
         commentService.deleteComment(id);
         return ResponseEntity.status(200).body("Comment deleted");
     }
+
 }

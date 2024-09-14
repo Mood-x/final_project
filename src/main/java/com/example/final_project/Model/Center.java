@@ -47,6 +47,14 @@ public class Center {
     @Column(columnDefinition = "varchar(15) not null")
     private String activityType;
 
+    @Column(columnDefinition = "double")
+    private double centerFinancialReturns = 0;
+
+    @Column(columnDefinition = "int")
+    private int numOfChildrensInTheCenter=0;
+
+    @Column(columnDefinition = "double")
+    private double rate = 0;
 
     //====================== Relations ======================
 
@@ -61,6 +69,8 @@ public class Center {
     private Set<Complaint> complaints; // One center can have many complaints
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "center")
     private Set<Program> program;
+    @OneToMany(mappedBy = "center",cascade = CascadeType.ALL)
+    private Set<Advertisement> advertisements;
 
     public enum Status{
         APPROVED,

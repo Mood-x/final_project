@@ -1,6 +1,9 @@
 package com.example.final_project.Service;
 
+import com.example.final_project.API.ApiException;
+import com.example.final_project.Model.Center;
 import com.example.final_project.Model.Comment;
+import com.example.final_project.Model.Parent;
 import com.example.final_project.Repository.CommentRepository;
 
 import com.example.final_project.Repository.CenterRepository;
@@ -19,18 +22,17 @@ public class CommentService {
     private final ParentReposotiry parentRepository;
     private final CenterRepository centerRepository;
 
-    public Comment addComment(@Valid Comment comment) {
-        // Check if the parent exists
-        if (!parentRepository.existsById(comment.getParent().getId())) {
-            throw new RuntimeException("Parent not found");
+    public void addComment(Integer authId, Integer centerId, Comment comment) {
+        Parent parent = parentRepository.findParentById(authId).orElseThrow(() -> new ApiException("Parent not found"));
+        Center center = centerRepository.findCenterById(centerId).orElseThrow(() -> new ApiException("Center not found"));
+
+        if(!parent.getId().equals(authId)){
+            throw new ApiException("You don't have permission to add comment");
         }
 
-        // Check if the center exists
-        if (!centerRepository.existsById(comment.getCenter().getId())) {
-            throw new RuntimeException("Center not found");
-        }
-
-        return commentRepository.save(comment);
+        comment.setParent(parent);
+        comment.setCenter(center);
+        commentRepository.save(comment);
     }
 
     public List<Comment> getAllComments() {

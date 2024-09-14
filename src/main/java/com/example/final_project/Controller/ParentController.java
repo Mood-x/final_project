@@ -6,6 +6,7 @@ import com.example.final_project.Model.Center;
 import com.example.final_project.Model.Child;
 import com.example.final_project.Model.Parent;
 import com.example.final_project.Model.User;
+import com.example.final_project.Service.CenterService;
 import com.example.final_project.Service.ParentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class ParentController {
     private final ParentService parentService;
+    private final CenterService centerService;
 
     // Get all parents
     @GetMapping("/get-all")
@@ -83,5 +85,11 @@ public class ParentController {
     public ResponseEntity<Set<Center>> getLikedCenters(@AuthenticationPrincipal User user) {
         Set<Center> likedCenters = parentService.getLikedCenters(user.getId());
         return ResponseEntity.ok(likedCenters);
+    }
+
+    @PostMapping("/add-rate/{centerid}/{rate}")
+    public ResponseEntity addRateToCenter(@AuthenticationPrincipal User user, @PathVariable Integer centerid, @PathVariable Integer rate) {
+        centerService.addRate(user.getId(), centerid, rate);
+        return ResponseEntity.status(201).body("rate added");
     }
 }

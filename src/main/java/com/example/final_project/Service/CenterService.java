@@ -4,15 +4,18 @@ import com.example.final_project.API.ApiException;
 import com.example.final_project.DTO.CenterDTO;
 import com.example.final_project.Model.Center;
 import com.example.final_project.Model.Notification;
+import com.example.final_project.Model.Parent;
 import com.example.final_project.Model.User;
 import com.example.final_project.Repository.AuthRepository;
 import com.example.final_project.Repository.CenterRepository;
 import com.example.final_project.Repository.NotificationRepository;
+import com.example.final_project.Repository.ParentReposotiry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,14 +24,16 @@ public class CenterService {
     private final CenterRepository centerRepository;
     private final AuthRepository authRepository;
     private final NotificationService notificationService;
-    private final NotificationRepository notificationRepository;
+    private final ParentReposotiry parentReposotiry;
+
+    ArrayList<Double> ratings = new ArrayList<>();
+
 
     public List<User> getAllCenters(){
         return authRepository.findUserByRole("CENTER");
     }
 
     public void centerRegister(CenterDTO centerDTO){
-
         User user = new User();
         user.setUsername(centerDTO.getUsername());
         user.setPassword(centerDTO.getPassword());
@@ -62,13 +67,6 @@ public class CenterService {
                 "A new center registration request has been submitted. please review the details",
                 Notification.NotificationType.CENTER_REQUEST_REGISTRATION
         );
-
-//        Notification notification = new Notification();
-//        notification.setSender(center.getUser());
-//        notification.setReceiver(admin);
-//        notification.setMessage("A new center registration request has been submitted. please review the details");
-//        notification.setUser(admin);
-//        notificationRepository.save(notification);
     }
 
     public void updateCenter(Integer authId, CenterDTO centerDTO){
@@ -93,7 +91,6 @@ public class CenterService {
     }
 
 
-
     public void deleteCenter(Integer centerID,Integer authId){
             User user = authRepository.findUserById(centerID)
                     .orElseThrow(()-> new ApiException("User Not Found"));
@@ -106,7 +103,8 @@ public class CenterService {
 
 
     public String showMyCenterAccount(Integer userCenterId){
-        Center center = centerRepository.findCenterById(userCenterId);
+        Center center = centerRepository.findCenterById(userCenterId)
+                .orElseThrow(()-> new ApiException("Center Not Found"));
         return " UserName:" + center.getUser().getUsername()+
                 "\n Name:" + center.getUser().getName()+
                 "\n Email: " + center.getUser().getEmail()+
@@ -115,7 +113,8 @@ public class CenterService {
     }
 
     public void changePassword(Integer userCenterId, String oldPassword, String newPassword){
-        Center center = centerRepository.findCenterById(userCenterId);
+        Center center = centerRepository.findCenterById(userCenterId)
+                .orElseThrow(()-> new ApiException("Center Not Found"));
 
         //check old password with entered old password
         boolean isMatched = new BCryptPasswordEncoder().matches(oldPassword,center.getUser().getPassword());
@@ -123,23 +122,26 @@ public class CenterService {
             throw new ApiException("Sorry password doesn't match.");
         }
 
-
         String hashNew=new BCryptPasswordEncoder().encode(newPassword);
         center.getUser().setPassword(hashNew);
         authRepository.save(center.getUser());
     }
 
-    public void approveCenterRegistration(Integer centerId){
-        Center center = centerRepository.findCenterById(centerId);
-        if(center == null){
-            throw new ApiException("Center not found");
-        }
+    public String displayCenterFinancialReturns(Integer centerId){
+        Center center = centerRepository.findCenterById(centerId)
+                .orElseThrow(()-> new ApiException("Center Not Found"));
 
+        return "The Total Center Financial Returns is: " + center.getCenterFinancialReturns();
+    }
+
+    // [mohammed] +[End-Point]
+    public void approveCenterRegistration(Integer centerId){
+        Center center = centerRepository.findCenterById(centerId).orElseThrow(() -> new ApiException("Center Not Found"));
         center.setStatus(Center.Status.APPROVED);
         centerRepository.save(center);
 
-        User admin = authRepository.findUserById(1)
-                .orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+
         notificationService.createNotification(
                 admin,
                 center.getUser(),
@@ -148,18 +150,14 @@ public class CenterService {
         );
     }
 
+    // [mohammed] +[End-Point]
     public void rejectCenterRegistration(Integer centerId, String rejectionReason){
-        Center center = centerRepository.findCenterById(centerId);
-
-        if(center == null){
-            throw new ApiException("Center not found");
-        }
-
-        User admin = authRepository.findUserById(1)
-                .orElseThrow(() -> new ApiException("Admin not found"));
-
+        Center center = centerRepository.findCenterById(centerId).orElseThrow(() -> new ApiException("Center Not Found"));
         center.setStatus(Center.Status.REJECTED);
         centerRepository.save(center);
+
+        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+
         notificationService.createNotification(
                 admin,
                 center.getUser(),
@@ -168,16 +166,30 @@ public class CenterService {
         );
     }
 
-    //mood
-//    public void requestToDeleteAccount(Integer centerId){
-//        User center = authRepository.findUserById(centerId)
-//                .orElseThrow(()-> new ApiException("User Not Found"));
-//        if(center.isPendingDeletion()){
-//            throw new ApiException("Sorry this account has been pending deletion.");
-//        }
-//
-//        center.setPendingDeletion(true);
-//        center.setDeletionRequestDate(LocalDateTime.now());
-//        authRepository.save(center);
-//    }
+    public String displayCenterNumberOfChild(Integer centerId){
+        Center center = centerRepository.findCenterById(centerId)
+                .orElseThrow(()-> new ApiException("Center Not Found"));
+
+        return "The Total Center Financial Returns is: " + center.getNumOfChildrensInTheCenter();
+    }
+
+
+    public void addRate(int parentId, int centerId, double rate){
+        Center center = centerRepository.findCenterById(centerId)
+                .orElseThrow(()-> new ApiException("Center Not Found"));
+
+        Parent parent = parentReposotiry.findParentById(parentId)
+                .orElseThrow(()-> new ApiException("parent Not Found"));
+
+        double sum = 0;
+
+        ratings.add(rate);
+        for (int i = 0; i < ratings.size(); i++) {
+            sum += ratings.get(i);
+        }
+        double avg = sum / ratings.size();
+        center.setRate(avg);
+        centerRepository.save(center);
+    }
+
 }

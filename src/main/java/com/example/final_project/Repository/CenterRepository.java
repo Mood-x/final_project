@@ -10,5 +10,5 @@ import java.util.Optional;
 @Repository
 //Abdulaziz
 public interface CenterRepository extends JpaRepository<Center,Integer> {
-    Center findCenterById(Integer id);
+    Optional<Center> findCenterById(Integer id);
 }

@@ -19,7 +19,7 @@ public class Parent {
     @Id
     private Integer id;
 
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Child> children;
 
 //    @OneToMany(mappedBy = "parent")

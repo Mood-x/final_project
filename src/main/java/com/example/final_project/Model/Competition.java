@@ -43,7 +43,6 @@ public class Competition {
     private int maxAge;
 
     @NotEmpty(message = "Type of competition should be not null")
-    @Size(min = 4, max = 20, message = "Type length must be between 4 to 20 characters")
     @Column(columnDefinition = "varchar(20) not null")
     private String type;
 

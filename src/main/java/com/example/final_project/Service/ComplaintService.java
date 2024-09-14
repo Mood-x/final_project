@@ -1,10 +1,14 @@
 package com.example.final_project.Service;
 
+import com.example.final_project.API.ApiException;
 import com.example.final_project.Model.Complaint;
+import com.example.final_project.Model.User;
+import com.example.final_project.Model.Parent;
+import com.example.final_project.Repository.AuthRepository;
 import com.example.final_project.Repository.ComplaintRepository;
 import com.example.final_project.Repository.CenterRepository;
 import com.example.final_project.Repository.ParentReposotiry;
-import jakarta.validation.Valid;
+import com.example.final_project.Model.Center;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,18 +21,27 @@ public class ComplaintService {
     private final ComplaintRepository complaintRepository;
     private final ParentReposotiry parentRepository;
     private final CenterRepository centerRepository;
+    private  final AuthRepository authRepository;
 
-    public void addComplaint(@Valid Complaint complaint) {
-        // Check if the parent exists
-        if (!parentRepository.existsById(complaint.getParent().getId())) {
-            throw new RuntimeException("Parent not found");
+    public void addComplaint(Integer userId, Integer centerId, Complaint complaint) {
+        // Fetch the center using the provided centerId
+        Center center = centerRepository.findCenterById(centerId)
+                .orElseThrow(() -> new ApiException("User not found"));
+
+        // Throw an exception if the center doesn't exist
+        if (center == null) {
+            throw new ApiException("Center not found");
         }
 
-        // Check if the center exists
-        if (!centerRepository.existsById(complaint.getCenter().getId())) {
-            throw new RuntimeException("Center not found");
-        }
+        // Fetch the parent using the provided userId
+        Parent parent = parentRepository.findParentById(userId)
+                .orElseThrow(() -> new ApiException("User not found"));
 
+        // Set the center and parent in the complaint entity
+        complaint.setCenter(center);  // Set center reference
+        complaint.setParent(parent);  // Set parent reference
+
+        // Save the complaint
         complaintRepository.save(complaint);
     }
 
@@ -55,5 +68,25 @@ public class ComplaintService {
     public void deleteComplaint(Integer id) {
         Complaint existingComplaint = getComplaintById(id);
         complaintRepository.delete(existingComplaint);
+    }
+    public List<Complaint> getComplaintsByCenterId(Integer centerId) {
+        Center center = centerRepository.findCenterById(centerId).orElseThrow(() -> new ApiException("Center not found"));
+        return complaintRepository.findByCenterId(centerId);
+    }
+    public void replyToComplaint(Integer complaintId, String reply, Integer userId) {
+        User user = authRepository.findUserById(userId).orElseThrow(() -> new ApiException("User not found"));
+        Complaint complaint = complaintRepository.findById(complaintId)
+                .orElseThrow(() -> new ApiException("Complaint not found"));
+
+        // Set the reply
+        complaint.setReply(reply);
+
+        // Save the updated complaint
+        complaintRepository.save(complaint);
+    }
+    public List<Complaint> getComplaintsByUserId(Integer parentId) {
+        User user = authRepository.findUserById(parentId).orElseThrow(() -> new ApiException("User not found"));
+
+        return complaintRepository.findByParentId(parentId);
     }
 }

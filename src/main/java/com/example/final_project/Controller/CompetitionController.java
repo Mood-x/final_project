@@ -1,7 +1,6 @@
 package com.example.final_project.Controller;
 
 import com.example.final_project.API.ApiResponse;
-import com.example.final_project.Model.Child;
 import com.example.final_project.Model.Competition;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.CompetitionService;
@@ -17,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/competition")
 @RequiredArgsConstructor
 public class CompetitionController {
+    // [Mohammed]
     private final CompetitionService competitionService;
 
     @GetMapping("/get-all-competitions")
@@ -95,5 +95,4 @@ public class CompetitionController {
         competitionService.cancelChildParticipation(user.getId(), competitionId, childId);
         return ResponseEntity.ok(new ApiResponse("Participation request cancelled successfully"));
     }
-
 }

@@ -6,6 +6,7 @@ import com.example.final_project.Service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,9 +22,21 @@ public class AuthController {
         return ResponseEntity.ok(authService.getAllUsers());
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity<ApiResponse> register(@Valid @RequestBody User user){
-//        authService.register(user);
-//        return ResponseEntity.ok(new ApiResponse("User added successfully"));
-//    }
+    @PostMapping("/register")
+    public ResponseEntity<ApiResponse> register(@Valid @RequestBody User user){
+        authService.register(user);
+        return ResponseEntity.ok(new ApiResponse("User added successfully"));
+    }
+
+    @PostMapping("/request-account-deletion")
+    public ResponseEntity<ApiResponse> requestAccountDeletion(@AuthenticationPrincipal User user){
+        authService.requestAccountDeletion(user.getId());
+        return ResponseEntity.ok(new ApiResponse("Successfully request deletion account"));
+    }
+
+    @PostMapping("/cancel-request-account-deletion")
+    public ResponseEntity<ApiResponse> cancelAccountDeletion(@AuthenticationPrincipal User user){
+        authService.cancelAccountDeletion(user.getId());
+        return ResponseEntity.ok(new ApiResponse("Successfully cancelled deletion account request"));
+    }
 }

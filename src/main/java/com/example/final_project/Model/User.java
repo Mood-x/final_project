@@ -54,8 +54,8 @@ public class User implements UserDetails {
     @Column(columnDefinition = "enum('ADMIN', 'PARENT', 'CENTER') not null")
     private String role;
 
-    private boolean isPendingDeletion = false;
-    private LocalDateTime deletionRequestDate;
+    private boolean isAccountDeletionRequested = false;
+    private LocalDateTime accountDeletionRequestDate;
 
     @CreationTimestamp
     @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
@@ -103,30 +103,3 @@ public class User implements UserDetails {
         return true;
     }
 }
-
-
-
-
-
-
-
-//
-//@Override
-//public boolean isAccountNonExpired() {
-//    return UserDetails.super.isAccountNonExpired();
-//}
-//
-//@Override
-//public boolean isAccountNonLocked() {
-//    return UserDetails.super.isAccountNonLocked();
-//}
-//
-//@Override
-//public boolean isCredentialsNonExpired() {
-//    return UserDetails.super.isCredentialsNonExpired();
-//}
-//
-//@Override
-//public boolean isEnabled() {
-//    return UserDetails.super.isEnabled();
-//}

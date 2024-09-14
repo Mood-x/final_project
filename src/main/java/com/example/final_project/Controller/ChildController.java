@@ -4,6 +4,7 @@ import com.example.final_project.Model.Child;
 import com.example.final_project.Model.Program;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.ChildService;
+import com.example.final_project.Service.CompetitionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChildController {
     private final ChildService childService;
+    private final CompetitionService competitionService;
 
     // Get all children
     @GetMapping("/get-all")

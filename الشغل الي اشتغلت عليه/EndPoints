@@ -8,11 +8,10 @@
 + like center [yara-Done]
 
 ======= Admin =======
-+ Approved center [mood-Done]
++ Approved center [mood-Done]----
++ Reject center [mood-Done]----
 + Delete Account Request [mood - parent - center] -----> request to delete my account
-+ Reject center [mood-Done]
 + create certifications [mood]
-- Get center by id [mood-Done]
 - Get all center [azoz-Done]
 - Delete Parent [yara-Done]
 - Delete Center [azoz-Done]
@@ -28,19 +27,20 @@
 + Add program [azoz-Done]
 + Get all center programs [azoz-Done]
 + change program status [azoz-Done]
-+ Remove all closed programs [azoz]
-+ Get total price of all programs [azoz]
-+ Get total price of one program [azoz]
-+ Get total members of programs [azoz]
++ Remove all closed programs [azoz-Done]
++ Get total price of all programs [azoz-Done]
++ Get total price of one program [azoz-Done]
++ Get total members of programs [azoz-done]
++ Get total number of member in each program [azoz-Done]
 + Get total number of programs [azoz]
-+ Get all my programs [azoz]
-+ search active program [azoz]
++ Get all my programs [azoz-Done]
++ search active program [azoz-Done]
 + search program by type [yara]
 + search program by title [yara- Done]
-+ search program by range age [azoz]
-+ search program by date [azoz]
-+ expand program [azoz]
-- update program[azoz]
++ search program by range age [azoz - Done]
++ search program by date [azoz - Done] //!!
++ expand program [azoz-Done]
+- update program[azoz-Done]
 - delete program[azoz-Done]
 
 ======== Child =========
@@ -52,56 +52,66 @@
 - Delete Child [yara-Done]
 
 ======== child progress =========
-+ Add child progress
-+ Get my child progress []
-+ add/edit progress to child []
-- Get all programs []
++ Add child progress [mood]
++ Get my child progress [mood]
++ add/edit progress to child [mood]
+- Get all programs [mood]
 
 
 ======== Notification =========
-+ Add notification [mood-Done]
-+ Mark all notifications isRead [mood-Done]
-+ Read notification [mood-Done]
 + Get All my notifications [mood-Done]
-+ Delete all my notifications [mood-Done]
++ Create notification [mood-Done]
 + Delete my notification [mood-Done]
++ Delete all my notifications [mood-Done]
++ Read notification [mood-Done]
++ Mark all notifications isRead [mood-Done]
++ Get All Notifications is not reading [mood-Done]
 
 ======== Comment =========
-+ Add comment [yara]
-+ Get all comments [yara]
-+ delete my comment [yara]
++ Add comment [yara - Done]
++ Get all comments [yara - Done]
++ delete my comment [yara - Done]
 
 ======== Complaint =========
 
-+ Add complaint [yara]
-+ replay complaint [azoz]
-+ Get received Complaint [azoz]
++ Add complaint [yara -Done]
++ replay complaint [yara - Done]
++ Get received Complaint [yara - Done]
++ Get all complaint for center [ yara- Done ]
++ Get All compalint for parent [yara - Done]
 
 ======== Competition =========
-+ search competition by range age [mood-Done]
-+ search competition by name [mood-Done]
-+ search competition by date [mood-Done]
-+ search competition by type [mood-Done]
-+ Add competition [mood-Done]
-+ Get child competitions [mood-Done]
-+ cancel competition from child [mood]
-+ Add competition to child [mood-Done]
-- Get all competition [mood-Done]
++ Get child competitions [mood-Done]----
++ search competition by name [mood-Done]----
++ search competition by range age [mood-Done]----
++ search competition by date [mood-Done]----
++ search competition by type [mood-Done]----
++ Participation request [mood-Done]----
++ Approved participation request [mood-Done]----
++ Rejected participation request [mood-Done]----
++ cancel child participation [mood-Done]----
+- Add competition [mood-Done]----
+- Get all competition [mood-Done]----
+- Get competition by id [mood-Done]----
+- Update competition [mood-Done]----
+- Delete competition [mood-Done]----
 
 ======== Rating =========
-+ add rating [azoz]
++ add rating [azoz - Done]
 
 ======== Advertisement =========
-+ add advertisement [azoz]
-+ Get my advertisement [azoz]
-+ Reject advertisement [azoz]
-+ Delete all rejected advertisement [azoz]
-+ Approved advertisement [azoz]
++ add advertisement [azoz - Done]
+- Get all advertisement [azoz - Done]
++ Get my advertisement [azoz - Done]
++ Reject advertisement [azoz - Done]
++ Delete all rejected advertisement [azoz - Done]
++ Approved advertisement [azoz - Done]
 
 
 + ======== New Letter =======
-+ subscription to email newsletter [yara]
-+ cancel subscription email newsletter [yara]
++ subscription to email newsletter [yara - Done]
++ cancel subscription email newsletter [yara- Done]
++ get all subscribers [ yara - Done]
 
 + ======= Subscription =======
 + ======= Certifications ======
@@ -135,3 +145,6 @@
 
 "/api/v1/competition/get-all-competitions-for-child/{childId}"
 =======================================================================
+mood - 23
+yara - 23
+mood - 23

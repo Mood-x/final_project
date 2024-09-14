@@ -2,17 +2,13 @@ package com.example.final_project.Controller;
 
 import com.example.final_project.API.ApiResponse;
 import com.example.final_project.DTO.CenterDTO;
-import com.example.final_project.Model.Program;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.CenterService;
-import com.example.final_project.Service.NotificationService;
-import com.example.final_project.Service.ProgramService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +16,6 @@ import java.util.List;
 public class CenterController {
 
     private final CenterService centerService;
-    private final ProgramService programService;
 
     @GetMapping("/get-all-centers")
     public ResponseEntity getAllCenters(@AuthenticationPrincipal User user){
@@ -45,44 +40,39 @@ public class CenterController {
         return ResponseEntity.status(200).body("Center deleted successfully");
     }
 
-    @PostMapping("add-program")
-    public ResponseEntity appProgram(@AuthenticationPrincipal User user, @RequestBody @Valid Program program){
-        programService.addProgram(user.getCenter(),program);
-        return ResponseEntity.status(200).body("Program added successfully");
-    }
-
-    @GetMapping("get-my-programs")
-    public ResponseEntity getMyPrograms(@AuthenticationPrincipal User user){
-        return ResponseEntity.status(200).body(programService.getAllPrograms(user.getCenter()));
-    }
-
-    @GetMapping("Center-Account")
+    @GetMapping("/Center-Account")
     public ResponseEntity showMyCenterAccount(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.showMyCenterAccount(user.getId()));
     }
 
-
-    @PutMapping("change-password/{oldpassword}/{newpassword}")
+    @PutMapping("/change-password/{oldpassword}/{newpassword}")
     public ResponseEntity changePassword( @AuthenticationPrincipal User user,@PathVariable String oldpassword, @PathVariable String newpassword){
         centerService.changePassword(user.getId(),oldpassword,newpassword);
         return ResponseEntity.status(200).body("Password changed successfully");
     }
-    // Endpoint to search programs by title
-    @GetMapping("/search")
-    public ResponseEntity<List<Program>> searchProgramsByTitle(@RequestParam String title) {
-        List<Program> programs = programService.searchProgramsByTitle(title);
-        return ResponseEntity.ok(programs);
+
+
+    @GetMapping("/display-total-center-financial-returns")
+    public ResponseEntity displayCenterFinancialReturn(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(centerService.displayCenterFinancialReturns(user.getId()));
     }
 
+    // [ Mohammed ] +[End-Point]
     @PutMapping("/approve-center-registration/{centerId}")
     public ResponseEntity<ApiResponse> approveCenterRegistration(@PathVariable Integer centerId) {
         centerService.approveCenterRegistration(centerId);
         return ResponseEntity.ok(new ApiResponse("Notification approved successfully"));
     }
 
+    // [ Mohammed ] +[End-Point]
     @PutMapping("/reject-center-registration/{centerId}/{rejectionReason}")
     public ResponseEntity<ApiResponse> rejectCenterRegistration(@PathVariable Integer centerId, @PathVariable String rejectionReason) {
         centerService.rejectCenterRegistration(centerId, rejectionReason);
         return ResponseEntity.ok(new ApiResponse("Notification rejected successfully"));
+    }
+
+    @GetMapping("/display-total-number-of-joind-childrens")
+    public ResponseEntity displayTotalNumberOfJoindChildren(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(centerService.displayCenterNumberOfChild(user.getId()));
     }
 }

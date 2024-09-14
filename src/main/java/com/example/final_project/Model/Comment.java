@@ -8,8 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -22,25 +24,23 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "Parent ID cannot be null")
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "parent_id", nullable = false)
-    private Parent parent; // Reference to Parent
-
-    @NotNull(message = "Center ID cannot be null")
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "center_id", nullable = false)
-    private Center center; // Reference to Center
-
     @NotBlank(message = "Content cannot be blank")
     @Column(nullable = false)
     private String content;
 
-    @NotNull(message = "Creation date cannot be null")
-    @Column(name = "created_at", nullable = false)
-    private Date createdAt; // Creation date
+    @CreationTimestamp
+    @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id", nullable = false)
+    @JsonIgnore
+    private Parent parent; // Reference to Parent
+
+    @ManyToOne
+    @JoinColumn(name = "center_id", nullable = false)
+    @JsonIgnore
+    private Center center; // Reference to Center
 }
 
 

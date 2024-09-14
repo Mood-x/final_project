@@ -46,10 +46,18 @@ public class Program {
     @Column(columnDefinition = "int not null")
     private int capacity;
 
-    @NotNull(message = "age should not be empty!")
-    @Positive(message = "age should be positive number!")
+    @NotNull(message = "Max age should not be empty!")
+    @Positive(message = "Max age should be positive number!")
     @Column(columnDefinition = "int not null")
-    private int age;
+    private int maxAge;
+
+    // +
+    private Integer totalSessions;
+
+    @NotNull(message = "Max age should not be empty!")
+    @Positive(message = "Max age should be positive number!")
+    @Column(columnDefinition = "int not null")
+    private int minAge;
 
     @NotEmpty(message = "Address cannot be Empty!")
     @Size(min = 2,max = 40,message = "Address length must be more than '4' and less than '40'!")
@@ -60,8 +68,16 @@ public class Program {
     @Column(columnDefinition = "varchar(15)")
     private String status = "open";
 
+    @NotNull(message = "duration should not be empty!")
+    @Positive(message = "duration should be positive number!")
+    @Column(columnDefinition = "int not null")
+    private int durationByWeeks;
+
     @Column(columnDefinition = "double")
     private double programFinancialReturn=0;
+
+    @Column(columnDefinition = "int")
+    private int numOfChildrensInTheProgram=0;
 
     @NotNull(message = "StartDate should be not empty!")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -80,7 +96,11 @@ public class Program {
     @JsonIgnore
     private Center center;
 
-@ManyToMany
-@JsonIgnore
+    @ManyToMany
+    @JsonIgnore
     private Set<Child>child;
+
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
+    private Set<ChildProgress> progresses;
+
 }

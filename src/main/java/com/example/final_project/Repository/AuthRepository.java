@@ -3,6 +3,9 @@ package com.example.final_project.Repository;
 import com.example.final_project.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import java.util.Optional;
@@ -13,4 +16,6 @@ public interface AuthRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUsername(String username);
 //    List<User> findAllByPendingDeletionTrue();
     List<User> findUserByRole(String role);
+    List<User> findAllByIsAccountDeletionRequestedAndAccountDeletionRequestDateBefore(boolean isAccountDeletionRequested, LocalDateTime dateTime);
+
 }

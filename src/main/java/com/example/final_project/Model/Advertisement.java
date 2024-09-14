@@ -1,6 +1,7 @@
 package com.example.final_project.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,27 @@ public class Advertisement {
 
     @NotNull(message = "Days duration should not be empty!")
     @Positive(message = "days duration should be positive")
-    //@Max()
+    @Max(value = 10,message = "Maximum days duration is '10'!")
     private int daysDuration;
+
+    @Column(columnDefinition = "double")
+    private double price =0;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "enum('APPROVED', 'IN_PROGRESS', 'REJECTED') not null default 'IN_PROGRESS'")
+    private Center.Status status = Center.Status.IN_PROGRESS;   // +
+
+    public enum Status{
+        APPROVED,
+        IN_PROGRESS,
+        REJECTED
+    }
+
+    // ========= relations =====
+    @ManyToOne
+    @JsonIgnore
+    private Center center;
+
+
 }

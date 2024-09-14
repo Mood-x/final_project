@@ -1,14 +1,8 @@
 package com.example.final_project.Service;
 
 import com.example.final_project.API.ApiException;
-import com.example.final_project.Model.Child;
-import com.example.final_project.Model.Parent;
-import com.example.final_project.Model.Program;
-import com.example.final_project.Model.User;
-import com.example.final_project.Repository.AuthRepository;
-import com.example.final_project.Repository.ChildRepository;
-import com.example.final_project.Repository.ParentReposotiry;
-import com.example.final_project.Repository.ProgramRepository;
+import com.example.final_project.Model.*;
+import com.example.final_project.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -22,6 +16,7 @@ public class ChildService {
     private final AuthRepository authRepository;
     private final ParentReposotiry parentReposotiry;
     private final ProgramRepository programRepository;
+    private final CenterRepository centerRepository;
 
     public List<Child> getAllChildren() {
         return childRepository.findAll();
@@ -96,6 +91,8 @@ public class ChildService {
 
         parentReposotiry.delete(parent);
     }
+
+    // Yara | Abdulaziz
     // Method to add a child to a program
     public void addChildToProgram(Integer userId, Integer childId, Integer programId) {
         // Check if user exists
@@ -131,6 +128,27 @@ public class ChildService {
 
         // Save the child with the updated programs
         childRepository.save(child);
+
+
+        //add program price to program financial returns
+        program.setProgramFinancialReturn(program.getPrice() + program.getProgramFinancialReturn());
+
+
+        //add total program financial return To total program financial return
+        Center center = centerRepository.findCenterById(program.getCenter()
+                .getId()).orElseThrow(() -> new RuntimeException("Center not found with ID: " + program.getCenter().getId()));
+
+        center.setCenterFinancialReturns(program.getProgramFinancialReturn()+program.getCenter().getCenterFinancialReturns());
+
+        //increase Children in the Children counter
+        program.setNumOfChildrensInTheProgram(program.getNumOfChildrensInTheProgram()+1);
+
+
+        //add total programs children's
+        center.setNumOfChildrensInTheCenter(program.getNumOfChildrensInTheProgram()+program.getCenter().getNumOfChildrensInTheCenter());
+
+        programRepository.save(program);
+        centerRepository.save(center);
     }
     // Method to get all programs for a parent's children
     public List<Program> getAllProgramsForParent(Integer userId) {
