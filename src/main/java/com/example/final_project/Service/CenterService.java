@@ -59,7 +59,7 @@ public class CenterService {
         centerRepository.save(center);
 
 
-        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
 
         notificationService.createNotification(
                 center.getUser(),
@@ -140,7 +140,7 @@ public class CenterService {
         center.setStatus(Center.Status.APPROVED);
         centerRepository.save(center);
 
-        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
 
         notificationService.createNotification(
                 admin,

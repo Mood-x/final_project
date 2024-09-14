@@ -37,15 +37,15 @@ public class NotificationController {
         return ResponseEntity.ok(new ApiResponse("Notification added successfully"));
     }
 
-    @PutMapping("/update-notification")
-    public ResponseEntity<ApiResponse> updateNotification(@AuthenticationPrincipal User user, @RequestParam Integer id,  @Valid @RequestBody Notification notification){
-        notificationService.updateNotification(user.getId(), id, notification);
+    @PutMapping("/update-notification/{notificationId}")
+    public ResponseEntity<ApiResponse> updateNotification(@AuthenticationPrincipal User user, @PathVariable Integer notificationId,  @Valid @RequestBody Notification notification){
+        notificationService.updateNotification(user.getId(), notificationId, notification);
         return ResponseEntity.ok(new ApiResponse("Notification updated successfully"));
     }
 
     // +[End-Point]
     @DeleteMapping("/delete-notification")
-    public ResponseEntity<ApiResponse> deleteNotification(@AuthenticationPrincipal User user, @RequestParam Integer id){
+    public ResponseEntity<ApiResponse> deleteNotification(@AuthenticationPrincipal User user, @PathVariable Integer id){
         notificationService.deleteNotification(user.getId(), id);
         return ResponseEntity.ok(new ApiResponse("Notification deleted successfully"));
     }
@@ -57,7 +57,15 @@ public class NotificationController {
         return ResponseEntity.ok(new ApiResponse("All notifications deleted successfully"));
     }
 
+    // +[End-Point]
+    @DeleteMapping("/delete-all-my-notifications-is-read")
+    public ResponseEntity<ApiResponse> deleteAllMyNotificationsIsRead(@AuthenticationPrincipal User user){
+        notificationService.deleteAllMyNotificationsIsRead(user.getId());
+        return ResponseEntity.ok(new ApiResponse("All notifications deleted successfully"));
+    }
 
+
+    // +[End-Point]
     @PutMapping("/read-notification/{notificationId}")
     public ResponseEntity<ApiResponse> readNotification(@AuthenticationPrincipal User user, @PathVariable Integer notificationId){
         notificationService.readNotification(user.getId(), notificationId);
@@ -72,7 +80,7 @@ public class NotificationController {
     }
 
     // +[End-Point]
-    @GetMapping("/get-all-notifications-is-not-reading")
+    @GetMapping("/get-all-notifications-is-not-read")
     public ResponseEntity<List<Notification>> getAllNotificationsIsNotReading(@AuthenticationPrincipal User user){
         return ResponseEntity.ok(notificationService.getAllNotificationsIsNotReading(user.getId()));
     }

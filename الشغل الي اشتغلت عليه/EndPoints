@@ -10,7 +10,8 @@
 ======= Admin =======
 + Approved center [mood-Done]----
 + Reject center [mood-Done]----
-+ Delete Account Request [mood - parent - center] -----> request to delete my account
++ Request Deletion Account [mood - parent - center-Done]
++ Cancel Deletion Account [mood - parent - center-Done]
 + create certifications [mood]
 - Get all center [azoz-Done]
 - Delete Parent [yara-Done]
@@ -63,6 +64,7 @@
 + Create notification [mood-Done]
 + Delete my notification [mood-Done]
 + Delete all my notifications [mood-Done]
++ Delete all my notifications is read [mood-Done]
 + Read notification [mood-Done]
 + Mark all notifications isRead [mood-Done]
 + Get All Notifications is not reading [mood-Done]

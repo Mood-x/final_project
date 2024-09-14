@@ -83,6 +83,16 @@ public class NotificationService {
     }
 
     // +[End-Point]
+    public void deleteAllMyNotificationsIsRead(Integer authId) {
+        User user = authRepository.findUserById(authId).orElseThrow(() -> new ApiException("User not found"));
+        if(!user.getId().equals(authId)){
+            throw new ApiException("Sorry you don't have permission to delete all notifications");
+        }
+        List<Notification> notifications = notificationRepository.findAllByUserAndIsReadTrue(user).orElseThrow(() -> new ApiException("Not found notifications"));
+        notificationRepository.deleteAll(notifications);
+    }
+
+    // +[End-Point]
     public void readNotification(Integer authId, Integer id) {
         User user = authRepository.findUserById(authId).orElseThrow(() -> new ApiException("User not found"));
         if(!user.getId().equals(authId)){

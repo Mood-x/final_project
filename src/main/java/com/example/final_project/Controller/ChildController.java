@@ -54,6 +54,7 @@ public class ChildController {
         childService.addChildToProgram(user.getId(), childId, programId);
         return ResponseEntity.status(200).body("Child successfully applied to the program.");
     }
+
     // Endpoint to get all programs associated with a parent's children
     @GetMapping("/my-programs")
     public ResponseEntity<List<Program>> getAllProgramsForParent(@AuthenticationPrincipal User user) {

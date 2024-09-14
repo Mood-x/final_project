@@ -133,7 +133,11 @@ public class ChildService {
 
 
         //add program price to program financial returns
-        program.setProgramFinancialReturn(program.getPrice() + program.getProgramFinancialReturn());
+        //namaa share from each child register to programs
+        double namaaShare = program.getPrice() * 0.15;
+
+        program.setProgramFinancialReturn(
+                (program.getPrice() - namaaShare) + program.getProgramFinancialReturn());
 
 
         //add total program financial return To total program financial return

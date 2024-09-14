@@ -28,7 +28,7 @@ public class AuthController {
         return ResponseEntity.ok(new ApiResponse("User added successfully"));
     }
 
-    @PostMapping("/request-account-deletion")
+    @DeleteMapping("/request-account-deletion")
     public ResponseEntity<ApiResponse> requestAccountDeletion(@AuthenticationPrincipal User user){
         authService.requestAccountDeletion(user.getId());
         return ResponseEntity.ok(new ApiResponse("Successfully request deletion account"));

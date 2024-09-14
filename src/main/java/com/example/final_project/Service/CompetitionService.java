@@ -97,7 +97,7 @@ public class CompetitionService {
         // بنضيف موضوع الشهاده
         // اي شروط اضافيه
 
-        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
 
         Notification notification = new Notification();
         notification.setSender(parent.getUser());
@@ -116,7 +116,7 @@ public class CompetitionService {
         Competition competition = getCompetitionById(competitionId);
         Parent parent = parentReposotiry.findParentById(parentId).orElseThrow(() -> new ApiException("Parent not found"));
         Child child = childRepository.findChildById(childId).orElseThrow(() -> new ApiException("Child not found"));
-        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
 
         competition.getParticipants().add(child);
         competitionRepository.save(competition);
@@ -135,7 +135,7 @@ public class CompetitionService {
         Competition competition = getCompetitionById(competitionId);
         Parent parent = parentReposotiry.findParentById(parentId).orElseThrow(() -> new ApiException("Parent not found"));
         Child child = childRepository.findChildById(childId).orElseThrow(() -> new ApiException("Child not found"));
-        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
 
         notificationService.createNotification(
                 admin,

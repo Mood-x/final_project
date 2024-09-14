@@ -30,11 +30,11 @@ public class AuthService {
         authRepository.save(user);
     }
 
-    public void requestAccountDeletion(Integer userId){
-        User user = authRepository.findUserById(userId)
+    public void requestAccountDeletion(Integer authId){
+        User user = authRepository.findUserById(authId)
                 .orElseThrow(() -> new ApiException("User not found"));
 
-        if(!user.getId().equals(userId)){
+        if(!user.getId().equals(authId)){
             throw new ApiException("You don't have permission to delete this account");
         }
 
@@ -42,7 +42,7 @@ public class AuthService {
         user.setAccountDeletionRequestDate(LocalDateTime.now());
         authRepository.save(user);
 
-        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
         notificationService.createNotification(
                 admin,
                 user,
@@ -58,7 +58,7 @@ public class AuthService {
         user.setAccountDeletionRequestDate(null);
         authRepository.save(user);
 
-        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
         notificationService.createNotification(
                 admin,
                 user,
@@ -73,7 +73,7 @@ public class AuthService {
         LocalDateTime now = LocalDateTime.now();
         List<User> usersToDelete = authRepository.findAllByIsAccountDeletionRequestedAndAccountDeletionRequestDateBefore(true, now);
         for(User user : usersToDelete){
-            if(user.getAccountDeletionRequestDate().plusMinutes(10).isBefore(now)){
+            if(user.getAccountDeletionRequestDate().plusMinutes(1).isBefore(now)){
                 authRepository.delete(user);
             }
         }
