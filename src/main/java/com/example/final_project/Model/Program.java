@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 import java.util.Set;
 
 import java.util.Date;
@@ -82,12 +84,12 @@ public class Program {
     @NotNull(message = "StartDate should be not empty!")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(columnDefinition = "date not null")
-    private Date startDate;
+    private LocalDate startDate;
 
     @NotNull(message = "EndDate should be not empty!")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(columnDefinition = "date not null")
-    private Date endDate;
+    private LocalDate endDate;
 
 
     //====================== Relations ======================

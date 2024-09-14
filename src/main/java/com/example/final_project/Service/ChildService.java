@@ -5,6 +5,8 @@ import com.example.final_project.Model.*;
 import com.example.final_project.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.*;
 
 import java.util.List;
@@ -143,11 +145,11 @@ public class ChildService {
         //increase Children in the Children counter
         program.setNumOfChildrensInTheProgram(program.getNumOfChildrensInTheProgram()+1);
 
+        programRepository.save(program);
 
         //add total programs children's
         center.setNumOfChildrensInTheCenter(program.getNumOfChildrensInTheProgram()+program.getCenter().getNumOfChildrensInTheCenter());
 
-        programRepository.save(program);
         centerRepository.save(center);
     }
     // Method to get all programs for a parent's children
@@ -188,14 +190,14 @@ public class ChildService {
         }
 
         // Get current date and program's start date
-        Date currentDate = new Date();
-        Date programStartDate = program.getStartDate();
+        LocalDate currentDate = LocalDate.now();
+        LocalDate programStartDate = program.getStartDate();
 
         double refundAmount = 0.0;
         double programPrice = program.getPrice();
 
         // Check if the program has started or not
-        if (currentDate.before(programStartDate)) {
+        if (currentDate.isBefore(programStartDate)) {
             // Before start date: 100% refund
             refundAmount = programPrice;
         } else {
@@ -203,11 +205,27 @@ public class ChildService {
             refundAmount = programPrice * 0.30;
         }
 
+        //update program financial returns
+        program.setProgramFinancialReturn(program.getProgramFinancialReturn()-programPrice);
+
+        //update number of child in the program
+        program.setNumOfChildrensInTheProgram(program.getNumOfChildrensInTheProgram()-1);
+
+        //update total center financial returns
+        program.getCenter().setCenterFinancialReturns(program.getCenter().getCenterFinancialReturns() - programPrice);
+
+        //update number of child in the center
+        program.getCenter().setNumOfChildrensInTheCenter(program.getCenter().getNumOfChildrensInTheCenter() - 1);
+
+        centerRepository.save(program.getCenter());
+
         // Remove the program from the child's enrolled programs
         child.getPrograms().remove(program);
         childRepository.save(child);
 
         // Return a message including refund amount
-        return "Program cancelled. Refund: SR" + refundAmount;
+        return "Program cancelled. Refund: SR " + refundAmount;
+
+
     }
 }

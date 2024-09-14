@@ -192,4 +192,11 @@ public class CenterService {
         centerRepository.save(center);
     }
 
+    public String getTotalNumberOfCenterPrograms(Integer centerId){
+        Center center = centerRepository.findCenterById(centerId)
+                .orElseThrow(()-> new ApiException("Center Not Found"));
+        int total = center.getProgram().size();
+        return "Total Number Of Center Programs: " + total + ".";
+    }
+
 }

@@ -112,7 +112,7 @@ public class NotificationService {
         if(!user.getId().equals(authId)){
             throw new ApiException("Sorry you don't have permission to get this notifications");
         }
-        List<Notification> notifications = notificationRepository.findByIsReadFalse().orElseThrow(() -> new ApiException("Not found notifications"));
+        List<Notification> notifications = notificationRepository.findAllByUserAndIsReadFalse(user).orElseThrow(() -> new ApiException("Not found notifications"));
         return notifications;
     }
 }

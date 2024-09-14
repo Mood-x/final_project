@@ -25,8 +25,8 @@ public class NotificationController {
         return ResponseEntity.ok(notificationService.getAllMyNotifications(user.getId()));
     }
 
-    @GetMapping("/get-notification-by-id")
-    public ResponseEntity<Notification> getNotificationById(@AuthenticationPrincipal User user, Integer notification_id) {
+    @GetMapping("/get-notification-by-id/{notification_id}")
+    public ResponseEntity<Notification> getNotificationById(@AuthenticationPrincipal User user, @PathVariable  Integer notification_id) {
         return ResponseEntity.ok(notificationService.getNotificationById(user.getId(), notification_id));
     }
 
@@ -58,9 +58,9 @@ public class NotificationController {
     }
 
 
-    @PutMapping("/read-notification")
-    public ResponseEntity<ApiResponse> readNotification(@AuthenticationPrincipal User user, @RequestParam Integer id){
-        notificationService.readNotification(user.getId(), id);
+    @PutMapping("/read-notification/{notificationId}")
+    public ResponseEntity<ApiResponse> readNotification(@AuthenticationPrincipal User user, @PathVariable Integer notificationId){
+        notificationService.readNotification(user.getId(), notificationId);
         return ResponseEntity.ok(new ApiResponse("Notification read successfully"));
     }
 

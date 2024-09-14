@@ -75,4 +75,9 @@ public class CenterController {
     public ResponseEntity displayTotalNumberOfJoindChildren(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.displayCenterNumberOfChild(user.getId()));
     }
+
+    @GetMapping("/display-total-number-center-program")
+    public ResponseEntity displayTotalNumberOfCenterProgram(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(centerService.getTotalNumberOfCenterPrograms(user.getId()));
+    }
 }

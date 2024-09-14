@@ -11,6 +11,7 @@ import com.example.final_project.Repository.ProgramRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -182,7 +183,11 @@ public class ProgramService {
             throw new ApiException("Center not match with entered program");
         }
 
-        return "Total Financial Return of program: "+program.getTitle() +" is: "+program.getNumOfChildrensInTheProgram();
+        return "Number of children's of program: "+program.getTitle() +" is: "+program.getNumOfChildrensInTheProgram();
 
+    }
+
+    public List<Program> displayProgramsByDateRange(LocalDate startDate, LocalDate endDate){
+        return programRepository.findAllProgramsByDateBetween(startDate, endDate).orElseThrow(() -> new ApiException("Not found competitions between this date"));
     }
 }

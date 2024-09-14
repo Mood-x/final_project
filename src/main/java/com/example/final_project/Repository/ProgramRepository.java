@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,4 +27,6 @@ public interface ProgramRepository extends JpaRepository<Program, Integer> {
     @Query("SELECT p FROM Program p WHERE p.minAge >= :ageFrom AND p.maxAge <= :ageTo")
     Optional<List<Program>> findProgramByAgeRange(@Param("ageFrom") Integer ageFrom, @Param("ageTo") Integer ageTo);
 
+    @Query("SELECT p FROM Program p where p.startDate BETWEEN :start AND :end")
+    Optional<List<Program>> findAllProgramsByDateBetween(LocalDate start, LocalDate end);
 }

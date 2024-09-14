@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -93,5 +94,8 @@ public class ProgramController {
         return ResponseEntity.status(200).body(programService.displayChildrenNumbers(user.getId(), programid));
     }
 
-
+    @GetMapping("/display-programs-by-date/{startDate}/{endDate}")
+    public ResponseEntity displayProgramsByDates(@PathVariable LocalDate startDate, @PathVariable LocalDate endDate){
+        return ResponseEntity.status(200).body(programService.displayProgramsByDateRange(startDate,endDate));
+    }
 }

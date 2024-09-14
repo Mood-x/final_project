@@ -47,7 +47,8 @@ public class SecurityConfig {
                         "/api/v1/program/get-program-by/min-age/**",
                         "/api/v1/newsletter/subscribe",
                         "/api/v1/newsletter/unsubscribe",
-                        "/api/v1/advertisement/display-all-adverts").permitAll()
+                        "/api/v1/advertisement/display-all-adverts",
+                        "/api/v1/program/display-programs-by-date/**").permitAll()
 
                 .requestMatchers(
                         "/api/v1/parent/update",
@@ -87,7 +88,9 @@ public class SecurityConfig {
                         "/api/v1/center/display-total-number-of-joind-childrens",
                         "/api/v1/advertisement/add-advert",
                         "/api/v1/advertisement/get-my-adverts",
-                        "/api/v1/complaint/center").hasAuthority("CENTER") // CENTER
+                        "/api/v1/complaint/center",
+                        "/api/v1/center/display-total-number-center-program").hasAuthority("CENTER") // CENTER
+
 
                 .requestMatchers(
                         "/api/v1/user/get-all-users",
