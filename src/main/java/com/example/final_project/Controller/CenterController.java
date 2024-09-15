@@ -4,17 +4,21 @@ import com.example.final_project.API.ApiResponse;
 import com.example.final_project.DTO.CenterDTO;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.CenterService;
+import com.example.final_project.Service.ProgramService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/center")
 public class CenterController {
 
+    private final ProgramService programService;
     private final CenterService centerService;
 
     @GetMapping("/get-all-centers")
@@ -79,5 +83,11 @@ public class CenterController {
     public ResponseEntity<ApiResponse> rejectCenterRegistration(@PathVariable Integer centerId, @PathVariable String rejectionReason) {
         centerService.rejectCenterRegistration(centerId, rejectionReason);
         return ResponseEntity.ok(new ApiResponse("Notification rejected successfully"));
+    }
+
+    @PutMapping("/expand-program/{programid}/{enddate}")
+    public ResponseEntity expandProgram(@AuthenticationPrincipal User user,@PathVariable Integer programid, @PathVariable LocalDate enddate){
+        programService.expandProgram(user.getId(),programid,enddate);
+        return ResponseEntity.status(200).body("program expand successfully");
     }
 }

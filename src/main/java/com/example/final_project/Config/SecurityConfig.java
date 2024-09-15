@@ -39,10 +39,9 @@ public class SecurityConfig {
                         "/api/v1/parent/register", // حذف
                         "/api/v1/competition/get-competition-by-name**",
                         "/api/v1/competition/get-all-competitions",
-                        "/api/v1/center/search",
                         "/api/v1/program/displayChosedCenterPrograms/**",
                         "/api/v1/program/get-programs",
-                        "api/v1/program/search",
+                        "/api/v1/program/search",
                         "/api/v1/program/display-open-programs",
                         "/api/v1/program/get-program-by/min-age/**",
                         "/api/v1/newsletter/subscribe",
@@ -59,7 +58,6 @@ public class SecurityConfig {
                         "/api/v1/notification/read-notification/{notificationId}",
                         "/api/v1/notification/read-all-notifications",
                         "/api/v1/notification/get-all-notifications-is-not-read",
-                        "/api/v1/competition/get-all-competitions",
                         "/api/v1/competition/get-competition-by-id/{competitionId}",
                         "/api/v1/competition/search-by-date/{startDate}/{endDate}",
                         "/api/v1/competition/search-competition-by-name/{name}",
@@ -79,8 +77,8 @@ public class SecurityConfig {
                         "/api/v1/parent/my-account",
                         "/api/v1/parent/my-children",
                         "/api/v1/parent/like-center/**",
-                        "/api/v1/parent/liked-centers"
-                        ,"api/v1/notification/request-participation-in-competition/**",
+                        "/api/v1/parent/liked-centers",
+                        "/api/v1/notification/request-participation-in-competition/**",
                         "/api/v1/child/{childId}/program/{programId}/apply",
                         "/api/v1/child/my-programs",
                         "/api/v1/child/{childId}/cancel-program/{programId}",
@@ -91,7 +89,8 @@ public class SecurityConfig {
                         "/api/v1/competition/participation-request/{competitionId}/{childId}",
                         "/api/v1/competition/cancel-child-participation/{competitionId}/{childId}",
                         "/api/v1/progress/get-all-child-progress",
-                        "/api/v1/progress/get-all-child-progress-by-child-id/{childId}"
+                        "/api/v1/progress/get-all-child-progress-by-child-id/{childId}",
+                        "/api/v1/certificate/get-my-certificate/**"
                 ).hasAuthority("PARENT") // PARENT
 
                 .requestMatchers(
@@ -116,7 +115,9 @@ public class SecurityConfig {
                         "/api/v1/complaint/center",
                         "/api/v1/center/display-total-number-center-program",
                         "/api/v1/progress/modify-child-progress/{progressId}",
-                        "/api/v1/progress/delete-child-progress/{progressId}"
+                        "/api/v1/progress/delete-child-progress/{progressId}",
+                        "/api/v1/center/expand-program/**",
+                        "/api/v1/certificate/issue/**"
                         ).hasAuthority("CENTER") // CENTER
 
 
@@ -126,18 +127,15 @@ public class SecurityConfig {
                         "/api/v1/parent/delete/{id}",
                         "/api/v1/center/delete-center/{centerid}",
                         "/api/v1/center/get-all-centers",
-                        "/api/v1/competition/get-competition-by-id**",
-                        "/api/v1/competition/add-competition",
-                        "/api/v1/competition/update-competition**",
-                        "/api/v1/competition/delete-competition**",
-                        "api/v1/notification/participation-request/**",
+                        "/api/v1/notification/participation-request/**",
                         "/api/v1/program/set-program-stetus/**",
-                        "api/v1/program/update-program/**",
+                        "/api/v1/program/update-program/**",
                         "/api/v1/newsletter/subscribers",
                         "/api/v1/advertisement/approve-advert/centerid/**",
                         "/api/v1/advertisement/reject-center-advert/-center-id/**",
-                        "api/v1/advertisement/remove-rejected-adverts",
+                        "/api/v1/advertisement/remove-rejected-adverts",
                         "/api/v1/competition/add-competition",
+                        "/api/v1/competition/get-competition-by-id**",
                         "/api/v1/competition/update-competition/{competitionId}",
                         "/api/v1/competition/delete-competition/{competitionId}",
                         "/api/v1/competition/get-all-competitions-for-child/{childId}",
@@ -150,7 +148,8 @@ public class SecurityConfig {
                         "/api/v1/user/request-account-deletion",
                         "/api/v1/user/cancel-request-account-deletion",
                         "/api/v1/center/approve-center-registration/{centerId}",
-                        "/api/v1/center/reject-center-registration/{centerId}/{rejectionReason}"
+                        "/api/v1/center/reject-center-registration/{centerId}/{rejectionReason}",
+                        "/api/v1/certificate/get-all-certificates"
                         ).hasAuthority("ADMIN") // ADMIN
                 .anyRequest().authenticated()
                 .and()

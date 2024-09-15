@@ -190,4 +190,20 @@ public class ProgramService {
     public List<Program> displayProgramsByDateRange(LocalDate startDate, LocalDate endDate){
         return programRepository.findAllProgramsByDateBetween(startDate, endDate).orElseThrow(() -> new ApiException("Not found competitions between this date"));
     }
+
+    public void expandProgram(int userID,int programId, LocalDate endDate){
+        User user = authRepository.findUserById(userID)
+                .orElseThrow(() -> new ApiException("User not found with ID: " + userID));
+
+        Program program = programRepository.findProgramById(programId)
+                .orElseThrow(() -> new ApiException("Program not found with ID: " + programId));
+
+        if (program.getCenter()!=user.getCenter()){
+            throw new ApiException("Center not match with entered program");
+        }
+
+        program.setEndDate(endDate);
+        programRepository.save(program);
+
+    }
 }
