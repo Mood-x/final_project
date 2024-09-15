@@ -56,6 +56,7 @@ public class Child {
     @ManyToMany(mappedBy = "participants")
     private Set<Competition> competitions;
 
-//    @OneToOne(mappedBy = "child", cascade = CascadeType.ALL)
-//    private ChildProgress childProgress;
+    @OneToMany
+    @JoinColumn(name = "child_id")
+    private Set<ChildProgress> childProgresses;
 }

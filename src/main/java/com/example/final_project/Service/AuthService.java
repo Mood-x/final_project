@@ -78,7 +78,4 @@ public class AuthService {
             }
         }
     }
-
-
-    //org.springframework.dao.DataIntegrityViolationException: could not execute statement [Cannot delete or update a parent row: a foreign key constraint fails (`naama`.`notification`, CONSTRAINT `FKnbt1hengkgjqru2q44q8rlc2c` FOREIGN KEY (`sender_id`) REFERENCES `user` (`id`))] [delete from user where id=?]; SQL [delete from user where id=?]; constraint [null]
 }

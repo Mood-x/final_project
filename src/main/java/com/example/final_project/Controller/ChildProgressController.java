@@ -15,9 +15,10 @@ import java.util.List;
 @RequestMapping("/api/v1/progress")
 @RequiredArgsConstructor
 public class ChildProgressController {
+    // [Mohammed]
     private final ChildProgressService childProgressService;
 
-    @GetMapping("/get-all-child-progerss")
+    @GetMapping("/get-all-child-progress")
     public ResponseEntity<List<ChildProgress>> getAllChildProgress(){
         return ResponseEntity.ok(childProgressService.getAllChildProgress());
     }
@@ -33,8 +34,8 @@ public class ChildProgressController {
     }
 
     @PostMapping("/create-child-progress")
-    public ResponseEntity<ApiResponse> createChildProgress(@AuthenticationPrincipal User user, @RequestBody ChildProgress childProgress){
-        childProgressService.createChildProgress(user.getId(), childProgress);
+    public ResponseEntity<ApiResponse> createChildProgresss(@AuthenticationPrincipal User user, @RequestBody ChildProgress childProgress){
+        childProgressService.createChildProgresss(user.getId(), childProgress);
         return ResponseEntity.ok(new ApiResponse("Added child progress successfully"));
     }
 
@@ -48,11 +49,5 @@ public class ChildProgressController {
     public ResponseEntity<ApiResponse> deleteChildProgress(@AuthenticationPrincipal User user, @PathVariable int progressId){
         childProgressService.deleteChildProgress(user.getId(), progressId);
         return ResponseEntity.ok(new ApiResponse("Deleted child progress successfully"));
-    }
-
-    @PostMapping("/calculate-child-progress-metrics")
-    public ResponseEntity<ApiResponse> calculateChildProgressMetrics(@AuthenticationPrincipal User user){
-        childProgressService.calculateProgressMetrics(user.getId());
-        return ResponseEntity.ok(new ApiResponse("Calculated child progress metrics successfully"));
     }
 }

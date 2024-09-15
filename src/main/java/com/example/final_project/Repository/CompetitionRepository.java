@@ -21,5 +21,4 @@ public interface CompetitionRepository extends JpaRepository<Competition, Intege
     @Query("SELECT c FROM Competition c WHERE c.minAge >= :ageFrom AND c.maxAge <= :ageTo")
     Optional<List<Competition>> findCompetitionsByAgeRange(@Param("ageFrom") Integer ageFrom, @Param("ageTo") Integer ageTo);
     Optional<List<Competition>> findAllByParticipants(Child child);
-
 }

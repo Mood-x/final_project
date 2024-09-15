@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        "/api/v1/user/register",
+                        "/api/v1/user/register", // delete after test postman
                         "/api/v1/center/center-register",
                         "/api/v1/parent/register", // حذف
                         "/api/v1/competition/get-competition-by-name**",
@@ -48,7 +48,25 @@ public class SecurityConfig {
                         "/api/v1/newsletter/subscribe",
                         "/api/v1/newsletter/unsubscribe",
                         "/api/v1/advertisement/display-all-adverts",
-                        "/api/v1/program/display-programs-by-date/**").permitAll()
+                        "/api/v1/program/display-programs-by-date/**",
+                        "/api/v1/notification/get-all-my-notifications",
+                        "/api/v1/notification/get-notification-by-id/{notification_id}",
+                        "/api/v1/notification/add-notification",
+                        "/api/v1/notification/update-notification/{notificationId}",
+                        "/api/v1/notification/delete-notification",
+                        "/api/v1/notification/delete-all-my-notifications",
+                        "/api/v1/notification/delete-all-my-notifications-is-read",
+                        "/api/v1/notification/read-notification/{notificationId}",
+                        "/api/v1/notification/read-all-notifications",
+                        "/api/v1/notification/get-all-notifications-is-not-read",
+                        "/api/v1/competition/get-all-competitions",
+                        "/api/v1/competition/get-competition-by-id/{competitionId}",
+                        "/api/v1/competition/search-by-date/{startDate}/{endDate}",
+                        "/api/v1/competition/search-competition-by-name/{name}",
+                        "/api/v1/competition/search-competitions-by-type/{type}",
+                        "/api/v1/competition/search-competitions-by-age-range/{ageFrom}/{ageTo}",
+                        "/api/v1/progress/get-progress-by-program-id/{programId}"
+                        ).permitAll()
 
                 .requestMatchers(
                         "/api/v1/parent/update",
@@ -68,7 +86,14 @@ public class SecurityConfig {
                         "/api/v1/child/{childId}/cancel-program/{programId}",
                         "/api/v1/child/{childId}/competition/{competitionId}/register",
                         "/api/v1/parent/add-rate/**",
-                        "/api/v1/complaint/my-complaint").hasAuthority("PARENT") // PARENT
+                        "/api/v1/complaint/my-complaint",
+                        "/api/v1/competition/get-all-competitions-for-child/{childId}",
+                        "/api/v1/competition/participation-request/{competitionId}/{childId}",
+                        "/api/v1/competition/cancel-child-participation/{competitionId}/{childId}",
+                        "/api/v1/progress/get-all-child-progress",
+                        "/api/v1/progress/get-all-child-progress-by-child-id/{childId}"
+                ).hasAuthority("PARENT") // PARENT
+
                 .requestMatchers(
                         "/api/v1/center/update-center/**",
                         "/api/v1/center/add-program" ,
@@ -89,7 +114,10 @@ public class SecurityConfig {
                         "/api/v1/advertisement/add-advert",
                         "/api/v1/advertisement/get-my-adverts",
                         "/api/v1/complaint/center",
-                        "/api/v1/center/display-total-number-center-program").hasAuthority("CENTER") // CENTER
+                        "/api/v1/center/display-total-number-center-program",
+                        "/api/v1/progress/modify-child-progress/{progressId}",
+                        "/api/v1/progress/delete-child-progress/{progressId}"
+                        ).hasAuthority("CENTER") // CENTER
 
 
                 .requestMatchers(
@@ -108,7 +136,22 @@ public class SecurityConfig {
                         "/api/v1/newsletter/subscribers",
                         "/api/v1/advertisement/approve-advert/centerid/**",
                         "/api/v1/advertisement/reject-center-advert/-center-id/**",
-                        "api/v1/advertisement/remove-rejected-adverts").hasAuthority("ADMIN") // ADMIN
+                        "api/v1/advertisement/remove-rejected-adverts",
+                        "/api/v1/competition/add-competition",
+                        "/api/v1/competition/update-competition/{competitionId}",
+                        "/api/v1/competition/delete-competition/{competitionId}",
+                        "/api/v1/competition/get-all-competitions-for-child/{childId}",
+                        "/api/v1/competition/approve-participation-request/{competitionId}/{childId}/{parentId}",
+                        "/api/v1/competition/reject-participation-request/{competitionId}/{childId}/{parentId}",
+                        "/api/v1/competition/cancel-child-participation/{competitionId}/{childId}",
+                        "/api/v1/progress/get-all-child-progerss",
+                        "/api/v1/progress/get-all-child-progress-by-child-id/{childId}",
+                        "/api/v1/progress/modify-child-progress/{progressId}",
+                        "/api/v1/user/request-account-deletion",
+                        "/api/v1/user/cancel-request-account-deletion",
+                        "/api/v1/center/approve-center-registration/{centerId}",
+                        "/api/v1/center/reject-center-registration/{centerId}/{rejectionReason}"
+                        ).hasAuthority("ADMIN") // ADMIN
                 .anyRequest().authenticated()
                 .and()
                 .logout().logoutUrl("/api/v1/auth/logout")

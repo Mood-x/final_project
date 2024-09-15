@@ -19,6 +19,7 @@ public class ChildService {
     private final ParentReposotiry parentReposotiry;
     private final ProgramRepository programRepository;
     private final CenterRepository centerRepository;
+    private final ChildProgressService childProgressService;
 
     public List<Child> getAllChildren() {
         return childRepository.findAll();
@@ -131,14 +132,13 @@ public class ChildService {
         // Save the child with the updated programs
         childRepository.save(child);
 
-
+        childProgressService.createChildProgress(child, program);  /// -----------------> [ Mohammed ]
         //add program price to program financial returns
         //namaa share from each child register to programs
         double namaaShare = program.getPrice() * 0.15;
 
         program.setProgramFinancialReturn(
                 (program.getPrice() - namaaShare) + program.getProgramFinancialReturn());
-
 
         //add total program financial return To total program financial return
         Center center = centerRepository.findCenterById(program.getCenter()

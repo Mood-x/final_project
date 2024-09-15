@@ -57,6 +57,16 @@ public class CenterController {
         return ResponseEntity.status(200).body(centerService.displayCenterFinancialReturns(user.getId()));
     }
 
+    @GetMapping("/display-total-number-of-joind-childrens")
+    public ResponseEntity displayTotalNumberOfJoindChildren(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(centerService.displayCenterNumberOfChild(user.getId()));
+    }
+
+    @GetMapping("/display-total-number-center-program")
+    public ResponseEntity displayTotalNumberOfCenterProgram(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(200).body(centerService.getTotalNumberOfCenterPrograms(user.getId()));
+    }
+
     // [ Mohammed ] +[End-Point]
     @PutMapping("/approve-center-registration/{centerId}")
     public ResponseEntity<ApiResponse> approveCenterRegistration(@PathVariable Integer centerId) {
@@ -69,15 +79,5 @@ public class CenterController {
     public ResponseEntity<ApiResponse> rejectCenterRegistration(@PathVariable Integer centerId, @PathVariable String rejectionReason) {
         centerService.rejectCenterRegistration(centerId, rejectionReason);
         return ResponseEntity.ok(new ApiResponse("Notification rejected successfully"));
-    }
-
-    @GetMapping("/display-total-number-of-joind-childrens")
-    public ResponseEntity displayTotalNumberOfJoindChildren(@AuthenticationPrincipal User user){
-        return ResponseEntity.status(200).body(centerService.displayCenterNumberOfChild(user.getId()));
-    }
-
-    @GetMapping("/display-total-number-center-program")
-    public ResponseEntity displayTotalNumberOfCenterProgram(@AuthenticationPrincipal User user){
-        return ResponseEntity.status(200).body(centerService.getTotalNumberOfCenterPrograms(user.getId()));
     }
 }

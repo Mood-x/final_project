@@ -1,49 +1,83 @@
-User Entity
-- UserDetails
-- AuthService
-- AuthRepository
-- AuthController
-- SecurityConfig
+=======================================================
+- Entities [ User - Competition - Notification - ChildProgress ]
+- Controller [ authController - CompetitionController - NotificationController - ChildProgressController ]
+- Repository [ AuthRepository - CompetitionRepository - NotificationController - ChildProgressRepository ]
+- Service    [ AuthService - CompetitionService - NotificationService - ChildProgressService ]
+- Test {
 
-Notification
-- NotificationRepository
-- NotificationServer
-- NotificationController
+}
+=======================================================
+/api/v1/notification/get-all-my-notifications
+/api/v1/notification/get-notification-by-id/{notification_id}
+/api/v1/notification/add-notification
+/api/v1/notification/update-notification/{notificationId}
+/api/v1/notification/delete-notification
+/api/v1/notification/delete-all-my-notifications
+/api/v1/notification/delete-all-my-notifications-is-read
+/api/v1/notification/read-notification/{notificationId}
+/api/v1/notification/read-all-notifications
+/api/v1/notification/get-all-notifications-is-not-read
+=======================================================
+
+/api/v1/competition/get-all-competitions
+/api/v1/competition/get-competition-by-id/{competitionId}
+/api/v1/competition/add-competition
+/api/v1/competition/update-competition/{competitionId}
+/api/v1/competition/delete-competition/{competitionId}
+/api/v1/competition/search-by-date/{startDate}/{endDate}
+/api/v1/competition/search-competition-by-name/{name}
+/api/v1/competition/search-competitions-by-type/{type}
+/api/v1/competition/search-competitions-by-age-range/{ageFrom}/{ageTo}
+/api/v1/competition/get-all-competitions-for-child/{childId}
+/api/v1/competition/participation-request/{competitionId}/{childId}
+/api/v1/competition/approve-participation-request/{competitionId}/{childId}/{parentId}
+/api/v1/competition/reject-participation-request/{competitionId}/{childId}/{parentId}
+/api/v1/competition/cancel-child-participation/{competitionId}/{childId}
+
+=======================================================
+
+/api/v1/progress/get-all-child-progress
+/api/v1/progress/get-progress-by-program-id/{programId}
+/api/v1/progress/get-all-child-progress-by-child-id/{childId}
+/api/v1/progress/modify-child-progress/{progressId}
+/api/v1/progress/delete-child-progress/{progressId}
+/api/v1/progress/create-child-progress
+
+=======================================================
+
+/api/v1/user/get-all-users
+/api/v1/user/request-account-deletion
+/api/v1/user/cancel-request-account-deletion
+
+=======================================================
+
+/api/v1/center/approve-center-registration/{centerId}
+/api/v1/center/reject-center-registration/{centerId}/{rejectionReason}
 
 
-
-
-EndPoints i will create
-- Read all notifications
--
-
-
-EndPoints are created
-- readAllNotifications
-- deleteAllNotifications
-- readNotification
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-PARENT
-""
-
-CENTER
-""
-
-
-ADMIN
-"/api/v1/user/register"
-"/api/v1/user/get-all-users"
+=============== End Points ==================
++ Approved center [mood-Done]
++ Reject center [mood-Done]
++ Request Deletion Account [mood - parent - center-Done]
++ Cancel Deletion Account [mood - parent - center-Done]
++ Add child progress [mood]
++ Get my child progress [mood]
++ add/edit progress to child [mood]
++ Get All my notifications [mood-Done]
++ Create notification [mood-Done]
++ Delete my notification [mood-Done]
++ Delete all my notifications [mood-Done]
++ Delete all my notifications is read [mood-Done]
++ Read notification [mood-Done]
++ Mark all notifications isRead [mood-Done]
++ Get All Notifications is not reading [mood-Done]
++ Get child competitions [mood-Done]
++ search competition by name [mood-Done]
++ search competition by range age [mood-Done]
++ search competition by date [mood-Done]
++ search competition by type [mood-Done]
++ Participation request [mood-Done]
++ Approved participation request [mood-Done]
++ Rejected participation request [mood-Done]
++ cancel child participation [mood-Done]
+============== 24 ==============
