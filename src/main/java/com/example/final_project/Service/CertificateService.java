@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -20,10 +19,12 @@ public class CertificateService {
     private final ChildRepository childRepository;
     private final ProgramRepository programRepository;
 
+    //Abdulaziz
     public List<Certificate> getAllCertificates() {
         return certificateRepository.findAll();
     }
 
+    //Abdulaziz
     public List<Certificate> childCertificates(int userId, int childId) {
 
         User user = authRepository.findUserById(userId)
@@ -42,6 +43,7 @@ public class CertificateService {
         return certificateRepository.findCertificateByChild(child);
     }
 
+    //Abdulaziz
     public Certificate issueCertificate(Integer childId, Integer programId, Certificate certificateDetails) {
         Child child = childRepository.findById(childId)
                 .orElseThrow(() -> new ApiException("Child not found"));

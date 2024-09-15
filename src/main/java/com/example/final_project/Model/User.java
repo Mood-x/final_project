@@ -3,6 +3,7 @@ package com.example.final_project.Model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
+    // [Mohammed]
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -44,6 +46,11 @@ public class User implements UserDetails {
     @Column(columnDefinition = "varchar(255) not null")
     private String password;
 
+    // [Abdulaziz]
+    @NotEmpty(message = "Phone number should not be empty!")
+    @Size(min = 10,max = 10,message = "teacher phone number should be '10' digits")
+    @Pattern(regexp = "^05\\d*$",message = "Phone number must start with '05' !")
+    private String phoneNumber;
 
     @NotEmpty(message = "Name should be not empty")
     @Size(min = 3, max = 30, message = "Name must be between 3 and 30 characters")
@@ -66,19 +73,16 @@ public class User implements UserDetails {
     private LocalDateTime updatedAt;
 
 //====================== Relations ======================
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     private Parent parent;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     private Center center;
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Notification> Notifications;
-//
-//    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private Set<Notification> receivedNotifications;
 
 //====================== User Details ====================== 
     @Override

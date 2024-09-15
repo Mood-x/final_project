@@ -11,7 +11,7 @@ import com.example.final_project.Repository.CenterRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,25 +22,20 @@ public class AdvertisementService {
     private final NotificationService notificationService;
     private final CenterRepository centerRepository;
 
+    //Abdulaziz
     public List<Advertisement> getAllAdvertisements() {
         return advertisementRepository.findAll();
     }
 
+    //Abdulaziz
     public void addAdvertisement(int userId, Advertisement advertisement) {
 
         //add the advert
         User user = authRepository.findUserById(userId)
                 .orElseThrow(()-> new RuntimeException("User Not Found"));
 
-//        ArrayList<Advertisement> check = new ArrayList<>();
-
-
-//        for (int i = 0; i < user.getCenter().getAdvertisements().size(); i++) {
-//            user.getCenter().getAdvertisements().contains()
-//        }
-
-        if (!user.getCenter().getAdvertisements().isEmpty()){
-            throw new RuntimeException("You have already added an advertisement");
+        if (user.getCenter().getAdvertisements().contains(advertisement.getStatus().equals(Advertisement.Status.APPROVED))){
+            throw new RuntimeException("You have already published an advertisement!");
         }
 
         advertisement.setPrice(advertisement.getDaysDuration()*10);
@@ -60,7 +55,8 @@ public class AdvertisementService {
         );
     }
 
-    public void approveCenterAdvert(Integer centerId, Integer advertisementId){
+    //Abdulaziz
+    public void approveCenterAdvert(Integer centerId, Integer advertisementId, LocalDate publishDate){
         Center center = centerRepository.findCenterById(centerId)
 
                 .orElseThrow(() -> new ApiException("Center Not Found"));
@@ -74,7 +70,8 @@ public class AdvertisementService {
         }
 
 
-        advert.setStatus(Center.Status.APPROVED);
+        advert.setStatus(Advertisement.Status.APPROVED);
+        advert.setPublishDate(publishDate);
         advertisementRepository.save(advert);
 
         User admin = authRepository.findUserById(1)
@@ -82,11 +79,12 @@ public class AdvertisementService {
         notificationService.createNotification(
                 admin,
                 center.getUser(),
-                "Your advertisement has been approved to be published.",
+                "Your advertisement has been approved to be published in '"+publishDate+"' for '"+advert.getDaysDuration()+"' days.",
                 Notification.NotificationType.ADMIN_TO_CENTER
         );
     }
 
+    //Abdulaziz
     public List<Advertisement> getMyAdverts(Integer userId) {
 
         User user = authRepository.findUserById(userId)
@@ -99,6 +97,7 @@ public class AdvertisementService {
     }
 
 
+    //Abdulaziz
     public void rejectCenterAdvert(Integer centerId,Integer advertId ,String rejectionReason){
         Center center = centerRepository.findCenterById(centerId)
 
@@ -113,7 +112,7 @@ public class AdvertisementService {
         }
 
 
-        advert.setStatus(Center.Status.REJECTED);
+        advert.setStatus(Advertisement.Status.REJECTED);
         advertisementRepository.save(advert);
 
         User admin = authRepository.findUserById(1)
@@ -127,6 +126,7 @@ public class AdvertisementService {
     }
 
 
+    //Abdulaziz
     // remove all rejected adverts
     public void deleteAllRejectedAdverts(int userId) {
         User admin = authRepository.findUserById(userId)
@@ -138,7 +138,7 @@ public class AdvertisementService {
 
         List<Advertisement> advertisements = advertisementRepository.findAll();
         for (Advertisement advertisement : advertisements) {
-            if (advertisement.getStatus().equals(Center.Status.REJECTED)){
+            if (advertisement.getStatus().equals(Advertisement.Status.REJECTED)){
                 advertisementRepository.delete(advertisement);
             }
         }

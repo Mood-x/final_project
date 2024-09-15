@@ -8,8 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -34,12 +37,17 @@ public class Child {
     @Column(nullable = false)
     private Integer age;
 
-    @NotNull(message = "Join date cannot be null")
-    @Column(nullable = false)
-    private LocalDate joinDate;
+    @CreationTimestamp
+    @Column(updatable = false, columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime joinDate;
+
+    @UpdateTimestamp
+    @Column(columnDefinition = "timestamp default current_timestamp")
+    private LocalDateTime updateDate;
+
 
     @NotBlank(message = "Gender cannot be blank")
-    @Pattern(regexp = "^(male|female)$", message = "Gender must be either 'male' or 'female'")
+    @Pattern(regexp = "^(ذكر|انثى)$", message = "Gender must be either 'ذكر' or 'انثى'")
     @Column(nullable = false)
     private String gender; // Gender validation
 
@@ -53,10 +61,9 @@ public class Child {
     @JoinTable(name = "child_program_subscription", joinColumns = @JoinColumn(name = "child_id"), inverseJoinColumns = @JoinColumn(name = "program_id"))
     private Set<Program> programs; // Many-to-many relation with Program
 
-    @ManyToMany(mappedBy = "participants")
+    @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL)
     private Set<Competition> competitions;
 
-    @OneToMany
-    @JoinColumn(name = "child_id")
+    @OneToMany(mappedBy = "child", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ChildProgress> childProgresses;
 }

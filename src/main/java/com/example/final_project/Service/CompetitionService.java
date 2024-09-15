@@ -94,9 +94,6 @@ public class CompetitionService {
             throw new ApiException("Child is already registered for this competition.");
         }
 
-        // بنضيف موضوع الشهاده
-        // اي شروط اضافيه
-
         User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
 
         Notification notification = new Notification();

@@ -16,7 +16,9 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "child_progress")
 public class ChildProgress {
+    // [Mohammed]
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,7 +28,6 @@ public class ChildProgress {
     @Size(min = 5, max = 30, message = "Current stage must be between 5 and 30 characters")
     @Column(columnDefinition = "varchar(30) not null")
     private String currentStage;
-
 
     @NotEmpty(message = "Progress details should be empty")
     @Size(min = 5, max = 255, message = "Progress details must be between 5 and 25 characters")
@@ -55,7 +56,7 @@ public class ChildProgress {
     private Integer completedSessions;
 
     @Min(value = 0, message = "Total sessions must be zero or positive")
-    private Integer totalSessions;;
+    private Integer totalSessions;
 
     @PositiveOrZero(message = "Rating must be zero or positive")
     @Min(value = 0, message = "Rating cannot exceed 0")
@@ -63,12 +64,12 @@ public class ChildProgress {
     private double rating;
 
     @ManyToOne
-    @JoinColumn(name = "child_id")
     @JsonIgnore
+    @JoinColumn(name = "child_id", referencedColumnName = "id")
     private Child child;
 
     @ManyToOne
-    @JoinColumn(name = "program_id")
     @JsonIgnore
+    @JoinColumn(name = "program_id", referencedColumnName = "id")
     private Program program;
 }

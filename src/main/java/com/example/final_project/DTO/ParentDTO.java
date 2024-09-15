@@ -29,16 +29,14 @@ public class ParentDTO {
     @Size(min = 6, max = 255)
     private String password;
 
-
-    @NotEmpty(message = "Name should be not empty")
-    @Size(min = 3, max = 30, message = "Name must be between 3 and 30 characters")
-    private String name;
-
-    private String role;
-
     @NotEmpty(message = "Phone number should not be empty!")
     @Size(min = 10,max = 10,message = "teacher phone number should be '10' digits")
     @Pattern(regexp = "^05\\d*$",message = "Phone number must start with '05' !")
     private String phoneNumber;
 
+    @NotEmpty(message = "Name should be not empty")
+    @Size(min = 3, max = 30, message = "Name must be between 3 and 30 characters")
+    private String name;
+
+    private String role = "PARENT";
 }

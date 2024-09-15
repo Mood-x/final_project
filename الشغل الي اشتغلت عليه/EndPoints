@@ -12,7 +12,7 @@
 + Reject center [mood-Done]----
 + Request Deletion Account [mood - parent - center-Done]
 + Cancel Deletion Account [mood - parent - center-Done]
-+ create certifications [azoz-Done]
++ create certifications [azoz-Done] //>> move to center
 - Get all center [azoz-Done]
 - Delete Parent [yara-Done]
 - Delete Center [azoz-Done]
@@ -116,9 +116,10 @@
 + get all subscribers [ yara - Done]
 
 + ======= Subscription =======
+
 + ======= Certifications ======
-
-
+- get all certificates
++ get child certificate
 =======================================================================
 mood - 23
 yara - 23

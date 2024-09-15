@@ -23,6 +23,9 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+
+// Abdulaziz
+
 public class Program {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,6 +57,7 @@ public class Program {
     private int maxAge;
 
     // +
+    @Min(value = 0, message = "Total sessions must be zero or positive")
     private Integer totalSessions;
 
     @NotNull(message = "Max age should not be empty!")
@@ -100,9 +104,9 @@ public class Program {
 
     @ManyToMany
     @JsonIgnore
-    private Set<Child>child;
+    private Set<Child> child;
 
-    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "program")
     private Set<ChildProgress> progresses;
 
 }

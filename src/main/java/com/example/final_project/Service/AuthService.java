@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    // [Mohammed]
     private final AuthRepository authRepository;
     private final NotificationService notificationService;
 
@@ -23,12 +24,12 @@ public class AuthService {
         return authRepository.findAll();
     }
 // حذف
-    public void register(User user){
-        user.setRole("ADMIN");
-        String hash = new BCryptPasswordEncoder().encode(user.getPassword());
-        user.setPassword(hash);
-        authRepository.save(user);
-    }
+//    public void register(User user){
+//        user.setRole("ADMIN");
+//        String hash = new BCryptPasswordEncoder().encode(user.getPassword());
+//        user.setPassword(hash);
+//        authRepository.save(user);
+//    }
 
     public void requestAccountDeletion(Integer authId){
         User user = authRepository.findUserById(authId)
@@ -42,7 +43,7 @@ public class AuthService {
         user.setAccountDeletionRequestDate(LocalDateTime.now());
         authRepository.save(user);
 
-        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
         notificationService.createNotification(
                 admin,
                 user,
@@ -58,7 +59,7 @@ public class AuthService {
         user.setAccountDeletionRequestDate(null);
         authRepository.save(user);
 
-        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
         notificationService.createNotification(
                 admin,
                 user,

@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface CompetitionRepository extends JpaRepository<Competition, Integer> {
+    // [Mohammed]
     Optional<Competition> findCompetitionById(Integer id);
     Optional<Competition> findCompetitionByName(String name);
     @Query("SELECT c FROM Competition c where c.startDate BETWEEN :start AND :end")

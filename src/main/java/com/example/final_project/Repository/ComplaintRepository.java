@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface ComplaintRepository extends JpaRepository<Complaint, Integer> {
-    Optional<Complaint> findComplaintById(Integer integer);
+//    Optional<Complaint> findComplaintById(Integer integer);
     List<Complaint> findByCenterId(Integer centerId);
     List<Complaint> findByParentId(Integer parentId);
 

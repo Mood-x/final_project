@@ -8,13 +8,11 @@ import com.example.final_project.Model.Parent;
 import com.example.final_project.Model.User;
 import com.example.final_project.Repository.AuthRepository;
 import com.example.final_project.Repository.CenterRepository;
-import com.example.final_project.Repository.NotificationRepository;
 import com.example.final_project.Repository.ParentReposotiry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +26,12 @@ public class CenterService {
 
     ArrayList<Double> ratings = new ArrayList<>();
 
-
+    //Abdulaziz
     public List<User> getAllCenters(){
         return authRepository.findUserByRole("CENTER");
     }
 
+    //Abdulaziz
     public void centerRegister(CenterDTO centerDTO){
         User user = new User();
         user.setUsername(centerDTO.getUsername());
@@ -40,17 +39,17 @@ public class CenterService {
         user.setEmail(centerDTO.getEmail());
         user.setName(centerDTO.getName());
         user.setRole(centerDTO.getRole());
+        user.setPhoneNumber(centerDTO.getPhoneNumber());
 
         String hash=new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(hash);
 
         Center center = new Center();
         center.setId(null);
-        center.setPhoneNumber(centerDTO.getPhoneNumber());
         center.setAddress( centerDTO.getAddress());
         center.setActivityType(centerDTO.getActivityType());
         center.setDocuments(centerDTO.getDocuments());
-        center.setStatus(Center.Status.IN_PROGRESS); // +
+        center.setStatus(Center.Status.IN_PROGRESS);
 
         user.setCenter(center);
         center.setUser(user);
@@ -69,6 +68,7 @@ public class CenterService {
         );
     }
 
+    //Abdulaziz
     public void updateCenter(Integer authId, CenterDTO centerDTO){
 
         User user = authRepository.findUserById(authId)
@@ -78,7 +78,7 @@ public class CenterService {
         user.setEmail(centerDTO.getEmail());
         user.setPassword(centerDTO.getPassword());
         user.setName(centerDTO.getName());
-        user.getCenter().setPhoneNumber(centerDTO.getPhoneNumber());
+        user.setPhoneNumber(centerDTO.getPhoneNumber());
         user.getCenter().setAddress(centerDTO.getAddress());
         user.getCenter().setActivityType(centerDTO.getActivityType());
         user.getCenter().setDocuments(centerDTO.getDocuments());
@@ -91,6 +91,7 @@ public class CenterService {
     }
 
 
+    //Abdulaziz
     public void deleteCenter(Integer centerID,Integer authId){
             User user = authRepository.findUserById(centerID)
                     .orElseThrow(()-> new ApiException("User Not Found"));
@@ -102,6 +103,7 @@ public class CenterService {
     }
 
 
+    //Abdulaziz
     public String showMyCenterAccount(Integer userCenterId){
         Center center = centerRepository.findCenterById(userCenterId)
                 .orElseThrow(()-> new ApiException("Center Not Found"));
@@ -109,9 +111,10 @@ public class CenterService {
                 "\n Name:" + center.getUser().getName()+
                 "\n Email: " + center.getUser().getEmail()+
                 "\n Address: " + center.getAddress() +
-                "\n PhoneNumber: " + center.getPhoneNumber();
+                "\n PhoneNumber: " + center.getUser().getPhoneNumber();
     }
 
+    //Abdulaziz
     public void changePassword(Integer userCenterId, String oldPassword, String newPassword){
         Center center = centerRepository.findCenterById(userCenterId)
                 .orElseThrow(()-> new ApiException("Center Not Found"));
@@ -127,6 +130,7 @@ public class CenterService {
         authRepository.save(center.getUser());
     }
 
+    //Abdulaziz
     public String displayCenterFinancialReturns(Integer centerId){
         Center center = centerRepository.findCenterById(centerId)
                 .orElseThrow(()-> new ApiException("Center Not Found"));
@@ -166,6 +170,7 @@ public class CenterService {
         );
     }
 
+    //Abdulaziz
     public String displayCenterNumberOfChild(Integer centerId){
         Center center = centerRepository.findCenterById(centerId)
                 .orElseThrow(()-> new ApiException("Center Not Found"));
@@ -174,6 +179,8 @@ public class CenterService {
     }
 
 
+    //Abdulaziz
+    // parent add rate
     public void addRate(int parentId, int centerId, double rate){
         Center center = centerRepository.findCenterById(centerId)
                 .orElseThrow(()-> new ApiException("Center Not Found"));
@@ -192,6 +199,7 @@ public class CenterService {
         centerRepository.save(center);
     }
 
+    //Abdulaziz
     public String getTotalNumberOfCenterPrograms(Integer centerId){
         Center center = centerRepository.findCenterById(centerId)
                 .orElseThrow(()-> new ApiException("Center Not Found"));

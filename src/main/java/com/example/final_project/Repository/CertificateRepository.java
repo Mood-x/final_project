@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface CertificateRepository extends JpaRepository<Certificate, Integer> {
 
-    Optional<Certificate> findCertificateById(Integer id);
+//    Optional<Certificate> findCertificateById(Integer id);
 
     List<Certificate> findCertificateByChild(Child child);
 }

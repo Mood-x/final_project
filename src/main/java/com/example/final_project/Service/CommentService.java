@@ -8,7 +8,6 @@ import com.example.final_project.Repository.CommentRepository;
 
 import com.example.final_project.Repository.CenterRepository;
 import com.example.final_project.Repository.ParentReposotiry;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

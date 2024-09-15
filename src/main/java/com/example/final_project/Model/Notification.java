@@ -19,26 +19,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Notification {
+    // [Mohammed]
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
-
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "sender_id")
-    private User sender;
-
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "receiver_id")
-    private User receiver;
-
-
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Notification type cannot be null")
-    @Column(columnDefinition = "enum('CANCELED_ACCOUNT_DELETION', 'ACCOUNT_DELETION', 'CENTER_REQUEST_REGISTRATION', 'REQUEST_PARTICIPATION', 'PARENT_TO_CENTER', 'PARENT_TO_ADMIN', 'CENTER_TO_ADMIN', 'CENTER_TO_PARENT', 'ADMIN_TO_CENTER', 'ADMIN_TO_PARENT'), not null")
+    @Column(columnDefinition = "enum('CANCELED_ACCOUNT_DELETION', 'ACCOUNT_DELETION', 'CENTER_REQUEST_REGISTRATION', 'REQUEST_PARTICIPATION', 'CENTER_TO_ADMIN',  'ADMIN_TO_CENTER', 'ADMIN_TO_PARENT') not null")
     private NotificationType notificationType;
 
 
@@ -55,16 +43,23 @@ public class Notification {
     private LocalDateTime createdAt;
 
     @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;
+
+    @ManyToOne
+    @JsonIgnore
+    private User sender;
+
+    @ManyToOne
+    @JsonIgnore
+    private User receiver;
+
 
     public enum NotificationType{
         ADMIN_TO_PARENT,
         ADMIN_TO_CENTER,
-        CENTER_TO_PARENT,
         CENTER_TO_ADMIN,
-        PARENT_TO_ADMIN,
-        PARENT_TO_CENTER,
         REQUEST_PARTICIPATION,
         CENTER_REQUEST_REGISTRATION,
         ACCOUNT_DELETION,

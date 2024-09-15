@@ -18,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Competition {
+    // [Mohammed]
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

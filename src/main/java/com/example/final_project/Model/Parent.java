@@ -15,21 +15,23 @@ import java.util.Set;
 @Getter
 @Setter
 @AllArgsConstructor
+
+
 public class Parent {
     @Id
     private Integer id;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Child> children;
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private User user;
 
-//    @OneToMany(mappedBy = "parent")
-//    private Set<Like> likes;
+    @OneToMany(mappedBy = "parent")
+    private Set<Child> children;
 
     @OneToMany(mappedBy = "parent")
     private Set<Comment> comments;
 
-//    @OneToMany(mappedBy = "parent")
-//    private Set<Rating> ratings;
 
     @OneToMany(mappedBy = "parent")
     private Set<Complaint> complaints;
@@ -41,9 +43,4 @@ public class Parent {
             inverseJoinColumns = @JoinColumn(name = "center_id")
     )
     private Set<Center> likedCenters;  // List of liked centers
-
-    @OneToOne
-    @JsonIgnore
-    @JoinColumn(name = "user_id")
-    private User user;
 }

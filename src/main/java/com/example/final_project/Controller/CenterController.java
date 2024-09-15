@@ -21,54 +21,69 @@ public class CenterController {
     private final ProgramService programService;
     private final CenterService centerService;
 
+    //Abdulaziz
     @GetMapping("/get-all-centers")
     public ResponseEntity getAllCenters(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.getAllCenters());
     }
 
+    //Abdulaziz
     @PostMapping("/center-register")
     public ResponseEntity centerRegister(@Valid @RequestBody CenterDTO centerDTO){
         centerService.centerRegister(centerDTO);
         return ResponseEntity.status(200).body("Center registered successfully");
     }
 
+    //Abdulaziz
     @PutMapping("/update-center")
     public ResponseEntity updateCenter(@AuthenticationPrincipal User user, @Valid @RequestBody CenterDTO centerDTO){
         centerService.updateCenter(user.getId(), centerDTO);
         return ResponseEntity.status(200).body("Center updated successfully");
     }
 
+    //Abdulaziz
     @DeleteMapping("/delete-center/{centerid}")
     public ResponseEntity deleteCenter(@PathVariable int centerid, @AuthenticationPrincipal User user){
         centerService.deleteCenter(user.getId(),centerid);
         return ResponseEntity.status(200).body("Center deleted successfully");
     }
 
+    //Abdulaziz
     @GetMapping("/Center-Account")
     public ResponseEntity showMyCenterAccount(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.showMyCenterAccount(user.getId()));
     }
 
+    //Abdulaziz
     @PutMapping("/change-password/{oldpassword}/{newpassword}")
     public ResponseEntity changePassword( @AuthenticationPrincipal User user,@PathVariable String oldpassword, @PathVariable String newpassword){
         centerService.changePassword(user.getId(),oldpassword,newpassword);
         return ResponseEntity.status(200).body("Password changed successfully");
     }
 
-
+    //Abdulaziz
     @GetMapping("/display-total-center-financial-returns")
     public ResponseEntity displayCenterFinancialReturn(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.displayCenterFinancialReturns(user.getId()));
     }
 
+    //Abdulaziz
     @GetMapping("/display-total-number-of-joind-childrens")
     public ResponseEntity displayTotalNumberOfJoindChildren(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.displayCenterNumberOfChild(user.getId()));
     }
 
+    //Abdulaziz
     @GetMapping("/display-total-number-center-program")
     public ResponseEntity displayTotalNumberOfCenterProgram(@AuthenticationPrincipal User user){
         return ResponseEntity.status(200).body(centerService.getTotalNumberOfCenterPrograms(user.getId()));
+    }
+
+    //Abdulaziz
+    @PutMapping("/expand-program/{programid}/{enddate}")
+    public ResponseEntity expandProgram(@AuthenticationPrincipal User user,@PathVariable Integer programid, @PathVariable LocalDate enddate){
+        programService.expandProgram(user.getId(),programid,enddate);
+        return ResponseEntity.status(200).body("program expand successfully");
     }
 
     // [ Mohammed ] +[End-Point]
@@ -83,11 +98,5 @@ public class CenterController {
     public ResponseEntity<ApiResponse> rejectCenterRegistration(@PathVariable Integer centerId, @PathVariable String rejectionReason) {
         centerService.rejectCenterRegistration(centerId, rejectionReason);
         return ResponseEntity.ok(new ApiResponse("Notification rejected successfully"));
-    }
-
-    @PutMapping("/expand-program/{programid}/{enddate}")
-    public ResponseEntity expandProgram(@AuthenticationPrincipal User user,@PathVariable Integer programid, @PathVariable LocalDate enddate){
-        programService.expandProgram(user.getId(),programid,enddate);
-        return ResponseEntity.status(200).body("program expand successfully");
     }
 }

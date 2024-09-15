@@ -21,13 +21,12 @@ import java.util.Set;
 public class ParentService {
     private final ParentReposotiry parentRepository;
     private final AuthRepository authRepository;
-    private final CenterService centerService;
     private final CenterRepository centerRepository;
 
 
     // Get all parents AdminParent
-    public List<Parent> getAllParents() {
-        return parentRepository.findAll();
+    public List<User> getAllParents() {
+        return authRepository.findUserByRole("PARENT");
     }
 
     // Get parent by ID
@@ -36,22 +35,25 @@ public class ParentService {
     }
 
     public void addParent(ParentDTO parentDTO) {
-        // Create and populate User entity
         User user = new User();
         user.setUsername(parentDTO.getUsername());
         user.setPassword(parentDTO.getPassword());
         user.setEmail(parentDTO.getEmail());
         user.setName(parentDTO.getName());
-        user.setRole("PARENT");
+        user.setRole(parentDTO.getRole());
+        user.setPhoneNumber(parentDTO.getPhoneNumber());
 
         String hash = new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(hash);
-        authRepository.save(user);
+
         Parent parent = new Parent();
-        parent.setId(user.getId());
+        parent.setId(null);
+
+        user.setParent(parent);
         parent.setUser(user);
 
-         parentRepository.save(parent); // Return the saved Parent
+        authRepository.save(user);
+        parentRepository.save(parent); // Return the saved Parent
     }
 
     // Update an existing parent
@@ -63,6 +65,7 @@ public class ParentService {
         user.setUsername(parentDTO.getUsername());
         user.setEmail(parentDTO.getEmail());
         user.setName(parentDTO.getName());
+        user.setPhoneNumber(parentDTO.getPhoneNumber());
 
         if (parentDTO.getPassword() != null && !parentDTO.getPassword().isEmpty()) {
             String hash = new BCryptPasswordEncoder().encode(parentDTO.getPassword());

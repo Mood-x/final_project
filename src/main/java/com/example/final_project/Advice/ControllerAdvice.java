@@ -9,6 +9,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @org.springframework.web.bind.annotation.ControllerAdvice
 
 public class ControllerAdvice {
+    // [Abdulaziz - Yara - Mohammed]
     @ExceptionHandler(value = ApiException.class)
     public ResponseEntity ApiException(ApiException e){
         return ResponseEntity.status(400).body(e.getMessage());
@@ -108,6 +110,16 @@ public class ControllerAdvice {
     public ResponseEntity RuntimeException(java.lang.RuntimeException e){
         return ResponseEntity.status(400).body(e.getMessage());
     }
+
+    @ExceptionHandler(value = HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity HttpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException e){
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
+
+    @ExceptionHandler(value = org.springframework.orm.jpa.JpaSystemException.class)
+    public ResponseEntity JpaSystemException(org.springframework.orm.jpa.JpaSystemException e){
+        return ResponseEntity.status(400).body(e.getMessage());
+    }
 }
 
 // ApiException
@@ -126,4 +138,5 @@ public class ControllerAdvice {
 // ClassCastException
 // IncorrectResultSizeDataAccessException
 // ConstraintViolationException
-//org.springframework.orm.jpa.JpaSystemException
+// HttpMediaTypeNotSupportedException
+

@@ -2,13 +2,10 @@ package com.example.final_project.Controller;
 
 import com.example.final_project.API.ApiResponse;
 import com.example.final_project.Model.Comment;
-import com.example.final_project.Model.Complaint;
 import com.example.final_project.Model.User;
 import com.example.final_project.Service.CommentService;
-import com.example.final_project.Service.ComplaintService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +18,6 @@ import java.util.List;
 public class CommentController {
 
     private final CommentService commentService;
-    private final ComplaintService complaintService;
 
     @PostMapping("/add/{centerId}")
     public ResponseEntity<ApiResponse> addComment(@AuthenticationPrincipal User user, @PathVariable Integer centerId, @Valid @RequestBody Comment comment) {

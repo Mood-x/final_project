@@ -27,8 +27,7 @@ public class ParentController {
     // Get all parents
     @GetMapping("/get-all")
     public ResponseEntity getAllParents() {
-        List<Parent> parents = parentService.getAllParents();
-        return ResponseEntity.ok(parents);
+        return ResponseEntity.ok(parentService.getAllParents());
     }
 
     // Get parent by ID
@@ -43,7 +42,7 @@ public class ParentController {
     @PostMapping("/register")
     public ResponseEntity addParent(@Valid @RequestBody ParentDTO parentDTO) {
        parentService.addParent(parentDTO);
-        return ResponseEntity.status(201).body("parent added"); // return ResponseEntity.ok(new ApiResponse("Parent added successfully"));
+        return ResponseEntity.status(200).body("parent added");
     }
 
     // Update an existing parent

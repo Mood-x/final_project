@@ -17,6 +17,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final UserService userService;
 
+    // [Mohammed]
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -25,6 +26,7 @@ public class SecurityConfig {
         return daoAuthenticationProvider;
     }
 
+    // [Mohammed] Path ----> [Abdulaziz - Yara - Mohammed]
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf().disable()
@@ -34,6 +36,8 @@ public class SecurityConfig {
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        "/api/v1/user/request-account-deletion",
+                        "/api/v1/user/cancel-request-account-deletion",
                         "/api/v1/user/register", // delete after test postman
                         "/api/v1/center/center-register",
                         "/api/v1/parent/register", // حذف
@@ -145,8 +149,6 @@ public class SecurityConfig {
                         "/api/v1/progress/get-all-child-progerss",
                         "/api/v1/progress/get-all-child-progress-by-child-id/{childId}",
                         "/api/v1/progress/modify-child-progress/{progressId}",
-                        "/api/v1/user/request-account-deletion",
-                        "/api/v1/user/cancel-request-account-deletion",
                         "/api/v1/center/approve-center-registration/{centerId}",
                         "/api/v1/center/reject-center-registration/{centerId}/{rejectionReason}",
                         "/api/v1/certificate/get-all-certificates"

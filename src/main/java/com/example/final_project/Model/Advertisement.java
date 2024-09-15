@@ -1,6 +1,7 @@
 package com.example.final_project.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -9,11 +10,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Setter
 @Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+
+// Abdulaziz
 
 public class Advertisement {
     @Id
@@ -36,12 +41,15 @@ public class Advertisement {
     private int daysDuration;
 
     @Column(columnDefinition = "double")
-    private double price =0;
+    private double price = 0;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Column(columnDefinition = "date ")
+    private LocalDate publishDate; // Determined by admin
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('APPROVED', 'IN_PROGRESS', 'REJECTED') not null default 'IN_PROGRESS'")
-    private Center.Status status = Center.Status.IN_PROGRESS;   // +
+    private Status status = Status.IN_PROGRESS;   // +
 
     public enum Status{
         APPROVED,
@@ -53,6 +61,4 @@ public class Advertisement {
     @ManyToOne
     @JsonIgnore
     private Center center;
-
-
 }

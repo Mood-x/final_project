@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ChildController {
     private final ChildService childService;
-    private final CompetitionService competitionService;
 
     // Get all children
     @GetMapping("/get-all")

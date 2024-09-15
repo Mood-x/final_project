@@ -95,9 +95,11 @@ public class ChildService {
         parentReposotiry.delete(parent);
     }
 
-    // Yara | Abdulaziz
+    // Yara | Abdulaziz | Mohammed
     // Method to add a child to a program
     public void addChildToProgram(Integer userId, Integer childId, Integer programId) {
+        //Yara
+
         // Check if user exists
         User user = authRepository.findUserById(userId)
                 .orElseThrow(() -> new ApiException("User not found"));
@@ -133,6 +135,8 @@ public class ChildService {
         childRepository.save(child);
 
         childProgressService.createChildProgress(child, program);  /// -----------------> [ Mohammed ]
+
+        //Abdulaziz
         //add program price to program financial returns
         //namaa share from each child register to programs
         double namaaShare = program.getPrice() * 0.15;

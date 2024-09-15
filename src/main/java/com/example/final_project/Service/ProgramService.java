@@ -21,10 +21,12 @@ public class ProgramService {
     private final AuthRepository authRepository;
     private final CenterRepository centerRepository;
 
+    //Abdulaziz
     public List<Program> getAllPrograms() {
         return programRepository.findAll();
     }
 
+    //Abdulaziz
     public void addProgram(int centerId, Program program) {
         Center center = centerRepository.findCenterById(centerId)
                 .orElseThrow(() -> new ApiException("center not found"));
@@ -37,6 +39,7 @@ public class ProgramService {
         programRepository.save(program);
     }
 
+    //Abdulaziz
     public void updateProgram(int centerId,int programId ,Program program) {
 
         Center center = centerRepository.findCenterById(centerId).orElseThrow(() -> new ApiException("center not found"));
@@ -62,6 +65,7 @@ public class ProgramService {
 
     }
 
+    //Abdulaziz
     public List<Program> displayAllMyPrograms(int userId) {
         User user = authRepository.findUserById(userId).orElseThrow(() -> new ApiException("user not found"));
 
@@ -70,12 +74,14 @@ public class ProgramService {
         return programRepository.findProgramByCenter(center); //called by parent
     }
 
+    //Yara
     // Search for programs by title
     public List<Program> searchProgramsByTitle(String title) {
         return programRepository.findByTitleContainingIgnoreCase(title);
     }
 
 
+    //Abdulaziz
     // display programs when enter canter page
     public List<Program> displayProgramsInCenterPage(int centerId) {
         Center center = centerRepository.findCenterById(centerId)
@@ -84,6 +90,7 @@ public class ProgramService {
         return programRepository.findProgramByCenter(center);
     }
 
+    //Abdulaziz
     //set program status
     public void setProgramStatus(int userId, int programId,String status) {
 
@@ -106,6 +113,7 @@ public class ProgramService {
         programRepository.save(program);
     }
 
+    //Abdulaziz
     public void deleteProgram(int userId, int programId) {
 
 
@@ -132,6 +140,7 @@ public class ProgramService {
         programRepository.delete(program);
     }
 
+    //Abdulaziz
     // remove all closed programs
     public void deleteAllClosedPrograms(int userId) {
         User user = authRepository.findUserById(userId)
@@ -149,6 +158,7 @@ public class ProgramService {
 
     }
 
+    //Abdulaziz
     public String displayProgramFinancialReturn(int centerId,int programId) {
         Center center = centerRepository.findCenterById(centerId)
                 .orElseThrow(() -> new ApiException("center not found with ID: " + centerId));
@@ -164,6 +174,7 @@ public class ProgramService {
 
 
     }
+
     public List<Program> getOpenPrograms(){
         return programRepository.findProgramByStatusOpen("open");
     }
@@ -172,6 +183,7 @@ public class ProgramService {
         return programRepository.findProgramByAgeRange(minAge, maxAge).orElseThrow(null);
     }
 
+    //Abdulaziz
     public String displayChildrenNumbers(int centerId, int programId){
         Center center = centerRepository.findCenterById(centerId)
                 .orElseThrow(() -> new ApiException("center not found with ID: " + centerId));
@@ -187,10 +199,12 @@ public class ProgramService {
 
     }
 
+    //Abdulaziz
     public List<Program> displayProgramsByDateRange(LocalDate startDate, LocalDate endDate){
         return programRepository.findAllProgramsByDateBetween(startDate, endDate).orElseThrow(() -> new ApiException("Not found competitions between this date"));
     }
 
+    //Abdulaziz
     public void expandProgram(int userID,int programId, LocalDate endDate){
         User user = authRepository.findUserById(userID)
                 .orElseThrow(() -> new ApiException("User not found with ID: " + userID));

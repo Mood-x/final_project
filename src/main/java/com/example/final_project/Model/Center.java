@@ -10,6 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Setter
@@ -18,18 +22,11 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 
+// Abdulaziz
 
 public class Center {
-
     @Id
     private Integer id;
-
-
-    @NotEmpty(message = "Phone number should not be empty!")
-    @Size(min = 10,max = 10,message = "teacher phone number should be '10' digits")
-    @Pattern(regexp = "^05\\d*$",message = "Phone number must start with '05' !")
-    private String phoneNumber;
-
 
     @NotEmpty(message = "Address cannot be Empty!")
     @Size(min = 2,max = 40,message = "Address length must be more than '4' and less than '40'!")
@@ -65,11 +62,14 @@ public class Center {
 
     @OneToMany(mappedBy = "center")
     private Set<Comment> comments; // One center can have many comments
+
     @OneToMany(mappedBy = "center")
     private Set<Complaint> complaints; // One center can have many complaints
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "center")
+
+    @OneToMany(mappedBy = "center")
     private Set<Program> program;
-    @OneToMany(mappedBy = "center",cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "center")
     private Set<Advertisement> advertisements;
 
     public enum Status{
@@ -78,3 +78,12 @@ public class Center {
         REJECTED
     }
 }
+
+//username
+//email
+//password
+//name
+//phoneNumber
+//address
+//documents = "Licences"
+//activityType
