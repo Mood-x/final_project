@@ -1,0 +1,109 @@
+package com.example.security;
+
+
+import com.example.security.Model.Todo;
+import com.example.security.Model.User;
+import com.example.security.Repository.AuthRepository;
+import com.example.security.Repository.TodoRepository;
+import com.example.security.Service.AuthService;
+import com.example.security.Service.TodoService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+public class TodoServiceTest {
+
+    @InjectMocks
+    TodoService todoService;
+
+    @Mock
+    TodoRepository todoRepository;
+
+    @Mock
+    AuthRepository authRepository;
+
+    User user;
+
+    Todo todo1,todo2,todo3;
+
+    List<Todo> todos;
+
+    @BeforeEach
+    void setUp() {
+        user = new User(1,"Abdulaziz","12345","ADMIN",null);
+        todo1=new Todo(1,"Todo 1",user);
+        todo2=new Todo(2,"Todo 2",user);
+        todo3=new Todo(3,"Todo 3",user);
+
+        todos=new ArrayList<>();
+        todos.add(todo1);
+        todos.add(todo2);
+        todos.add(todo3);
+    }
+
+    @Test
+    public void getAllTodosTest() {
+        when(todoRepository.findAll()).thenReturn(todos);
+        List<Todo> todoList = todoService.getAllTodos();
+        Assertions.assertEquals(3,todoList.size());
+        verify(todoRepository,times(1)).findAll();
+    }
+
+    @Test
+    public void getTodoByIdTest() {
+        when(authRepository.findUserById(user.getId())).thenReturn(user);
+        when(todoRepository.findAllByUser(user)).thenReturn(todos);
+
+        List<Todo> todoList = todoService.getMyTodos(user.getId());
+        Assertions.assertEquals(todoList,todos);
+        verify(authRepository,times(1)).findUserById(user.getId());
+        verify(todoRepository,times(1)).findAllByUser(user);
+    }
+
+    @Test
+    public void createTodoTest() {
+        when(authRepository.findUserById(user.getId())).thenReturn(user);
+
+        todoService.addTodo(user.getId(),todo1);
+        verify(authRepository,times(1)).findUserById(user.getId());
+        verify(todoRepository,times(1)).save(todo1);
+    }
+
+    @Test
+    public void updateTodoTest() {
+
+        todoRepository.save(todo2);
+
+        when(todoRepository.findTodoById(todo1.getId())).thenReturn(todo1);
+        when(authRepository.findUserById(user.getId())).thenReturn(user);
+
+
+
+        todoService.updateTodo(user.getId(),todo1.getId(),todo2);
+
+        verify(todoRepository,times(1)).findTodoById(todo1.getId());
+
+        verify(authRepository,times(1)).findUserById(user.getId());
+
+        verify(todoRepository,times(1)).save(todo2);
+    }
+
+    @Test
+    public void deleteTodoTest() {
+
+        when(todoRepository.findTodoById(todo1.getId())).thenReturn(todo1);
+        when(authRepository.findUserById(user.getId())).thenReturn(user);
+        todoService.deleteTodo(user.getId(),todo1.getId());
+
+    }
+}

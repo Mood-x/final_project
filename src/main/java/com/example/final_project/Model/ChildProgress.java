@@ -30,13 +30,14 @@ public class ChildProgress {
     private String currentStage;
 
     @NotEmpty(message = "Progress details should be empty")
-    @Size(min = 5, max = 255, message = "Progress details must be between 5 and 25 characters")
+    @Size(min = 5, max = 255, message = "Progress details must be between 5 and 255 characters")
     @Column(columnDefinition = "varchar(255) not null")
     private String progressDetails;
 
     @UpdateTimestamp
     @Column(columnDefinition = "timestamp default current_timestamp")
     private LocalDateTime lastUpdate;
+
 
     @PositiveOrZero(message = "Attendance percentage must be zero or positive")
     @Max(value = 100, message = "Attendance percentage cannot exceed 100")

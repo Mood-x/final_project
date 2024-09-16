@@ -15,7 +15,7 @@ public class NewsletterController {
 
     @Autowired
     private NewsletterService newsletterService;
-
+//YARA
     @PostMapping("/subscribe")
     public ResponseEntity<String> subscribeToNewsletter(@RequestBody Map<String, String> payload) {
         String email = payload.get("email");
@@ -25,7 +25,7 @@ public class NewsletterController {
             return new ResponseEntity<>("Email is already subscribed.", HttpStatus.BAD_REQUEST);
         }
     }
-    // Unsubscribe endpoint
+    // YARA Unsubscribe endpoint
     @DeleteMapping("/unsubscribe")
     public ResponseEntity<String> unsubscribe(@RequestParam String email) {
         if (newsletterService.unsubscribe(email)) {
@@ -34,7 +34,7 @@ public class NewsletterController {
             return new ResponseEntity<>("Email not found in the subscription list.", HttpStatus.NOT_FOUND);
         }
     }
-    // Get all subscribers endpoint
+    //YARA Get all subscribers endpoint
     @GetMapping("/subscribers")
     public ResponseEntity<List<String>> getAllSubscribers() {
         List<String> subscribers = newsletterService.getAllSubscribers();

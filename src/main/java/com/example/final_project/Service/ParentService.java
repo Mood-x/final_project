@@ -23,7 +23,7 @@ public class ParentService {
     private final AuthRepository authRepository;
     private final CenterRepository centerRepository;
 
-
+    //ALL BY YARA
     // Get all parents AdminParent
     public List<User> getAllParents() {
         return authRepository.findUserByRole("PARENT");

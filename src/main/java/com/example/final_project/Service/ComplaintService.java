@@ -22,7 +22,7 @@ public class ComplaintService {
     private final ParentReposotiry parentRepository;
     private final CenterRepository centerRepository;
     private  final AuthRepository authRepository;
-
+    //YARA
     public void addComplaint(Integer userId, Integer centerId, Complaint complaint) {
         // Fetch the center using the provided centerId
         Center center = centerRepository.findCenterById(centerId)
@@ -44,11 +44,11 @@ public class ComplaintService {
         // Save the complaint
         complaintRepository.save(complaint);
     }
-
+    //YARA
     public List<Complaint> getAllComplaints() {
         return complaintRepository.findAll();
     }
-
+    //YARA
     public Complaint getComplaintById(Integer id) {
         return complaintRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Complaint not found"));
@@ -64,15 +64,17 @@ public class ComplaintService {
 //
 //        return complaintRepository.save(existingComplaint);
 //    }
-
+//YARA
     public void deleteComplaint(Integer id) {
         Complaint existingComplaint = getComplaintById(id);
         complaintRepository.delete(existingComplaint);
     }
+    //YARA
     public List<Complaint> getComplaintsByCenterId(Integer centerId) {
         Center center = centerRepository.findCenterById(centerId).orElseThrow(() -> new ApiException("Center not found"));
         return complaintRepository.findByCenterId(centerId);
     }
+
     public void replyToComplaint(Integer complaintId, String reply, Integer userId) {
         User user = authRepository.findUserById(userId).orElseThrow(() -> new ApiException("User not found"));
         Complaint complaint = complaintRepository.findById(complaintId)
@@ -84,6 +86,7 @@ public class ComplaintService {
         // Save the updated complaint
         complaintRepository.save(complaint);
     }
+    //YARA
     public List<Complaint> getComplaintsByUserId(Integer parentId) {
         User user = authRepository.findUserById(parentId).orElseThrow(() -> new ApiException("User not found"));
 

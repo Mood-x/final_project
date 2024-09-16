@@ -20,7 +20,7 @@ public class ChildService {
     private final ProgramRepository programRepository;
     private final CenterRepository centerRepository;
     private final ChildProgressService childProgressService;
-
+//YARA
     public List<Child> getAllChildren() {
         return childRepository.findAll();
     }
@@ -30,7 +30,7 @@ public class ChildService {
 //        return childRepository.findById(id);
 //    }
 
-    // Add a new child
+    //YARA Add a new child
     public void addChild(Integer userId, Child child) {
         User user = authRepository.findUserById(userId)
                 .orElseThrow(() -> new ApiException("User not found"));
@@ -53,7 +53,7 @@ public class ChildService {
         // Save the child
         //childRepository.save(child);
     }
-    // Update an existing child
+    //YARA Update an existing child
     public void updateChild(Integer userId, Integer childId, Child updatedChild) {
         // Check if the user exists
         User user = authRepository.findUserById(userId).orElseThrow(() -> new ApiException("User not found"));
@@ -85,6 +85,7 @@ public class ChildService {
 //        }
 //        childRepository.deleteById(id);
 //    }
+    //YARA
     public void deleteParent(Integer userId, Integer id) {
         User user = authRepository.findUserById(userId).orElseThrow(() -> new ApiException("User not found"));
 
@@ -160,7 +161,7 @@ public class ChildService {
 
         centerRepository.save(center);
     }
-    // Method to get all programs for a parent's children
+    // YARA Method to get all programs for a parent's children
     public List<Program> getAllProgramsForParent(Integer userId) {
         // Check if user exists
         User user = authRepository.findUserById(userId)
@@ -183,6 +184,7 @@ public class ChildService {
 
         return new ArrayList<>(programs);
     }
+    //YARA
     public String cancelProgram(Integer childId, Integer programId) {
         // Find the child
         Child child = childRepository.findById(childId)

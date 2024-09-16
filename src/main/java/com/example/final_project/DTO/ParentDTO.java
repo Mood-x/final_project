@@ -14,6 +14,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+//ALL BY YARA
 public class ParentDTO {
     private Integer id;
 

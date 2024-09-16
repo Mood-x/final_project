@@ -24,13 +24,13 @@ public class ParentController {
     private final ParentService parentService;
     private final CenterService centerService;
 
-    // Get all parents
+    //YARA Get all parents
     @GetMapping("/get-all")
     public ResponseEntity getAllParents() {
         return ResponseEntity.ok(parentService.getAllParents());
     }
 
-    // Get parent by ID
+    // YARA Get parent by ID
 //    @GetMapping("/{id}")
 //    public ResponseEntity getParentById(@AuthenticationPrincipal User user, @PathVariable Integer id) {
 //        Parent parent = parentService.getParentById(id)
@@ -38,38 +38,39 @@ public class ParentController {
 //        return ResponseEntity.ok(parent);
 //    }
 
-    // Add a new parent
+    //YARA Add a new parent
     @PostMapping("/register")
     public ResponseEntity addParent(@Valid @RequestBody ParentDTO parentDTO) {
        parentService.addParent(parentDTO);
         return ResponseEntity.status(200).body("parent added");
     }
 
-    // Update an existing parent
+    //YARA Update an existing parent
     @PutMapping("/update")
     public ResponseEntity updateParent(@AuthenticationPrincipal User user, @RequestBody ParentDTO parentDTO) {
         parentService.updateParent(user.getId(), parentDTO);
         return ResponseEntity.status(200).body("parent updated " );
     }
 
-    // Delete a parent by ID
+    //YARA Delete a parent by ID
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteParent(@PathVariable Integer id) {
         parentService.delete(id);
         return ResponseEntity.status(200).body("user deleted successfully");
-    }
+    }//YARA
     @GetMapping("/my-account")
     public ResponseEntity getMyAccount(@AuthenticationPrincipal User user) {
         Parent parent = parentService.getParentByUserId(user.getId());
         return ResponseEntity.ok(parent);
     }
+    //YARA
     @GetMapping("/my-children")
     public ResponseEntity getMyChildren(@AuthenticationPrincipal User user) {
         Parent parent = parentService.getParentByUserId(user.getId());
         Set<Child> children = parentService.getChildrenByParentId(parent.getId());
         return ResponseEntity.ok(children);
     }
-    // Endpoint to like or dislike a center
+    //YARA Endpoint to like or dislike a center
     @PostMapping("/like-center/{centerId}")
     public ResponseEntity<String> likeCenter(@AuthenticationPrincipal User user,
                                              @PathVariable Integer centerId,
@@ -79,13 +80,13 @@ public class ParentController {
         return ResponseEntity.ok(response);
     }
 
-    // Endpoint to get all centers liked by the parent
+    //YARA Endpoint to get all centers liked by the parent
     @GetMapping("/liked-centers")
     public ResponseEntity<Set<Center>> getLikedCenters(@AuthenticationPrincipal User user) {
         Set<Center> likedCenters = parentService.getLikedCenters(user.getId());
         return ResponseEntity.ok(likedCenters);
     }
-
+//YARA
     @PostMapping("/add-rate/{centerid}/{rate}")
     public ResponseEntity addRateToCenter(@AuthenticationPrincipal User user, @PathVariable Integer centerid, @PathVariable Integer rate) {
         centerService.addRate(user.getId(), centerid, rate);

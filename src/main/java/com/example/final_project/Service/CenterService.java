@@ -46,9 +46,10 @@ public class CenterService {
 
         Center center = new Center();
         center.setId(null);
+        center.setDescription(centerDTO.getDescription());
         center.setAddress( centerDTO.getAddress());
         center.setActivityType(centerDTO.getActivityType());
-        center.setDocuments(centerDTO.getDocuments());
+        center.setLicence(centerDTO.getLicence());
         center.setStatus(Center.Status.IN_PROGRESS);
 
         user.setCenter(center);
@@ -58,7 +59,7 @@ public class CenterService {
         centerRepository.save(center);
 
 
-        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
 
         notificationService.createNotification(
                 center.getUser(),
@@ -81,7 +82,8 @@ public class CenterService {
         user.setPhoneNumber(centerDTO.getPhoneNumber());
         user.getCenter().setAddress(centerDTO.getAddress());
         user.getCenter().setActivityType(centerDTO.getActivityType());
-        user.getCenter().setDocuments(centerDTO.getDocuments());
+        user.getCenter().setLicence(centerDTO.getLicence());
+        user.getCenter().setDescription(centerDTO.getDescription());
 
         String hash=new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(hash);

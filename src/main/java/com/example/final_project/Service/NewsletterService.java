@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 @Service
 public class NewsletterService {
-
+    //ALL BY YARA
     private NewsletterRepository newsletterRepository;
 
     @Autowired

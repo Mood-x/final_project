@@ -28,12 +28,21 @@ public class Center {
     @Id
     private Integer id;
 
+    @NotEmpty(message = "description cannot be Empty!")
+    @Size(min = 2,max = 50,message = "description length must be more than '4' and less than '50'!")
+    @Column(columnDefinition = "varchar(50) not null")
+    private String description;
+
     @NotEmpty(message = "Address cannot be Empty!")
     @Size(min = 2,max = 40,message = "Address length must be more than '4' and less than '40'!")
     @Column(columnDefinition = "varchar(40) not null")
     private String address;
 
-    private String documents = "Licences";
+
+    @NotEmpty(message = "licence cannot be Empty!")
+    @Size(min = 8,max = 8,message = "licence number should be '8' digits")
+    @Column(columnDefinition = "varchar(8) not null")
+    private String licence;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "enum('APPROVED', 'IN_PROGRESS', 'REJECTED') not null default 'IN_PROGRESS'")
@@ -48,7 +57,7 @@ public class Center {
     private double centerFinancialReturns = 0;
 
     @Column(columnDefinition = "int")
-    private int numOfChildrensInTheCenter=0;
+    private int numOfChildrensInTheCenter= 0;
 
     @Column(columnDefinition = "double")
     private double rate = 0;

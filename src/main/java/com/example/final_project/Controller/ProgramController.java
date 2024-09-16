@@ -66,7 +66,7 @@ public class ProgramController {
         return ResponseEntity.status(200).body("program successfully deleted");
     }
 
-    // Endpoint to search programs by title
+    // YARA Endpoint to search programs by title
     @GetMapping("/search")
     public ResponseEntity<List<Program>> searchProgramsByTitle(@RequestParam String title) {
         List<Program> programs = programService.searchProgramsByTitle(title);

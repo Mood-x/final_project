@@ -20,7 +20,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final ParentReposotiry parentRepository;
     private final CenterRepository centerRepository;
-
+//YARA
     public void addComment(Integer authId, Integer centerId, Comment comment) {
         Parent parent = parentRepository.findParentById(authId).orElseThrow(() -> new ApiException("Parent not found"));
         Center center = centerRepository.findCenterById(centerId).orElseThrow(() -> new ApiException("Center not found"));
@@ -33,16 +33,16 @@ public class CommentService {
         comment.setCenter(center);
         commentRepository.save(comment);
     }
-
+//YARA
     public List<Comment> getAllComments() {
         return commentRepository.findAll();
     }
-
+//YARA
     public Comment getCommentById(Integer id) {
         return commentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));
     }
-
+    //YARA
     public void updateComment(Integer id, @Valid Comment updatedComment) {
         Comment existingComment = getCommentById(id);
 
@@ -55,7 +55,7 @@ public class CommentService {
         commentRepository.save(existingComment);
     }
 
-
+    //YARA
     public void deleteComment(Integer id) {
         Comment existingComment = getCommentById(id);
         commentRepository.delete(existingComment);
