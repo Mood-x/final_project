@@ -29,8 +29,8 @@ public class Center {
     private Integer id;
 
     @NotEmpty(message = "description cannot be Empty!")
-    @Size(min = 2,max = 50,message = "description length must be more than '4' and less than '50'!")
-    @Column(columnDefinition = "varchar(50) not null")
+    @Size(min = 2,max = 500,message = "description length must be more than '4' and less than '50'!")
+    @Column(columnDefinition = "varchar(500) not null")
     private String description;
 
     @NotEmpty(message = "Address cannot be Empty!")
@@ -75,7 +75,7 @@ public class Center {
     @OneToMany(mappedBy = "center")
     private Set<Complaint> complaints; // One center can have many complaints
 
-    @OneToMany(mappedBy = "center")
+    @OneToMany(mappedBy = "center", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Program> program;
 
     @OneToMany(mappedBy = "center")
@@ -87,12 +87,3 @@ public class Center {
         REJECTED
     }
 }
-
-//username
-//email
-//password
-//name
-//phoneNumber
-//address
-//documents = "Licences"
-//activityType

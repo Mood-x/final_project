@@ -57,6 +57,7 @@ public class Program {
     private int maxAge;
 
     // +
+    @NotNull(message = "Total Sessions is required")
     @Min(value = 0, message = "Total sessions must be zero or positive")
     private Integer totalSessions;
 

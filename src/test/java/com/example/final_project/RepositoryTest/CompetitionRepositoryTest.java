@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.assertj.core.api.Assertions;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,6 +33,10 @@ public class CompetitionRepositoryTest {
 
     Competition competition1;
     Competition competition2;
+    Competition competition;
+
+    List<Competition> competitions;
+
 
     @BeforeEach
     void setUp() {
@@ -69,4 +75,30 @@ public class CompetitionRepositoryTest {
         Optional<Competition> competition = competitionRepository.findById(competition1.getId());
         assertEquals("Competition7", competition.get().getName());
     }
+
+
+    @Test
+    public void findCompetitionByName(){
+        competitionRepository.save(competition1);
+        competition = competitionRepository.findCompetitionByName(competition1.getName()).orElse(null);
+        Assertions.assertThat(competition).isEqualTo(competition1);
+    }
+
+    @Test
+    public void findCompetitionByType(){
+        competitionRepository.save(competition1);
+        competitions = competitionRepository.findAllByType("Sport").orElse(null);
+        Assertions.assertThat(competitions.get(0).getType()).isEqualTo("Sport");
+    }
+
+//    @Test
+//    public void findAllByParticipants(){
+//        competitionRepository.save(competition1);
+//        competitionRepository.save(competition2);
+//        childRepository.save(child1);
+//
+//        competitions = competitionRepository.findAllByParticipants(child1).orElse(null);
+//        Assertions.assertThat(competitions.get(0).getParticipants()).isEqualTo(child1);
+//    }
+
 }

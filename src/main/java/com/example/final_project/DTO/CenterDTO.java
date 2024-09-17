@@ -51,8 +51,8 @@ public class CenterDTO {
     private String address;
 
     @NotEmpty(message = "description cannot be Empty!")
-    @Size(min = 2,max = 50,message = "description length must be more than '4' and less than '50'!")
-    @Column(columnDefinition = "varchar(50) not null")
+    @Size(min = 2,max = 500,message = "description length must be more than '4' and less than '50'!")
+    @Column(columnDefinition = "varchar(500) not null")
     private String description;
 
 

@@ -62,8 +62,8 @@ public class ChildController {
     }
     // YARA Endpoint to cancel a program for a child
     @DeleteMapping("/{childId}/cancel-program/{programId}")
-    public ResponseEntity<String> cancelProgram(@AuthenticationPrincipal Integer userId, @PathVariable Integer childId, @PathVariable Integer programId) {
-        String result = childService.cancelProgram(childId, programId);
+    public ResponseEntity<String> cancelProgram(@AuthenticationPrincipal User user, @PathVariable Integer childId, @PathVariable Integer programId) {
+        String result = childService.cancelProgram(user.getId(), childId, programId);
         return ResponseEntity.ok(result);
     }
 }

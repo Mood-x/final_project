@@ -185,7 +185,7 @@ public class ChildService {
         return new ArrayList<>(programs);
     }
     //YARA
-    public String cancelProgram(Integer childId, Integer programId) {
+    public String cancelProgram(Integer authId, Integer childId, Integer programId) {
         // Find the child
         Child child = childRepository.findById(childId)
                 .orElseThrow(() -> new ApiException("Child not found"));
@@ -193,6 +193,13 @@ public class ChildService {
         // Find the program
         Program program = programRepository.findById(programId)
                 .orElseThrow(() -> new ApiException("Program not found"));
+
+        Parent parent = parentReposotiry.findParentById(authId)
+                .orElseThrow(() -> new ApiException("Parent not found"));
+
+        if(!child.getParent().equals(parent)) {
+            throw new ApiException("You don't have permission to access this child");
+        }
 
         // Check if the child is enrolled in the program
         if (!child.getPrograms().contains(program)) {
@@ -235,7 +242,5 @@ public class ChildService {
 
         // Return a message including refund amount
         return "Program cancelled. Refund: SR " + refundAmount;
-
-
     }
 }

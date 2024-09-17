@@ -19,4 +19,6 @@ public interface AuthRepository extends JpaRepository<User, Integer> {
     List<User> findUserByRole(String role);
     List<User> findAllByIsAccountDeletionRequestedAndAccountDeletionRequestDateBefore(boolean isAccountDeletionRequested, LocalDateTime dateTime);
 
+    User searchUserById(Integer id);
+
 }

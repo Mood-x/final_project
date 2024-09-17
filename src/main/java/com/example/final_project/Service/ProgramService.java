@@ -57,8 +57,10 @@ public class ProgramService {
         oldProgram.setMinAge(program.getMinAge());
         oldProgram.setDurationByWeeks(program.getDurationByWeeks());
         oldProgram.setEndDate(program.getEndDate());
+        oldProgram.setTotalSessions(program.getTotalSessions());
         oldProgram.setStartDate(oldProgram.getStartDate());
         oldProgram.setProgramFinancialReturn(oldProgram.getProgramFinancialReturn());
+
 
         oldProgram.setCenter(center);
         programRepository.save(oldProgram);

@@ -41,6 +41,7 @@ public class CenterService {
         user.setRole(centerDTO.getRole());
         user.setPhoneNumber(centerDTO.getPhoneNumber());
 
+
         String hash=new BCryptPasswordEncoder().encode(user.getPassword());
         user.setPassword(hash);
 
@@ -48,6 +49,7 @@ public class CenterService {
         center.setId(null);
         center.setDescription(centerDTO.getDescription());
         center.setAddress( centerDTO.getAddress());
+        center.setDescription(centerDTO.getDescription());
         center.setActivityType(centerDTO.getActivityType());
         center.setLicence(centerDTO.getLicence());
         center.setStatus(Center.Status.IN_PROGRESS);
@@ -64,7 +66,7 @@ public class CenterService {
         notificationService.createNotification(
                 center.getUser(),
                 admin,
-                "A new center registration request has been submitted. please review the details",
+                "A new center with ID( " + center.getId() + " )+registration request has been submitted. please review the details",
                 Notification.NotificationType.CENTER_REQUEST_REGISTRATION
         );
     }
@@ -146,7 +148,7 @@ public class CenterService {
         center.setStatus(Center.Status.APPROVED);
         centerRepository.save(center);
 
-        User admin = authRepository.findUserById(5).orElseThrow(() -> new ApiException("Admin not found"));
+        User admin = authRepository.findUserById(1).orElseThrow(() -> new ApiException("Admin not found"));
 
         notificationService.createNotification(
                 admin,
