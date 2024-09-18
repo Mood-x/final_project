@@ -2,6 +2,7 @@ package com.example.final_project.Repository;
 
 
 import com.example.final_project.Model.Center;
+import com.example.final_project.Model.Child;
 import com.example.final_project.Model.Program;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ProgramRepository extends JpaRepository<Program, Integer> {
@@ -29,4 +31,6 @@ public interface ProgramRepository extends JpaRepository<Program, Integer> {
 
     @Query("SELECT p FROM Program p where p.startDate BETWEEN :start AND :end")
     Optional<List<Program>> findAllProgramsByDateBetween(LocalDate start, LocalDate end);
+
+    Optional<List<Child>> findAllByChild(Program program);
 }

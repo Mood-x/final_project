@@ -85,6 +85,8 @@ public class ChildService {
 //        }
 //        childRepository.deleteById(id);
 //    }
+
+
     //YARA
     public void deleteParent(Integer userId, Integer id) {
         User user = authRepository.findUserById(userId).orElseThrow(() -> new ApiException("User not found"));

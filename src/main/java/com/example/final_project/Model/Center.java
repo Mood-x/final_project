@@ -79,6 +79,7 @@ public class Center {
     private Set<Program> program;
 
     @OneToMany(mappedBy = "center")
+
     private Set<Advertisement> advertisements;
 
     public enum Status{

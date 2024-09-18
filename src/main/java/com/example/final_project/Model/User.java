@@ -81,8 +81,11 @@ public class User implements UserDetails {
     @PrimaryKeyJoinColumn
     private Center center;
 
-    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Notification> Notifications;
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL)
+    private Set<Notification> senderNotifications;
+
+    @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
+    private Set<Notification> receiverNotifications;
 
 //====================== User Details ====================== 
     @Override

@@ -3,16 +3,19 @@ package com.example.final_project.Service;
 
 import com.example.final_project.API.ApiException;
 import com.example.final_project.Model.Center;
+import com.example.final_project.Model.Child;
 import com.example.final_project.Model.Program;
 import com.example.final_project.Model.User;
 import com.example.final_project.Repository.AuthRepository;
 import com.example.final_project.Repository.CenterRepository;
 import com.example.final_project.Repository.ProgramRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -220,6 +223,23 @@ public class ProgramService {
 
         program.setEndDate(endDate);
         programRepository.save(program);
+    }
 
+    public List<Child> displayChildrenInTheProgram(int userId, int programId){
+        User user = authRepository.findUserById(userId)
+                .orElseThrow(() -> new ApiException("User not found with id:" + userId));
+
+        Center center = centerRepository.findCenterById(user.getCenter().getId())
+                .orElseThrow(() -> new ApiException("Center not found with id:" + user.getCenter().getId()));
+
+        Program program = programRepository.findProgramById(programId)
+                .orElseThrow(() -> new ApiException("Program not found with id:" + programId));
+
+        if (!center.getProgram().contains(program)){
+            throw new ApiException("Center not match with the entered program!");
+        }
+
+        return programRepository.findAllByChild(program)
+                .orElseThrow(() -> new ApiException("child not found with id:" + programId));
     }
 }

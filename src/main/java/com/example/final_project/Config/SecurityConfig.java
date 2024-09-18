@@ -67,7 +67,8 @@ public class SecurityConfig {
                         "/api/v1/competition/search-competition-by-name/{name}",
                         "/api/v1/competition/search-competitions-by-type/{type}",
                         "/api/v1/competition/search-competitions-by-age-range/{ageFrom}/{ageTo}",
-                        "/api/v1/progress/get-progress-by-program-id/{programId}"
+                        "/api/v1/progress/get-progress-by-program-id/{programId}",
+                        "/api/v1/center/display-approved-centers"
                         ).permitAll()
 
                 .requestMatchers(
@@ -100,7 +101,6 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/api/v1/center/update-center/**",
                         "/api/v1/center/add-program" ,
-                        "/api/v1/center/get-my-programs",
                         "/api/v1/comments/get-all",
                         "/api/v1/complaint/get-all",
                         "/api/v1/center/Center-Account",
@@ -121,7 +121,9 @@ public class SecurityConfig {
                         "/api/v1/progress/modify-child-progress/{progressId}",
                         "/api/v1/progress/delete-child-progress/{progressId}",
                         "/api/v1/center/expand-program/**",
-                        "/api/v1/certificate/issue/**"
+                        "/api/v1/certificate/issue/**",
+                        "/api/v1/program/get-my-programs-by-center",
+                        "/api/v1/center/display-childrens-by-program/**"
                         ).hasAuthority("CENTER") // CENTER
 
 
@@ -131,8 +133,7 @@ public class SecurityConfig {
                         "/api/v1/parent/delete/{id}",
                         "/api/v1/center/delete-center/{centerid}",
                         "/api/v1/center/get-all-centers",
-                        "/api/v1/notification/participation-request/**",
-                        "/api/v1/program/set-program-stetus/**",
+//                        "/api/v1/notification/participation-request/**",
                         "/api/v1/program/update-program/**",
                         "/api/v1/newsletter/subscribers",
                         "/api/v1/advertisement/approve-advert/centerid/**",
@@ -146,7 +147,7 @@ public class SecurityConfig {
                         "/api/v1/competition/approve-participation-request/{competitionId}/{childId}/{parentId}",
                         "/api/v1/competition/reject-participation-request/{competitionId}/{childId}/{parentId}",
                         "/api/v1/competition/cancel-child-participation/{competitionId}/{childId}",
-                        "/api/v1/progress/get-all-child-progerss",
+                        "/api/v1/progress/get-all-child-progress",
                         "/api/v1/progress/get-all-child-progress-by-child-id/{childId}",
                         "/api/v1/progress/modify-child-progress/{progressId}",
                         "/api/v1/center/approve-center-registration/{centerId}",

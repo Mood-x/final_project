@@ -64,7 +64,7 @@ public class Child {
     @ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL)
     private Set<Competition> competitions;
 
-    @OneToMany(mappedBy = "child")
+    @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
     private Set<ChildProgress> childProgresses;
 
     @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)

@@ -86,6 +86,19 @@ public class CenterController {
         return ResponseEntity.status(200).body("program expand successfully");
     }
 
+    //Abdulaziz
+    @GetMapping("/display-approved-centers")
+    public ResponseEntity displayApprovedCenters(){
+        return ResponseEntity.status(200).body(centerService.displayApprovedCenters());
+    }
+
+    //Abdulaziz
+    @GetMapping("/display-childrens-by-program/{programid}")
+    public ResponseEntity displayChildrensByprogram(@AuthenticationPrincipal User user, @PathVariable int programid){
+        return ResponseEntity.ok(programService.displayChildrenInTheProgram(user.getId(), programid));
+    }
+
+
     // [ Mohammed ] +[End-Point]
     @PutMapping("/approve-center-registration/{centerId}")
     public ResponseEntity<ApiResponse> approveCenterRegistration(@PathVariable Integer centerId) {
@@ -99,4 +112,6 @@ public class CenterController {
         centerService.rejectCenterRegistration(centerId, rejectionReason);
         return ResponseEntity.ok(new ApiResponse("Notification rejected successfully"));
     }
+
+
 }

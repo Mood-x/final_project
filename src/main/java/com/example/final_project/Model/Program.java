@@ -107,7 +107,6 @@ public class Program {
     @JsonIgnore
     private Set<Child> child;
 
-    @OneToMany(mappedBy = "program")
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
     private Set<ChildProgress> progresses;
-
 }

@@ -26,8 +26,7 @@ public class ComplaintController {
 //YARA
     @GetMapping("/get-all")
     public ResponseEntity<List<Complaint>> getAllComplaints() {
-        List<Complaint> complaints = complaintService.getAllComplaints();
-        return ResponseEntity.ok(complaints);
+        return ResponseEntity.ok(complaintService.getAllComplaints());
     }
 //YARA
     @GetMapping("/{id}")

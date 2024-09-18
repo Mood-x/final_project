@@ -211,4 +211,10 @@ public class CenterService {
         return "Total Number Of Center Programs: " + total + ".";
     }
 
+    //Abdulaziz
+    public List<Center> displayApprovedCenters(){
+        return centerRepository.findCenterByStatus(Center.Status.APPROVED)
+                .orElseThrow(() -> new ApiException("Approved Centers not found"));
+    }
+
 }

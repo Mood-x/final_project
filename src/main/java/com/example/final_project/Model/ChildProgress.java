@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "child_progress")
+//@Table(name = "child_progress")
 public class ChildProgress {
     // [Mohammed]
     @Id
@@ -48,7 +48,7 @@ public class ChildProgress {
 //    @Max(value = 100, message = "Progress level cannot exceed 100")
 //    @Column(columnDefinition = "not null")
     private double progressLevel;
-
+//
 //    @Size(max = 100, message = "Max length 100")
 //    @Column(columnDefinition = "varchar(100)")
     private String note;
@@ -66,11 +66,11 @@ public class ChildProgress {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "child_id", referencedColumnName = "id")
+//    @JoinColumn(name = "child_id", referencedColumnName = "id")
     private Child child;
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "program_id", referencedColumnName = "id")
+//    @JoinColumn(name = "program_id", referencedColumnName = "id")
     private Program program;
 }

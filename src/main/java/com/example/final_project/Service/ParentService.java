@@ -82,6 +82,8 @@ public class ParentService {
                 .orElseThrow(() -> new ApiException("User not found"));
         authRepository.delete(user);
     }
+
+
     public Parent getParentByUserId(Integer userId) {
         return parentRepository.findParentByUser_Id(userId)
                 .orElseThrow(() -> new ApiException("Parent details not found for the user"));

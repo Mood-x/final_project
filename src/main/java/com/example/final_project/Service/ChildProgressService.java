@@ -9,6 +9,7 @@ import com.example.final_project.Repository.AuthRepository;
 import com.example.final_project.Repository.ChildProgressRepository;
 import com.example.final_project.Repository.ChildRepository;
 import com.example.final_project.Repository.ProgramRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +63,7 @@ public class ChildProgressService {
         childProgressRepository.save(childProgress);
     }
 
+    @Transactional
     public void updateChildProgress(Integer authId, Integer progressId, ChildProgress updateChildProgress){
         ChildProgress childProgress = childProgressRepository.findChildProgressById(progressId).orElseThrow(() -> new ApiException("Not found progress"));
         Program program = programRepository.findProgramById(childProgress.getProgram().getId()).orElseThrow(() -> new ApiException("Not found program"));
@@ -78,7 +80,8 @@ public class ChildProgressService {
         childProgress.setCurrentStage(updateChildProgress.getCurrentStage());
         childProgress.setProgressDetails(updateChildProgress.getProgressDetails());
         childProgress.setCompletedSessions(updateChildProgress.getCompletedSessions());
-        childProgress.setTotalSessions(updateChildProgress.getTotalSessions());
+        childProgress.setNote(updateChildProgress.getNote());
+        childProgress.setTotalSessions(program.getTotalSessions());
 
         double progressLevel = calculateProgressLevel(childProgress.getCompletedSessions(), childProgress.getTotalSessions());
         double attendancePercentage = calculateAttendancePercentage(childProgress.getCompletedSessions(), childProgress.getTotalSessions());
